@@ -1,5 +1,7 @@
 <resources>
+    //App properties
     <string name="app_name">ServiceMe</string>
+    <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
 
     //Phone number
     <string name="enter_phone_number">Enter a phone number</string>

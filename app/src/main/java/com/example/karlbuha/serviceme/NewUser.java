@@ -1,7 +1,7 @@
 package com.example.karlbuha.serviceme;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.PhoneNumberUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,13 +9,20 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.content.Intent;
+
+import com.google.gson.Gson;
 
 import java.lang.String;
 
+import DataContract.CreateNewUserRequestContainer;
+import DataContract.CreateNewUserReturnContainer;
 
-public class NewUser extends Activity {
+
+public class NewUser extends Activity implements MyResultReceiver.Receiver {
+
+    public MyResultReceiver myResultReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +33,56 @@ public class NewUser extends Activity {
         sendVerificationCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText phoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
-                String phoneNumber = phoneNumberEditText.getText().toString();
-                TextView phoneNumberTextView = (TextView) findViewById(R.id.phoneNumberTextView);
-                if(!PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
-                    phoneNumberTextView.setTextColor(getResources().getColor(R.color.red));
-                }
-                else
-                {
-                    phoneNumberTextView.setTextColor(getResources().getColor(R.color.white));
-                }
+                SendVerificationCodeButtonOnClick();
             }
         });
+    }
+
+    private void SendVerificationCodeButtonOnClick() {
+        EditText phoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
+        String phoneNumber = phoneNumberEditText.getText().toString();
+        TextView phoneNumberTextView = (TextView) findViewById(R.id.phoneNumberTextView);
+        // Todo: Need additional verifications for phone number
+        if (!PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
+            phoneNumberTextView.setTextColor(getResources().getColor(R.color.red));
+            return;
+        } else {
+            phoneNumberTextView.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        CreateNewUserRequestContainer createNewUserRequestContainer = new CreateNewUserRequestContainer();
+        createNewUserRequestContainer.deviceType = "Phone";
+        createNewUserRequestContainer.phoneNumber = phoneNumber;
+        String jsonString = new Gson().toJson(createNewUserRequestContainer);
+
+        myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver(this);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("apiCall", "CreateUser");
+        intent.putExtra("data", jsonString);
+        startService(intent);
+    }
+
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        switch (resultCode) {
+            case 1:
+                //show progress
+                break;
+            case 2:
+                String result = resultData.getString("results");
+                CreateNewUserReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateNewUserReturnContainer.class);
+                String test = createNewUserReturnContainer.userId;
+                break;
+            case 3:
+                // handle the error;
+                break;
+        }
+    }
+
+    public void onPause() {
+        myResultReceiver.setReceiver(null); // clear receiver so no leaks.
     }
 
     @Override
