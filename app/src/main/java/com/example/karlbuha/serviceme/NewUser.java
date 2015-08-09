@@ -51,7 +51,7 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
         TextView phoneNumberTextView = (TextView) findViewById(R.id.phoneNumberTextView);
         // Todo: Need additional verifications for phone number
         if (!PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
-            phoneNumberTextView.setTextColor(getResources().getColor(R.color.red));
+            new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.invalid_phone_number_text));
             return;
         } else {
             phoneNumberTextView.setTextColor(getResources().getColor(R.color.white));
@@ -126,12 +126,15 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
                 DeviceValidationReturnContainer deviceValidationReturnContainer = new Gson().fromJson(result, DeviceValidationReturnContainer.class);
                 if(deviceValidationReturnContainer.returnCode.equals("101")) {
                     AppIdentity.verified = true;
+                    AppIdentity.UpdateIdentityInFile(this);
                     Intent intent = new Intent(this, ProfilePage.class);
                     startActivity(intent);
                 }
                 else{
                     // Todo: Show the different error messages on validation failure
                     new MyPopupWindow().InitiatePopupWindow(this, "Error!");
+                    EditText validationCodeEditText = (EditText) findViewById(R.id.verificationCodeEditText);
+                    validationCodeEditText.setText("");
                 }
 
                 break;

@@ -1,17 +1,32 @@
 package com.example.karlbuha.serviceme;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
+import DataContract.CreateUpdateProfileRequestContainer;
+import DataContract.CreateUpdateProfileReturnContainer;
+import DataContract.DataModels.UserProfile;
+import Helpers.AppIdentity;
 import Helpers.MyPopupWindow;
+import webApi.ApiCallService;
+import webApi.MyResultReceiver;
 
 
-public class ProfilePage extends Activity {
+public class ProfilePage extends Activity implements MyResultReceiver.Receiver {
+    public MyResultReceiver myResultReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +43,85 @@ public class ProfilePage extends Activity {
 
     public void AddAddressButtonOnClick(View view){
         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
+    public void AddPaymentDetailsButtonOnClick(View view){
+        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
+    public void BeAAgentButtonOnClick(View view){
+        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
+    public void DoneButtonOnClick(View view) {
+        UserProfile userProfile = new UserProfile();
+        AppIdentity.LoadIdentityFromFile(this);
+        userProfile.UserId = AppIdentity.userId;
+        userProfile.IsVerified = AppIdentity.verified;
+
+        EditText nameEditText = (EditText) findViewById(R.id.profileNameEditText);
+        String name = nameEditText.getText().toString();
+        if (name.isEmpty()) {
+            new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.name_is_mandatory_text));
+            return;
+        }
+
+        userProfile.Name = name;
+        userProfile.ContactPreference = new ArrayList<>();
+
+        CheckBox phoneCheckBox = (CheckBox) findViewById(R.id.phoneCheckBox);
+        if (phoneCheckBox.isChecked()) {
+            userProfile.ContactPreference.add("Phone");
+        }
+
+        CheckBox chatCheckBox = (CheckBox) findViewById(R.id.chatCheckBox);
+        if (chatCheckBox.isChecked()) {
+            userProfile.ContactPreference.add("Chat");
+        }
+
+        CheckBox emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
+        if(emailCheckBox.isChecked()) {
+            EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
+            String emailAddress = emailEditText.getText().toString();
+            if (emailAddress.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+                new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.invalid_email_address));
+                return;
+            }
+
+            userProfile.ContactPreference.add("Email");
+            userProfile.EmailAddress = emailAddress;
+        }
+
+        CreateUpdateProfileRequestContainer createUpdateProfileRequestContainer = new CreateUpdateProfileRequestContainer();
+        createUpdateProfileRequestContainer.userProfile = userProfile;
+        String jsonString = new Gson().toJson(createUpdateProfileRequestContainer);
+
+        myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver(this);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("successCode", "3");
+        intent.putExtra("apiCall", "CreateUpdateProfile");
+        intent.putExtra("data", jsonString);
+        startService(intent);
+    }
+
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        String result;
+        switch (resultCode) {
+            case 1:
+                //show progress
+                break;
+            case 2:
+                // handle the error
+                break;
+            case 3:
+                result = resultData.getString("results");
+                CreateUpdateProfileReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateUpdateProfileReturnContainer.class);
+
+                break;
+        }
     }
 
     @Override

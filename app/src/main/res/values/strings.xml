@@ -10,6 +10,7 @@
     <string name="send_verification_code">Send verification code</string>
     <string name="enter_code_text_message">Enter code from text message</string>
     <string name="verify">Verify</string>
+    <string name="invalid_phone_number_text">Invalid phone number.</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_profile_page">Profile</string>
@@ -26,6 +27,8 @@
     <string name="add_email_address">+ Add email (optional)</string>
     <string name="profile_email">Email</string>
     <string name="profile_email_hint">someone@something.com</string>
+    <string name="name_is_mandatory_text">Please enter a name.</string>
+    <string name="invalid_email_address">Invalid email address.</string>
 
     //Buttons
     <string name="done_text_button">Done</string>
