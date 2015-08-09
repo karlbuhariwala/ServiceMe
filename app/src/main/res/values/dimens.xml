@@ -7,6 +7,8 @@
 
     //EditText
     <dimen name="activity_input_phone_number">36dp</dimen>
+    <dimen name="activity_input_text">30dp</dimen>
+    <dimen name="activity_popup_text">26dp</dimen>
 
     //Buttons
     <dimen name="activity_text_size_button">24dp</dimen>
@@ -14,4 +16,9 @@
 
     //Titles
     <dimen name="activity_actionbar_title">24dp</dimen>
+
+    //CheckBox
+    <dimen name="checkbox_left_margin">30dp</dimen>
+    <dimen name="checkbox_top_margin">5dp</dimen>
+
 </resources>

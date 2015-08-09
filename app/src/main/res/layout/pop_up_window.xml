@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:id="@+id/popUpWindowLinearLayout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:orientation="vertical"
+        android:layout_margin="40dp"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/popUpTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/activity_popup_text"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="5dp"
+            android:background="@color/steel_blue"/>
+
+        <Button
+            android:id="@+id/btn_close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:textSize="@dimen/activity_text_size_button"
+            android:text="Close"
+            android:background="@color/black"/>
+    </LinearLayout>
+</LinearLayout>

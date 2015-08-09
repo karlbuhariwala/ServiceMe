@@ -1,9 +1,12 @@
-package com.example.karlbuha.serviceme;
+package webApi;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+
+import com.example.karlbuha.serviceme.R;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,9 +23,16 @@ public class ApiCallService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         final ResultReceiver receiver = intent.getParcelableExtra("receiver");
         String command = intent.getStringExtra("command");
+        int successCode = Integer.parseInt(intent.getStringExtra("successCode"));
+        int failureCode = 2;
+        if(intent.getStringExtra("failureCode") != null) {
+            failureCode = Integer.parseInt(intent.getStringExtra("failureCode"));
+        }
+
         String inputJson = intent.getStringExtra("data");
         String apiCall = intent.getStringExtra("apiCall");
         Bundle bundle = new Bundle();
+
         if (command.equals("query")) {
             receiver.send(1, Bundle.EMPTY);
             try {
@@ -63,10 +73,10 @@ public class ApiCallService extends IntentService {
                 }
 
                 bundle.putString("results", sb.toString());
-                receiver.send(2, bundle);
+                receiver.send(successCode, bundle);
             } catch (Exception e) {
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
-                receiver.send(3, bundle);
+                receiver.send(failureCode, bundle);
             }
         }
     }

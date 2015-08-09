@@ -4,35 +4,80 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".NewUser">
-
-    <TextView android:text="@string/enter_phone_number" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/phoneNumberTextView"
-        android:textSize="@dimen/activity_input_label"/>
-
-    <EditText
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/phoneNumberEditText"
-        android:layout_below="@+id/phoneNumberTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="@dimen/activity_input_phone_number"
-        android:hint="@string/phone_number_hint"/>
+        android:id="@+id/scrollView"
+        android:layout_alignParentTop="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/phoneNumberLinearLayout">
+            <TextView android:text="@string/enter_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phoneNumberTextView"
+                android:textSize="@dimen/activity_input_label"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="60dip"
-        android:text="@string/send_verification_code"
-        android:id="@+id/sendVerificationCodeButton"
-        android:layout_marginTop="48dp"
-        android:layout_below="@+id/phoneNumberEditText"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/activity_text_size_button"/>
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:id="@+id/phoneNumberEditText"
+                android:textSize="@dimen/activity_input_phone_number"
+                android:hint="@string/phone_number_hint"/>
 
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:text="@string/send_verification_code"
+                android:id="@+id/sendVerificationCodeButton"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/phoneNumberEditText"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/activity_text_size_button"/>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_below="@+id/phoneNumberEditText"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:visibility="invisible"
+                android:id="@+id/verifyCodeLinearLayout">
+                <TextView android:text="@string/enter_code_text_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verificationCodeTextView"
+                    android:textSize="@dimen/activity_input_label"/>
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:id="@+id/verificationCodeEditText"
+                    android:textSize="@dimen/activity_input_phone_number"/>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dip"
+                    android:text="@string/verify"
+                    android:id="@+id/verifyCodeButton"
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/verificationCodeEditText"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/activity_text_size_button"
+                    android:onClick="VerifyCodeButtonOnClick"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

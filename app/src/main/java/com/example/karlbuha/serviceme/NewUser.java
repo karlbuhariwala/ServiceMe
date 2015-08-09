@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -18,6 +19,12 @@ import java.lang.String;
 
 import DataContract.CreateNewUserRequestContainer;
 import DataContract.CreateNewUserReturnContainer;
+import DataContract.DeviceValidationRequestContainer;
+import DataContract.DeviceValidationReturnContainer;
+import Helpers.AppIdentity;
+import Helpers.MyPopupWindow;
+import webApi.ApiCallService;
+import webApi.MyResultReceiver;
 
 
 public class NewUser extends Activity implements MyResultReceiver.Receiver {
@@ -60,29 +67,80 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
         intent.putExtra("receiver", myResultReceiver);
         intent.putExtra("command", "query");
+        intent.putExtra("successCode", "3");
         intent.putExtra("apiCall", "CreateUser");
         intent.putExtra("data", jsonString);
         startService(intent);
     }
 
+    public void VerifyCodeButtonOnClick(View view) {
+        EditText verificationCodeEditText = (EditText) findViewById(R.id.verificationCodeEditText);
+        String verificationCode = verificationCodeEditText.getText().toString();
+        if(verificationCode.length() < 4){
+            return;
+        }
+
+        DeviceValidationRequestContainer deviceValidationRequestContainer = new DeviceValidationRequestContainer();
+        deviceValidationRequestContainer.userId = AppIdentity.userId;
+        deviceValidationRequestContainer.validationCode = verificationCode;
+        String jsonString = new Gson().toJson(deviceValidationRequestContainer);
+
+        myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver(this);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("successCode", "4");
+        intent.putExtra("apiCall", "ValidateDevice");
+        intent.putExtra("data", jsonString);
+        startService(intent);
+    }
+
     public void onReceiveResult(int resultCode, Bundle resultData) {
+        String result;
         switch (resultCode) {
             case 1:
                 //show progress
                 break;
             case 2:
-                String result = resultData.getString("results");
-                CreateNewUserReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateNewUserReturnContainer.class);
-                String test = createNewUserReturnContainer.userId;
+                // handle the error
                 break;
             case 3:
-                // handle the error;
+                result = resultData.getString("results");
+                CreateNewUserReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateNewUserReturnContainer.class);
+                AppIdentity.userId = createNewUserReturnContainer.userId;
+                AppIdentity.UpdateIdentityInFile(this);
+
+                //Show view
+                LinearLayout verifyCodeLinearLayout = (LinearLayout)findViewById(R.id.verifyCodeLinearLayout);
+                verifyCodeLinearLayout.setVisibility(View.VISIBLE);
+
+                //Disable upper text
+                EditText phoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
+                phoneNumberEditText.setEnabled(false);
+                Button sendVerificationCodeButton = (Button) findViewById(R.id.sendVerificationCodeButton);
+                sendVerificationCodeButton.setEnabled(false);
+                break;
+            case 4:
+                result = resultData.getString("results");
+                DeviceValidationReturnContainer deviceValidationReturnContainer = new Gson().fromJson(result, DeviceValidationReturnContainer.class);
+                if(deviceValidationReturnContainer.returnCode.equals("101")) {
+                    AppIdentity.verified = true;
+                    Intent intent = new Intent(this, ProfilePage.class);
+                    startActivity(intent);
+                }
+                else{
+                    // Todo: Show the different error messages on validation failure
+                    new MyPopupWindow().InitiatePopupWindow(this, "Error!");
+                }
+
                 break;
         }
     }
 
     public void onPause() {
         myResultReceiver.setReceiver(null); // clear receiver so no leaks.
+        super.onPause();
     }
 
     @Override
