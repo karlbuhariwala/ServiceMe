@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.List;
 
 public final class AppIdentity {
     private AppIdentity() {
@@ -17,14 +19,37 @@ public final class AppIdentity {
     private static AppIdentity instance = new AppIdentity();
     private AppIdentityStorageContainer container = new AppIdentityStorageContainer();
 
-    // Update HERE 1/3
-    public static String userId;
-    public static boolean verified;
+    // Update HERE 1/2
+    public static String userId = "userId";
+    public static String verified = "verified";
+    public static String contactPref = "contactPref";
+    public static String emailAddress = "emailAddress";
 
-    public static void UpdateIdentityInFile(Context context) {
-        // Update HERE 2/3
-        AppIdentity.instance.container.userId = AppIdentity.userId;
-        AppIdentity.instance.container.verified = AppIdentity.verified;
+    public static void UpdateResource(Context context, String resourceToUpdate, Object value){
+        AppIdentity.LoadIdentityFromFile(context);
+        try {
+            Field resource = AppIdentityStorageContainer.class.getField(resourceToUpdate);
+            resource.set(instance.container, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        AppIdentity.UpdateIdentityInFile(context);
+    }
+
+    public static Object GetResource(Context context, String resourceToGet){
+        AppIdentity.LoadIdentityFromFile(context);
+        try {
+            Field resource = AppIdentityStorageContainer.class.getField(resourceToGet);
+            return resource.get(instance.container);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static void UpdateIdentityInFile(Context context) {
         String jsonString = new Gson().toJson(AppIdentity.instance.container);
         try {
             FileOutputStream fos = context.openFileOutput(AppIdentity.fileName, Context.MODE_PRIVATE);
@@ -36,7 +61,7 @@ public final class AppIdentity {
         }
     }
 
-    public static void LoadIdentityFromFile(Context context){
+    private static void LoadIdentityFromFile(Context context){
         try{
             FileInputStream fis = context.openFileInput(AppIdentity.fileName);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -49,10 +74,6 @@ public final class AppIdentity {
 
             fis.close();
             AppIdentity.instance.container = new Gson().fromJson(sb.toString(), AppIdentityStorageContainer.class);
-
-            // Update HERE 3/3
-            AppIdentity.userId = AppIdentity.instance.container.userId;
-            AppIdentity.verified = AppIdentity.instance.container.verified;
         }catch (Exception ex) {
             String message = ex.getMessage();
             // Todo: Log the message
@@ -60,8 +81,11 @@ public final class AppIdentity {
     }
 
     private class AppIdentityStorageContainer{
+        // Update HERE 2/2
         public String userId;
         public Boolean verified;
+        public List<String> contactPref;
+        public String emailAddress;
     }
 }
 

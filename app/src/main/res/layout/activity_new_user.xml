@@ -8,14 +8,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
+        android:layout_marginBottom="@dimen/button_bar_height"
         android:layout_alignParentTop="true">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
             android:id="@+id/phoneNumberLinearLayout">
             <TextView android:text="@string/enter_phone_number"
                 android:layout_width="wrap_content"
@@ -37,20 +35,14 @@
                 android:text="@string/send_verification_code"
                 android:id="@+id/sendVerificationCodeButton"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/phoneNumberEditText"
-                android:layout_centerHorizontal="true"
                 android:textSize="@dimen/activity_text_size_button"/>
 
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_below="@+id/phoneNumberEditText"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible"
                 android:id="@+id/verifyCodeLinearLayout">
                 <TextView android:text="@string/enter_code_text_message"
@@ -73,8 +65,6 @@
                     android:text="@string/verify"
                     android:id="@+id/verifyCodeButton"
                     android:layout_marginTop="20dp"
-                    android:layout_below="@+id/verificationCodeEditText"
-                    android:layout_centerHorizontal="true"
                     android:textSize="@dimen/activity_text_size_button"
                     android:onClick="VerifyCodeButtonOnClick"/>
             </LinearLayout>

@@ -12,14 +12,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
+        android:layout_marginBottom="@dimen/button_bar_height"
         android:layout_alignParentTop="true">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
             android:id="@+id/profileLinearLayout">
             <TextView
                 android:layout_width="wrap_content"
@@ -38,7 +36,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/nameEditText"
                 android:layout_marginTop="20dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/contact_pref_label"
@@ -52,6 +49,7 @@
                 android:scaleX="1.50"
                 android:scaleY="1.50"
                 android:layout_marginLeft="@dimen/checkbox_left_margin"
+                android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
 
             <CheckBox
@@ -62,6 +60,7 @@
                 android:scaleX="1.50"
                 android:scaleY="1.50"
                 android:layout_marginLeft="@dimen/checkbox_left_margin"
+                android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
 
             <CheckBox
@@ -72,14 +71,12 @@
                 android:scaleX="1.50"
                 android:scaleY="1.50"
                 android:layout_marginLeft="@dimen/checkbox_left_margin"
+                android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:id="@+id/emailLinearLayout"
@@ -110,7 +107,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/emailCheckBox"
                 android:text="@string/add_address"
                 android:id="@+id/addAddressButton"
                 android:background="@color/transparent"
@@ -138,15 +134,16 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/profilePageButtonLinearLayout"
         android:weightSum="3"
-        android:background="@color/black">
+        android:background="@color/black"
+        style="?android:attr/buttonBarStyle">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_bar_height"
-            android:layout_margin="10dp"
             android:text="@string/done_text_button"
             android:id="@+id/doneButton"
             android:textSize="@dimen/activity_full_screen_button"
             android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
             android:onClick="DoneButtonOnClick"/>
     </LinearLayout>
 </RelativeLayout>

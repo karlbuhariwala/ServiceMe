@@ -81,7 +81,7 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
         }
 
         DeviceValidationRequestContainer deviceValidationRequestContainer = new DeviceValidationRequestContainer();
-        deviceValidationRequestContainer.userId = AppIdentity.userId;
+        deviceValidationRequestContainer.userId = (String)AppIdentity.GetResource(this, AppIdentity.userId);
         deviceValidationRequestContainer.validationCode = verificationCode;
         String jsonString = new Gson().toJson(deviceValidationRequestContainer);
 
@@ -108,8 +108,7 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
             case 3:
                 result = resultData.getString("results");
                 CreateNewUserReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateNewUserReturnContainer.class);
-                AppIdentity.userId = createNewUserReturnContainer.userId;
-                AppIdentity.UpdateIdentityInFile(this);
+                AppIdentity.UpdateResource(this, AppIdentity.userId, createNewUserReturnContainer.userId);
 
                 //Show view
                 LinearLayout verifyCodeLinearLayout = (LinearLayout)findViewById(R.id.verifyCodeLinearLayout);
@@ -125,8 +124,7 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
                 result = resultData.getString("results");
                 DeviceValidationReturnContainer deviceValidationReturnContainer = new Gson().fromJson(result, DeviceValidationReturnContainer.class);
                 if(deviceValidationReturnContainer.returnCode.equals("101")) {
-                    AppIdentity.verified = true;
-                    AppIdentity.UpdateIdentityInFile(this);
+                    AppIdentity.UpdateResource(this, AppIdentity.verified, true);
                     Intent intent = new Intent(this, ProfilePage.class);
                     startActivity(intent);
                 }

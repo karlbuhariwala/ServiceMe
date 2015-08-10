@@ -3,6 +3,7 @@
     <string name="app_name">ServiceMe</string>
     <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
     <string name="coming_soon_text">Coming soon!</string>
+    <string name="refresh_camel_case">refresh</string>
 
     //Create User
     <string name="enter_phone_number">Enter a phone number</string>
@@ -13,9 +14,9 @@
     <string name="invalid_phone_number_text">Invalid phone number.</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_profile_page">Profile</string>
 
     //Profile page
+    <string name="title_activity_profile_page">ServiceMe - Profile</string>
     <string name="profile_name">Name</string>
     <string name="contact_pref_label">Contact Preference</string>
     <string name="phone_check_box">Phone</string>
@@ -30,6 +31,31 @@
     <string name="name_is_mandatory_text">Please enter a name.</string>
     <string name="invalid_email_address">Invalid email address.</string>
 
+    //UserCaseOverview page
+    <string name="title_activity_user_case_overview">ServiceMe - My Overview</string>
+    <string name="no_requests_text">No requests</string>
+
+    //UserNewUpdateCase
+    <string name="title_activity_user_new_update_case">ServiceMe - Create a new request</string>
+    <string name="title_text_string">Title</string>
+    <string name="title_hint_string">A few words to describe your case.</string>
+    <string name="request_details_text">Request details</string>
+    <string name="request_details_hint">Enter a short description of your request. Use # for keywords; Ex. #flowers. Over time we will get smarter to identify what you want... we promise. :)</string>
+    <string name="add_budget_text">+ Add budget (optional)</string>
+    <string name="case_page_budget_text">Budget in ₹</string>
+    <string name="add_my_address">+ Add my address (optional)</string>
+    <string name="add_another_address">+ Add another address (optional)</string>
+    <string name="missing_title_popup_text">A case needs a title.</string>
+    <string name="missing_email_address_text">Email is checked, but no email address entered on profile. Please update your profile.</string>
+    <string name="missing_request_details_text">Request details needs to have some information.</string>
+    <string name="tags_text">Tag my request</string>
+    <string name="tags_autocomplete_hint">Add a tag...</string>
+
     //Buttons
     <string name="done_text_button">Done</string>
+    <string name="create_new_request">Create New Request</string>
+    <string name="next_text_button">Next</string>
+    <string name="cancel_text_button">Cancel</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

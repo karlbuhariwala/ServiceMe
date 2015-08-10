@@ -55,9 +55,13 @@ public class ProfilePage extends Activity implements MyResultReceiver.Receiver {
 
     public void DoneButtonOnClick(View view) {
         UserProfile userProfile = new UserProfile();
-        AppIdentity.LoadIdentityFromFile(this);
-        userProfile.UserId = AppIdentity.userId;
-        userProfile.IsVerified = AppIdentity.verified;
+        userProfile.UserId  = (String)AppIdentity.GetResource(this, AppIdentity.userId);
+        try {
+            userProfile.IsVerified = (Boolean) AppIdentity.GetResource(this, AppIdentity.verified);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
         EditText nameEditText = (EditText) findViewById(R.id.profileNameEditText);
         String name = nameEditText.getText().toString();
@@ -90,7 +94,10 @@ public class ProfilePage extends Activity implements MyResultReceiver.Receiver {
 
             userProfile.ContactPreference.add("Email");
             userProfile.EmailAddress = emailAddress;
+            AppIdentity.UpdateResource(this, AppIdentity.emailAddress, emailAddress);
         }
+
+        AppIdentity.UpdateResource(this, AppIdentity.contactPref, userProfile.ContactPreference);
 
         CreateUpdateProfileRequestContainer createUpdateProfileRequestContainer = new CreateUpdateProfileRequestContainer();
         createUpdateProfileRequestContainer.userProfile = userProfile;
@@ -119,6 +126,11 @@ public class ProfilePage extends Activity implements MyResultReceiver.Receiver {
             case 3:
                 result = resultData.getString("results");
                 CreateUpdateProfileReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateUpdateProfileReturnContainer.class);
+
+                if(createNewUserReturnContainer.returnCode.equals("101")){
+                    Intent intent = new Intent(this, UserCaseOverview.class);
+                    startActivity(intent);
+                }
 
                 break;
         }
