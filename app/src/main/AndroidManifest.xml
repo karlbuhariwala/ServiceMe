@@ -42,6 +42,13 @@
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name=".SelectAgentForCase"
+            android:label="@string/title_activity_select_agent_for_case"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/UserTheme"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

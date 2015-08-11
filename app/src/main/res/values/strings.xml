@@ -50,6 +50,12 @@
     <string name="missing_request_details_text">Request details needs to have some information.</string>
     <string name="tags_text">Tag my request</string>
     <string name="tags_autocomplete_hint">Add a tag...</string>
+    <string name="cannot_find_my_tag">Cannot find my tag...</string>
+    <string name="unknown_tag_text">Unknown tag. Please suggest it and we will make it available and let you know.</string>
+    <string name="need_atleast_one_tag">Need at least one tag to continue.</string>
+
+    //Select agent for case
+    <string name="title_activity_select_agent_for_case">ServiceMe - Select an agent</string>
 
     //Buttons
     <string name="done_text_button">Done</string>

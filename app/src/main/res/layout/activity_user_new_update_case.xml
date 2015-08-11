@@ -161,7 +161,7 @@
                         android:text="@string/refresh_camel_case"
                         android:id="@+id/refreshTagsButton"
                         android:background="@color/transparent"
-                        android:onClick="NextForTagsButtonOnClick"
+                        android:onClick="RefreshTagsButtonOnClick"
                         android:textColor="@color/link_blue"
                         android:layout_weight="1"/>
                 </LinearLayout>
@@ -187,6 +187,14 @@
                         android:onClick="AddTagsButtonOnClick"
                         android:layout_weight="1"/>
                 </LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cannot_find_my_tag"
+                    android:id="@+id/cannotFindTagButton"
+                    android:background="@color/transparent"
+                    android:onClick="CannotFindTagButtonOnClick"
+                    android:textColor="@color/link_blue"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
