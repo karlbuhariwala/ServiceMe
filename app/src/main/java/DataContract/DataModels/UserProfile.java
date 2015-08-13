@@ -15,5 +15,6 @@ public class UserProfile {
     public boolean IsAgent;
     public boolean IsManager;
     public String LandingPage;
-    public String Rating;
+    public double Rating;
+    public int NumberOfRatings;
 }
