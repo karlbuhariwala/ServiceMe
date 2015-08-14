@@ -65,6 +65,7 @@
     <string name="create_new_request">Create New Request</string>
     <string name="next_text_button">Next</string>
     <string name="cancel_text_button">Cancel</string>
+    <string name="back_text_button">Back</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

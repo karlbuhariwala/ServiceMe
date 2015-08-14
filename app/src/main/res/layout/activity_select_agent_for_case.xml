@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_agent_autocomplete_hint"
-                    android:id="@+id/tagAutoCompleteTextView"
+                    android:id="@+id/agentAutoCompleteTextView"
                     android:layout_weight="1"/>
                 <Button
                     android:layout_width="wrap_content"
@@ -54,4 +54,32 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/userCasePageButtonLinearLayout"
+        android:weightSum="2"
+        android:background="@color/black"
+        style="?android:attr/buttonBarStyle">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_bar_height"
+            android:text="@string/done_text_button"
+            android:id="@+id/doneButton"
+            android:textSize="@dimen/activity_full_screen_button"
+            android:layout_weight="1"
+            android:onClick="DoneButtonOnClick"
+            style="?android:attr/buttonBarButtonStyle"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_bar_height"
+            android:text="@string/back_text_button"
+            android:id="@+id/backButton"
+            android:textSize="@dimen/activity_full_screen_button"
+            android:layout_weight="1"
+            android:onClick="BackButtonOnClick"
+            style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>
 </RelativeLayout>

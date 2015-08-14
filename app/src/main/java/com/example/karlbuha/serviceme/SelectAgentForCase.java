@@ -6,11 +6,18 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -21,14 +28,24 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import DataContract.DataModels.UserProfile;
+import DataContract.GetAgentsForAutoCompleteRequestContainer;
+import DataContract.GetAgentsForAutoCompleteReturnContainer;
+import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
 import Helpers.MyPopupWindow;
+import webApi.ApiCallService;
+import webApi.MyResultReceiver;
 
 
-public class SelectAgentForCase extends Activity {
+public class SelectAgentForCase extends Activity implements MyResultReceiver.Receiver{
+    private static List<UserProfile> selectedAgentsCache;
+    private static String AutoCompleteSuggestString = "";
+    private static List<UserProfile> allAgentsCache;
+    private static GetRecommendedAgentsRequestContainer caseInfoCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +56,40 @@ public class SelectAgentForCase extends Activity {
         if(intent.getStringExtra("agentInfo") != null) {
             String jsonString = intent.getStringExtra("agentInfo");
             GetRecommendedAgentsReturnContainer getRecommendedAgentsReturnContainer = new Gson().fromJson(jsonString, GetRecommendedAgentsReturnContainer.class);
-            List<UserProfile> recommendedAgentList = getRecommendedAgentsReturnContainer.recommendedAgents;
+            SelectAgentForCase.selectedAgentsCache = getRecommendedAgentsReturnContainer.recommendedAgents;
             LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
-            for(UserProfile agent : recommendedAgentList){
+            for(UserProfile agent : SelectAgentForCase.selectedAgentsCache){
                 this.AddAgentToView(agent, recAgentInfoLinearLayout);
             }
+
+            final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
+            autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    //Do nothing
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(autoCompleteTextView.isPerformingCompletion()
+                            || s.length() < 3
+                            || AutoCompleteSuggestString.equals(s.subSequence(0, 2).toString())){
+                        return;
+                    }
+
+                    SelectAgentForCase.AutoCompleteSuggestString = s.subSequence(0, 2).toString();
+                    CallAutoComplete(AutoCompleteSuggestString);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    //Do nothing
+                }
+            });
+        }
+
+        if(intent.getStringExtra("caseInfo") != null){
+            SelectAgentForCase.caseInfoCache = new Gson().fromJson(intent.getStringExtra("caseInfo"), GetRecommendedAgentsRequestContainer.class);
         }
     }
 
@@ -52,11 +98,53 @@ public class SelectAgentForCase extends Activity {
     }
 
     public void AddAgentsButtonOnClick(View view){
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
+        String name = autoCompleteTextView.getText().toString();
+        LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
+        // Todo: Possible bug when last 4 digits and name the same. Low possibility
+        for (UserProfile agent : SelectAgentForCase.allAgentsCache){
+            int end = agent.PhoneNumber.length() - 1;
+            if(name.equals(agent.Name + " (" + agent.PhoneNumber.substring(end - 4, end) + ")")){
+                this.AddAgentToView(agent, recAgentInfoLinearLayout);
+                SelectAgentForCase.selectedAgentsCache.add(agent);
+            }
+        }
 
+        autoCompleteTextView.setText("");
     }
 
     public void AgentItemOnClick(View view){
 
+    }
+
+    public void DoneButtonOnClick(View view){
+
+    }
+
+    public void BackButtonOnClick(View view){
+        String jsonString = "";
+        if(SelectAgentForCase.caseInfoCache != null) {
+            jsonString = new Gson().toJson(SelectAgentForCase.caseInfoCache);
+        }
+        Intent intent = new Intent(this, UserNewUpdateCase.class);
+        intent.putExtra("caseInfo", jsonString);
+        startActivity(intent);
+    }
+
+    private void CallAutoComplete(String text){
+        GetAgentsForAutoCompleteRequestContainer getAgentsForAutoCompleteRequestContainer = new GetAgentsForAutoCompleteRequestContainer();
+        getAgentsForAutoCompleteRequestContainer.text = text;
+        String jsonString = new Gson().toJson(getAgentsForAutoCompleteRequestContainer);
+
+        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver(this);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("successCode", "3");
+        intent.putExtra("apiCall", "GetAgentsForAutoComplete");
+        intent.putExtra("data", jsonString);
+        startService(intent);
     }
 
     private void AddAgentToView(UserProfile agent, LinearLayout layout){
@@ -132,6 +220,34 @@ public class SelectAgentForCase extends Activity {
         });
 
         return tableLayout;
+    }
+
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        String result;
+        switch (resultCode) {
+            case 1:
+                //show progress
+                break;
+            case 2:
+                // handle the error
+                break;
+            case 3:
+                result = resultData.getString("results");
+                GetAgentsForAutoCompleteReturnContainer getAgentsForAutoCompleteReturnContainer = new Gson().fromJson(result, GetAgentsForAutoCompleteReturnContainer.class);
+
+                // Todo: Think about same names.
+                AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
+                SelectAgentForCase.allAgentsCache = getAgentsForAutoCompleteReturnContainer.agents;
+                List<String> names = new ArrayList<>();
+                for (UserProfile agent : getAgentsForAutoCompleteReturnContainer.agents){
+                    int end = agent.PhoneNumber.length() - 1;
+                    names.add(agent.Name + " (" + agent.PhoneNumber.substring(end - 4, end) + ")");
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+                autoCompleteTextView.setAdapter(adapter);
+                break;
+        }
     }
 
     @Override

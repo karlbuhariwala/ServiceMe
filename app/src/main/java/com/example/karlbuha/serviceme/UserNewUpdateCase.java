@@ -34,15 +34,39 @@ import webApi.MyResultReceiver;
 
 public class UserNewUpdateCase extends Activity implements MyResultReceiver.Receiver {
     private static final String TAG_CHECK_BOXES = "TagCheckBoxes";
-    private List<String> allTagsCache;
+    private static List<String> allTagsCache;
+    private static GetRecommendedAgentsRequestContainer getRecommendedAgentsRequestContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_new_update_case);
 
-        // Todo: Check before cast
-        List<String> contactPref = (List<String>) AppIdentity.GetResource(this, AppIdentity.contactPref);
+        List<String> contactPref;
+
+        Intent intent = getIntent();
+        if (intent.getStringExtra("caseInfo") != null) {
+            String jsonString = intent.getStringExtra("caseInfo");
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer = new Gson().fromJson(jsonString, GetRecommendedAgentsRequestContainer.class);
+            contactPref = UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.ContactPreference;
+
+            EditText titleEditText = (EditText) findViewById(R.id.casePageTitleEditText);
+            titleEditText.setText(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Title);
+
+            EditText requestDetailsEditText = (EditText) findViewById(R.id.requestDetailsEditText);
+            requestDetailsEditText.setText(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.RequestDetails);
+
+            if(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Budget != 0) {
+                this.AddBudgetButtonOnClick(null);
+                EditText budgetEditText = (EditText) findViewById(R.id.budgetEditText);
+                budgetEditText.setText(Integer.toString(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Budget));
+            }
+
+            this.CreateTags(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags);
+        } else {
+            // Todo: Check before cast
+            contactPref = (List<String>) AppIdentity.GetResource(this, AppIdentity.contactPref);
+        }
 
         try {
             if (contactPref.contains(getResources().getString(R.string.phone_check_box))) {
@@ -70,6 +94,7 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
         budgetButton.setVisibility(View.GONE);
         LinearLayout budgetLinearLayout = (LinearLayout) findViewById(R.id.budgetLinearLayout);
         budgetLinearLayout.setVisibility(View.VISIBLE);
+        findViewById(R.id.budgetEditText).requestFocus();
     }
 
     public void AddMyAddressButtonOnClick(View view) {
@@ -81,9 +106,7 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
     }
 
     public void NextForTagsButtonOnClick(View view) {
-        LinearLayout tagsLinearLayout = (LinearLayout) findViewById(R.id.tagsLinearLayout);
-        ArrayList<View> tagsCheckBoxViews = new ArrayList<>();
-        tagsLinearLayout.findViewsWithText(tagsCheckBoxViews, TAG_CHECK_BOXES, View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        ArrayList<View> tagsCheckBoxViews = this.GetCheckedTags();
 
         EditText requestDetailsEditText = (EditText) findViewById(R.id.requestDetailsEditText);
         String requestDetails = requestDetailsEditText.getText().toString();
@@ -108,8 +131,9 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
             intent.putExtra("data", jsonString);
             startService(intent);
         } else {
-            GetRecommendedAgentsRequestContainer getRecommendedAgentsRequestContainer = new GetRecommendedAgentsRequestContainer();
-            getRecommendedAgentsRequestContainer.caseDetails = new CaseDetails();
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer = new GetRecommendedAgentsRequestContainer();
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails = new CaseDetails();
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.RequestDetails = requestDetails;
 
             EditText titleEditText = (EditText) findViewById(R.id.casePageTitleEditText);
             String title = titleEditText.getText().toString();
@@ -118,29 +142,29 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
                 return;
             }
 
-            getRecommendedAgentsRequestContainer.caseDetails.Title = title;
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Title = title;
 
-            getRecommendedAgentsRequestContainer.caseDetails.ContactPreference = new ArrayList<>();
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags = new ArrayList<>();
             for (View i : tagsCheckBoxViews) {
                 if (((CheckBox) i).isChecked()) {
-                    getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add(((CheckBox) i).getText().toString());
+                    UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags.add(((CheckBox) i).getText().toString());
                 }
             }
 
-            if (getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.isEmpty()) {
+            if (UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags.isEmpty()) {
                 new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.need_atleast_one_tag));
                 return;
             }
 
-            getRecommendedAgentsRequestContainer.caseDetails.ContactPreference = new ArrayList<>();
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.ContactPreference = new ArrayList<>();
             CheckBox phoneCheckBox = (CheckBox) findViewById(R.id.phoneCheckBox);
             if (phoneCheckBox.isChecked()) {
-                getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add("Phone");
+                UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add("Phone");
             }
 
             CheckBox chatCheckBox = (CheckBox) findViewById(R.id.chatCheckBox);
             if (chatCheckBox.isChecked()) {
-                getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add("Chat");
+                UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add("Chat");
             }
 
             CheckBox emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
@@ -151,16 +175,16 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
                     return;
                 }
 
-                getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add("Email");
+                UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.ContactPreference.add("Email");
             }
 
             EditText budgetEditText = (EditText) findViewById(R.id.budgetEditText);
             String budget = budgetEditText.getText().toString();
             if (!budget.isEmpty()) {
-                getRecommendedAgentsRequestContainer.caseDetails.Budget = Integer.parseInt(budget);
+                UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Budget = Integer.parseInt(budget);
             }
 
-            String jsonString = new Gson().toJson(getRecommendedAgentsRequestContainer);
+            String jsonString = new Gson().toJson(UserNewUpdateCase.getRecommendedAgentsRequestContainer);
             MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
             myResultReceiver.setReceiver(this);
             Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
@@ -190,11 +214,10 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
     public void AddTagsButtonOnClick(View view) {
         AutoCompleteTextView tagAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.tagAutoCompleteTextView);
         String tagToAdd = tagAutoCompleteTextView.getText().toString();
-        if (this.allTagsCache != null && this.allTagsCache.contains(tagToAdd)) {
-            LinearLayout tagsLinearLayout = (LinearLayout) findViewById(R.id.tagsLinearLayout);
+        if (UserNewUpdateCase.allTagsCache != null && UserNewUpdateCase.allTagsCache.contains(tagToAdd)) {
             List<String> tagsToAdd = new ArrayList<>();
             tagsToAdd.add(0, tagToAdd);
-            CreateTags(tagsToAdd, tagsLinearLayout);
+            CreateTags(tagsToAdd);
             tagAutoCompleteTextView.setText("");
         } else {
             new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.unknown_tag_text));
@@ -224,14 +247,12 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
                 GetTagsReturnContainer getTagsReturnContainer = new Gson().fromJson(result, GetTagsReturnContainer.class);
 
                 if (getTagsReturnContainer.returnCode.equals("101")) {
-                    LinearLayout tagsLinearLayout = (LinearLayout) findViewById(R.id.tagsLinearLayout);
-                    tagsLinearLayout.setVisibility(View.VISIBLE);
-                    this.CreateTags(getTagsReturnContainer.tags, tagsLinearLayout);
+                    this.CreateTags(getTagsReturnContainer.tags);
 
-                    // Todo: When tags grow, change how this is done.
+                    // Todo: P0 - Change how this is done.
                     AutoCompleteTextView tagsAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.tagAutoCompleteTextView);
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getTagsReturnContainer.allTags);
-                    this.allTagsCache = getTagsReturnContainer.allTags;
+                    UserNewUpdateCase.allTagsCache = getTagsReturnContainer.allTags;
                     tagsAutoCompleteTextView.setAdapter(adapter);
 
                     findViewById(R.id.scrollView).post(new Runnable() {
@@ -250,6 +271,8 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
                     String jsonString = new Gson().toJson(getRecommendedAgentsReturnContainer);
                     Intent intent = new Intent(this, SelectAgentForCase.class);
                     intent.putExtra("agentInfo", jsonString);
+                    jsonString = new Gson().toJson(UserNewUpdateCase.getRecommendedAgentsRequestContainer);
+                    intent.putExtra("caseInfo", jsonString);
                     startActivity(intent);
                 }
 
@@ -257,7 +280,9 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
         }
     }
 
-    private void CreateTags(List<String> tags, LinearLayout tagsLinearLayout) {
+    private void CreateTags(List<String> tags) {
+        LinearLayout tagsLinearLayout = (LinearLayout) findViewById(R.id.tagsLinearLayout);
+        tagsLinearLayout.setVisibility(View.VISIBLE);
         for (String tag : tags) {
             RelativeLayout.LayoutParams tagCheckboxLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             CheckBox tagCheckBox = new CheckBox(this);
@@ -273,6 +298,13 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_new_update_case, menu);
         return true;
+    }
+
+    private ArrayList<View> GetCheckedTags() {
+        LinearLayout tagsLinearLayout = (LinearLayout) findViewById(R.id.tagsLinearLayout);
+        ArrayList<View> tagsCheckBoxViews = new ArrayList<>();
+        tagsLinearLayout.findViewsWithText(tagsCheckBoxViews, TAG_CHECK_BOXES, View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        return tagsCheckBoxViews;
     }
 
     @Override
