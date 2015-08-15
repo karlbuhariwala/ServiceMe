@@ -17,4 +17,6 @@ public class UserProfile {
     public String LandingPage;
     public double Rating;
     public int NumberOfRatings;
+    public List<String> Tags;
+    public String AreaOfService;
 }

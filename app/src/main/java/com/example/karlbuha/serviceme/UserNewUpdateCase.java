@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,8 @@ import java.util.List;
 import DataContract.DataModels.CaseDetails;
 import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
+import DataContract.GetTagsForAutoCompleteRequestContainer;
+import DataContract.GetTagsForAutoCompleteReturnContainer;
 import DataContract.GetTagsRequestContainer;
 import DataContract.GetTagsReturnContainer;
 import Helpers.AppIdentity;
@@ -36,12 +40,38 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
     private static final String TAG_CHECK_BOXES = "TagCheckBoxes";
     private static List<String> allTagsCache;
     private static GetRecommendedAgentsRequestContainer getRecommendedAgentsRequestContainer;
+    private static String autoCompleteSuggestString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_new_update_case);
 
+        UserNewUpdateCase.autoCompleteSuggestString = "";
+        final AutoCompleteTextView tagsAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.tagAutoCompleteTextView);
+        tagsAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tagsAutoCompleteTextView.isPerformingCompletion()
+                        || s.length() < 3
+                        || UserNewUpdateCase.autoCompleteSuggestString.equals(s.subSequence(0, 2).toString())) {
+                    return;
+                }
+
+                UserNewUpdateCase.autoCompleteSuggestString = s.subSequence(0, 2).toString();
+                CallAutoComplete(UserNewUpdateCase.autoCompleteSuggestString);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //Do nothing
+            }
+        });
         List<String> contactPref;
 
         Intent intent = getIntent();
@@ -248,13 +278,6 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
 
                 if (getTagsReturnContainer.returnCode.equals("101")) {
                     this.CreateTags(getTagsReturnContainer.tags);
-
-                    // Todo: P0 - Change how this is done.
-                    AutoCompleteTextView tagsAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.tagAutoCompleteTextView);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getTagsReturnContainer.allTags);
-                    UserNewUpdateCase.allTagsCache = getTagsReturnContainer.allTags;
-                    tagsAutoCompleteTextView.setAdapter(adapter);
-
                     findViewById(R.id.scrollView).post(new Runnable() {
                         @Override
                         public void run() {
@@ -277,6 +300,16 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
                 }
 
                 break;
+            case 5:
+                result = resultData.getString("results");
+                GetTagsForAutoCompleteReturnContainer getTagsForAutoCompleteReturnContainer = new Gson().fromJson(result, GetTagsForAutoCompleteReturnContainer.class);
+
+                if (getTagsForAutoCompleteReturnContainer.returnCode.equals("101")) {
+                    final AutoCompleteTextView tagsAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.tagAutoCompleteTextView);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getTagsForAutoCompleteReturnContainer.suggestedTags);
+                    UserNewUpdateCase.allTagsCache = getTagsForAutoCompleteReturnContainer.suggestedTags;
+                    tagsAutoCompleteTextView.setAdapter(adapter);
+                }
         }
     }
 
@@ -291,6 +324,22 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
             tagCheckBox.setContentDescription(TAG_CHECK_BOXES);
             tagsLinearLayout.addView(tagCheckBox, 2, tagCheckboxLayoutParams);
         }
+    }
+
+    private void CallAutoComplete(String text){
+        GetTagsForAutoCompleteRequestContainer getTagsForAutoCompleteRequestContainer = new GetTagsForAutoCompleteRequestContainer();
+        getTagsForAutoCompleteRequestContainer.text = text;
+        String jsonString = new Gson().toJson(getTagsForAutoCompleteRequestContainer);
+
+        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver(this);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("successCode", "5");
+        intent.putExtra("apiCall", "GetTagsForAutoComplete");
+        intent.putExtra("data", jsonString);
+        startService(intent);
     }
 
     @Override

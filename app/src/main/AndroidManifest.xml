@@ -16,10 +16,6 @@
             android:label="@string/app_name"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ProfilePage"
@@ -41,10 +37,22 @@
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SelectAgentForCase"
             android:label="@string/title_activity_select_agent_for_case"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/UserTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".NewCaseAgentInfo"
+            android:label="@string/title_activity_new_case_agent_info"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan">

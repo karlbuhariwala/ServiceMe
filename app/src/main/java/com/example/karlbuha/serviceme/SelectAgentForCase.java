@@ -15,9 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -42,7 +40,7 @@ import webApi.MyResultReceiver;
 
 
 public class SelectAgentForCase extends Activity implements MyResultReceiver.Receiver{
-    private static List<UserProfile> selectedAgentsCache;
+    private static GetRecommendedAgentsReturnContainer selectedAgentsCache;
     private static String AutoCompleteSuggestString = "";
     private static List<UserProfile> allAgentsCache;
     private static GetRecommendedAgentsRequestContainer caseInfoCache;
@@ -55,10 +53,9 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
         Intent intent = getIntent();
         if(intent.getStringExtra("agentInfo") != null) {
             String jsonString = intent.getStringExtra("agentInfo");
-            GetRecommendedAgentsReturnContainer getRecommendedAgentsReturnContainer = new Gson().fromJson(jsonString, GetRecommendedAgentsReturnContainer.class);
-            SelectAgentForCase.selectedAgentsCache = getRecommendedAgentsReturnContainer.recommendedAgents;
+            SelectAgentForCase.selectedAgentsCache = new Gson().fromJson(jsonString, GetRecommendedAgentsReturnContainer.class);
             LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
-            for(UserProfile agent : SelectAgentForCase.selectedAgentsCache){
+            for(UserProfile agent : SelectAgentForCase.selectedAgentsCache.recommendedAgents){
                 this.AddAgentToView(agent, recAgentInfoLinearLayout);
             }
 
@@ -106,7 +103,7 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
             int end = agent.PhoneNumber.length() - 1;
             if(name.equals(agent.Name + " (" + agent.PhoneNumber.substring(end - 4, end) + ")")){
                 this.AddAgentToView(agent, recAgentInfoLinearLayout);
-                SelectAgentForCase.selectedAgentsCache.add(agent);
+                SelectAgentForCase.selectedAgentsCache.recommendedAgents.add(agent);
             }
         }
 
@@ -114,7 +111,14 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
     }
 
     public void AgentItemOnClick(View view){
-
+        TableLayout tableLayout = (TableLayout) view;
+        Intent intent = new Intent(this, NewCaseAgentInfo.class);
+        String jsonString = new Gson().toJson(SelectAgentForCase.caseInfoCache);
+        intent.putExtra("caseInfo", jsonString);
+        jsonString = new Gson().toJson(SelectAgentForCase.selectedAgentsCache);
+        intent.putExtra("selectedAgents", jsonString);
+        intent.putExtra("agentId", tableLayout.getContentDescription().toString());
+        startActivity(intent);
     }
 
     public void DoneButtonOnClick(View view){

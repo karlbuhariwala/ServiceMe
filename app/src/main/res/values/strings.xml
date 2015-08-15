@@ -60,6 +60,14 @@
     <string name="add_favorite_agents">+ Add favorite agents</string>
     <string name="add_agent_autocomplete_hint">Add an agent&#8230;</string>
 
+    //Agent details page for new case
+    <string name="title_activity_new_case_agent_info">Service Me - Agent info</string>
+    <string name="add_as_favorite_button">+ Add as favorite</string>
+    <string name="remove_as_favorite_button">- Remove as favorite</string>
+    <string name="tags_label_text">Tags</string>
+    <string name="area_of_service">Area of Service</string>
+    <string name="rating_details_text">Rating details</string>
+
     //Buttons
     <string name="done_text_button">Done</string>
     <string name="create_new_request">Create New Request</string>
