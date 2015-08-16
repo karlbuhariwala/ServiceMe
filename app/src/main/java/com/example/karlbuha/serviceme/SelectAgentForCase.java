@@ -34,6 +34,8 @@ import DataContract.GetAgentsForAutoCompleteRequestContainer;
 import DataContract.GetAgentsForAutoCompleteReturnContainer;
 import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
+import DataContract.SaveNewCaseRequestContainer;
+import DataContract.SaveNewCaseReturnContainer;
 import Helpers.MyPopupWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
@@ -41,7 +43,7 @@ import webApi.MyResultReceiver;
 
 public class SelectAgentForCase extends Activity implements MyResultReceiver.Receiver{
     private static GetRecommendedAgentsReturnContainer selectedAgentsCache;
-    private static String AutoCompleteSuggestString = "";
+    private static String autoCompleteSuggestString = "";
     private static List<UserProfile> allAgentsCache;
     private static GetRecommendedAgentsRequestContainer caseInfoCache;
 
@@ -59,6 +61,7 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
                 this.AddAgentToView(agent, recAgentInfoLinearLayout);
             }
 
+            SelectAgentForCase.autoCompleteSuggestString = "";
             final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
             autoCompleteTextView.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -70,12 +73,12 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if(autoCompleteTextView.isPerformingCompletion()
                             || s.length() < 3
-                            || AutoCompleteSuggestString.equals(s.subSequence(0, 2).toString())){
+                            || SelectAgentForCase.autoCompleteSuggestString.equals(s.subSequence(0, 2).toString())){
                         return;
                     }
 
-                    SelectAgentForCase.AutoCompleteSuggestString = s.subSequence(0, 2).toString();
-                    CallAutoComplete(AutoCompleteSuggestString);
+                    SelectAgentForCase.autoCompleteSuggestString = s.subSequence(0, 2).toString();
+                    CallAutoComplete(SelectAgentForCase.autoCompleteSuggestString);
                 }
 
                 @Override
@@ -122,7 +125,26 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
     }
 
     public void DoneButtonOnClick(View view){
+        SaveNewCaseRequestContainer saveNewCaseRequestContainer = new SaveNewCaseRequestContainer();
+        saveNewCaseRequestContainer.caseInfo = SelectAgentForCase.caseInfoCache.caseDetails;
 
+        LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
+        saveNewCaseRequestContainer.agentIds = new ArrayList<>();
+        for(int i = 0; i < recAgentInfoLinearLayout.getChildCount(); i++){
+            TableLayout table = (TableLayout) recAgentInfoLinearLayout.getChildAt(i);
+            saveNewCaseRequestContainer.agentIds.add(table.getContentDescription().toString());
+        }
+
+        String jsonString = new Gson().toJson(saveNewCaseRequestContainer);
+        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver(this);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("successCode", "4");
+        intent.putExtra("apiCall", "SaveNewCase");
+        intent.putExtra("data", jsonString);
+        startService(intent);
     }
 
     public void BackButtonOnClick(View view){
@@ -250,6 +272,16 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
                 autoCompleteTextView.setAdapter(adapter);
+                break;
+            case 4:
+                result = resultData.getString("results");
+                SaveNewCaseReturnContainer saveNewCaseReturnContainer = new Gson().fromJson(result, SaveNewCaseReturnContainer.class);
+
+                if(saveNewCaseReturnContainer.returnCode.equals("101")){
+                    Intent intent = new Intent(this, UserCaseOverview.class);
+                    startActivity(intent);
+                }
+
                 break;
         }
     }
