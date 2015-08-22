@@ -56,8 +56,7 @@ public final class AppIdentity {
             fos.write(jsonString.getBytes());
             fos.close();
         } catch (Exception ex) {
-            String message = ex.getMessage();
-            // Todo: Log the message
+            ex.printStackTrace();
         }
     }
 
@@ -75,8 +74,7 @@ public final class AppIdentity {
             fis.close();
             AppIdentity.instance.container = new Gson().fromJson(sb.toString(), AppIdentityStorageContainer.class);
         }catch (Exception ex) {
-            String message = ex.getMessage();
-            // Todo: Log the message
+            ex.printStackTrace();
         }
     }
 

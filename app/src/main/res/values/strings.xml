@@ -2,6 +2,7 @@
     //App properties
     <string name="app_name">ServiceMe</string>
     <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
+    <!--<string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>-->
     <string name="coming_soon_text">Coming soon!</string>
     <string name="refresh_camel_case">refresh</string>
 
@@ -68,12 +69,17 @@
     <string name="area_of_service">Area of Service</string>
     <string name="rating_details_text">Rating details</string>
 
+    //Case details page for user
+    <string name="title_activity_user_case_details">Service Me - Case details</string>
+
     //Buttons
     <string name="done_text_button">Done</string>
     <string name="create_new_request">Create New Request</string>
     <string name="next_text_button">Next</string>
     <string name="cancel_text_button">Cancel</string>
     <string name="back_text_button">Back</string>
+    <string name="list_of_agents_text_button">List of agents</string>
+    <string name="close_request_text_button">Close request</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

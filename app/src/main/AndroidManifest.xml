@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.karlbuha.serviceme" >
+    package="com.example.karlbuha.serviceme"
+    android:versionCode="1"
+    android:versionName="InitialAlpha" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -54,7 +56,14 @@
             android:label="@string/title_activity_new_case_agent_info"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".UserCaseDetails"
+            android:label="@string/title_activity_user_case_details"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/UserTheme"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
     </application>
 
