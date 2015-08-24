@@ -36,6 +36,7 @@ import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
 import DataContract.SaveNewCaseRequestContainer;
 import DataContract.SaveNewCaseReturnContainer;
+import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
@@ -53,8 +54,8 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
         setContentView(R.layout.activity_select_agent_for_case);
 
         Intent intent = getIntent();
-        if(intent.getStringExtra("agentInfo") != null) {
-            String jsonString = intent.getStringExtra("agentInfo");
+        if(intent.getStringExtra(Constants.agentInfoString) != null) {
+            String jsonString = intent.getStringExtra(Constants.agentInfoString);
             SelectAgentForCase.selectedAgentsCache = new Gson().fromJson(jsonString, GetRecommendedAgentsReturnContainer.class);
             LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
             for(UserProfile agent : SelectAgentForCase.selectedAgentsCache.recommendedAgents){
@@ -88,8 +89,8 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
             });
         }
 
-        if(intent.getStringExtra("caseInfo") != null){
-            SelectAgentForCase.caseInfoCache = new Gson().fromJson(intent.getStringExtra("caseInfo"), GetRecommendedAgentsRequestContainer.class);
+        if(intent.getStringExtra(Constants.caseInfoString) != null){
+            SelectAgentForCase.caseInfoCache = new Gson().fromJson(intent.getStringExtra(Constants.caseInfoString), GetRecommendedAgentsRequestContainer.class);
         }
     }
 
@@ -162,15 +163,7 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
         getAgentsForAutoCompleteRequestContainer.text = text;
         String jsonString = new Gson().toJson(getAgentsForAutoCompleteRequestContainer);
 
-        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
-        myResultReceiver.setReceiver(this);
-        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
-        intent.putExtra("receiver", myResultReceiver);
-        intent.putExtra("command", "query");
-        intent.putExtra("successCode", "3");
-        intent.putExtra("apiCall", "GetAgentsForAutoComplete");
-        intent.putExtra("data", jsonString);
-        startService(intent);
+        ApiCallService.CallService(this, "GetAgentsForAutoComplete", jsonString, "3");
     }
 
     private void AddAgentToView(UserProfile agent, LinearLayout layout){

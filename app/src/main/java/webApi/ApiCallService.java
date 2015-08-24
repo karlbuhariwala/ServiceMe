@@ -1,12 +1,13 @@
 package webApi;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ResultReceiver;
 
 import com.example.karlbuha.serviceme.R;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -79,5 +80,17 @@ public class ApiCallService extends IntentService {
                 receiver.send(failureCode, bundle);
             }
         }
+    }
+
+    public static void CallService (Object activity, String apiName, String jsonString, String successCode){
+        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
+        myResultReceiver.setReceiver((MyResultReceiver.Receiver)activity);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, (Activity)activity, ApiCallService.class);
+        intent.putExtra("receiver", myResultReceiver);
+        intent.putExtra("command", "query");
+        intent.putExtra("successCode", successCode);
+        intent.putExtra("apiCall", apiName);
+        intent.putExtra("data", jsonString);
+        ((Activity)activity).startService(intent);
     }
 }

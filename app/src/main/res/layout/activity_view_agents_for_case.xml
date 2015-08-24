@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.karlbuha.serviceme.UserCaseDetails">
+    tools:context="com.example.karlbuha.serviceme.ViewAgentsForCase">
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -15,43 +15,42 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout">
-            <TextView
+            android:id="@+id/topLevelLinearLayout">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/agentInfoLinearLayout">
+            </LinearLayout>
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginBottom="@dimen/space_between_fields_for_viewing"
-                android:id="@+id/titleTextView"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/detailsLabelTextView"
-                android:text="@string/request_details_text"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/detailsValueTextView"
-                android:layout_marginBottom="@dimen/space_between_fields_for_viewing"/>
+                android:layout_marginTop="20dp"
+                android:text="@string/add_favorite_agents"
+                android:id="@+id/addFavoriteAgentsButton"
+                android:background="@color/transparent"
+                android:onClick="AddFavoriteAgentsButtonOnClick"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:id="@+id/budgetLinearLayout">
-                <TextView
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_agent_autocomplete_hint"
+                    android:id="@+id/agentAutoCompleteTextView"
+                    android:layout_weight="1"/>
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/case_page_budget_text"
-                    android:id="@+id/budgetLabelTextView"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/budgetValueTextView"
-                    android:layout_marginBottom="@dimen/space_between_fields_for_viewing"/>
+                    android:layout_marginTop="10dp"
+                    android:text="+"
+                    android:textSize="@dimen/plus_add_button"
+                    android:id="@+id/addAgentsButton"
+                    android:background="@color/transparent"
+                    android:onClick="AddAgentsButtonOnClick"
+                    android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -61,18 +60,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/userCasePageButtonLinearLayout"
-        android:weightSum="2"
+        android:weightSum="1"
         android:background="@color/black"
         style="?android:attr/buttonBarStyle">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_bar_height"
-            android:text="@string/list_of_agents_text_button"
-            android:id="@+id/listOfAgentsButton"
-            android:textSize="@dimen/activity_full_screen_button"
-            android:layout_weight="1"
-            android:onClick="ListOfAgentsButtonOnClick"
-            style="?android:attr/buttonBarButtonStyle"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_bar_height"
