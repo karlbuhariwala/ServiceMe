@@ -1,6 +1,5 @@
 package com.example.karlbuha.serviceme;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,12 +19,14 @@ import DataContract.CreateUpdateProfileRequestContainer;
 import DataContract.CreateUpdateProfileReturnContainer;
 import DataContract.DataModels.UserProfile;
 import Helpers.AppIdentity;
+import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class ProfilePage extends Activity implements MyResultReceiver.Receiver {
+public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiver {
     public MyResultReceiver myResultReceiver;
 
     @Override
@@ -118,10 +119,10 @@ public class ProfilePage extends Activity implements MyResultReceiver.Receiver {
         String result;
         switch (resultCode) {
             case 1:
-                //show progress
+                MyProgressWindow.ShowProgressWindow(this);
                 break;
             case 2:
-                // handle the error
+                new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.generic_error_text));
                 break;
             case 3:
                 result = resultData.getString("results");

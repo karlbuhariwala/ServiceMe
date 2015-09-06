@@ -1,5 +1,5 @@
 package DataContract;
 
-public class GetUserCaseDetailRequestContainer {
+public class GetUserCaseDetailRequestContainer extends BaseRequestContainer {
     public String caseId;
 }

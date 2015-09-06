@@ -1,10 +1,12 @@
 <resources>
     //App properties
     <string name="app_name">ServiceMe</string>
-    <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
-    <!--<string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>-->
+    <!--<string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>-->
+    <string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>
     <string name="coming_soon_text">Coming soon!</string>
+    <string name="generic_error_text">Sorry we hit an error.</string>
     <string name="refresh_camel_case">refresh</string>
+    <string name="please_wait_string">Please wait&#8230;</string>
 
     //Create User
     <string name="enter_phone_number">Enter a phone number</string>
@@ -17,7 +19,7 @@
     <string name="action_settings">Settings</string>
 
     //Profile page
-    <string name="title_activity_profile_page">ServiceMe - Profile</string>
+    <string name="title_activity_profile_page">Profile</string>
     <string name="profile_name">Name</string>
     <string name="contact_pref_label">Contact Preference</string>
     <string name="phone_check_box">Phone</string>
@@ -33,11 +35,11 @@
     <string name="invalid_email_address">Invalid email address.</string>
 
     //UserCaseOverview page
-    <string name="title_activity_user_case_overview">ServiceMe - My Overview</string>
+    <string name="title_activity_user_case_overview">My Overview</string>
     <string name="no_requests_text">No requests</string>
 
     //UserNewUpdateCase
-    <string name="title_activity_user_new_update_case">ServiceMe - Create a new request</string>
+    <string name="title_activity_user_new_update_case">Create a new request</string>
     <string name="title_text_string">Title</string>
     <string name="title_hint_string">A few words to describe your case.</string>
     <string name="request_details_text">Request details</string>
@@ -56,13 +58,13 @@
     <string name="need_atleast_one_tag">Need at least one tag to continue.</string>
 
     //Select agent for case
-    <string name="title_activity_select_agent_for_case">ServiceMe - Select an agent</string>
+    <string name="title_activity_select_agent_for_case">Select an agent</string>
     <string name="rating_text">ratings</string>
     <string name="add_favorite_agents">+ Add favorite agents</string>
     <string name="add_agent_autocomplete_hint">Add an agent&#8230;</string>
 
     //Agent details page for new case
-    <string name="title_activity_new_case_agent_info">Service Me - Agent info</string>
+    <string name="title_activity_new_case_agent_info">Agent info</string>
     <string name="add_as_favorite_button">+ Add as favorite</string>
     <string name="remove_as_favorite_button">- Remove as favorite</string>
     <string name="tags_label_text">Tags</string>
@@ -70,13 +72,13 @@
     <string name="rating_details_text">Rating details</string>
 
     //Case details page for user
-    <string name="title_activity_user_case_details">Service Me - Case details</string>
+    <string name="title_activity_user_case_details">Case details</string>
 
     //View agents for case
-    <string name="title_activity_view_agents_for_case">ServiceMe - Agents</string>
+    <string name="title_activity_view_agents_for_case">Agents</string>
 
     //User agent case details
-    <string name="title_activity_user_agent_case_details">ServiceMe - Agent details</string>
+    <string name="title_activity_user_agent_case_details">Agent details</string>
     <string name="contact_text">Contact</string>
     <string name="quote_timeline_text">Quote and timeline</string>
     <string name="payment_status_text">Payment status</string>

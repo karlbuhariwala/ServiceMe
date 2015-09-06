@@ -15,6 +15,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import Helpers.MyProgressWindow;
+
 public class ApiCallService extends IntentService {
 
     public ApiCallService() {
@@ -51,26 +53,20 @@ public class ApiCallService extends IntentService {
                 urlConnection.connect();
 
                 StringBuilder sb = new StringBuilder();
-                try {
-                    int HttpResult = urlConnection.getResponseCode();
-                    if (HttpResult == HttpURLConnection.HTTP_OK) {
-                        BufferedReader br = new BufferedReader(new InputStreamReader(
-                                urlConnection.getInputStream(), "utf-8"));
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            String appendText = line + System.getProperty("line.separator");
-                            sb.append(appendText);
-                        }
-
-                        br.close();
-                    } else {
-                        // Todo: Make some error handling in the APICallService
-                        System.out.println(urlConnection.getResponseMessage());
+                int HttpResult = urlConnection.getResponseCode();
+                if (HttpResult == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            urlConnection.getInputStream(), "utf-8"));
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        String appendText = line + System.getProperty("line.separator");
+                        sb.append(appendText);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    urlConnection.disconnect();
+
+                    br.close();
+                } else {
+                    // Todo: Make some error handling in the APICallService
+                    System.out.println(urlConnection.getResponseMessage());
                 }
 
                 bundle.putString("results", sb.toString());
@@ -78,6 +74,8 @@ public class ApiCallService extends IntentService {
             } catch (Exception e) {
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
                 receiver.send(failureCode, bundle);
+            } finally {
+                MyProgressWindow.DismissProgressWindow();
             }
         }
     }

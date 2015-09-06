@@ -1,5 +1,5 @@
 package DataContract;
 
-public class GetAgentsForCaseRequestContainer {
+public class GetAgentsForCaseRequestContainer extends BaseRequestContainer {
     public String caseId;
 }

@@ -1,6 +1,5 @@
 package com.example.karlbuha.serviceme;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -32,13 +31,15 @@ import DataContract.GetAgentsForAutoCompleteRequestContainer;
 import DataContract.GetAgentsForAutoCompleteReturnContainer;
 import DataContract.GetAgentsForCaseRequestContainer;
 import DataContract.GetAgentsForCaseReturnContainer;
+import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class ViewAgentsForCase extends Activity implements MyResultReceiver.Receiver {
+public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.Receiver {
     private static String caseId;
     private static List<UserProfile> allAgentsCache;
     private static String autoCompleteSuggestString = "";
@@ -119,10 +120,10 @@ public class ViewAgentsForCase extends Activity implements MyResultReceiver.Rece
         String result;
         switch (resultCode) {
             case 1:
-                //show progress
+                MyProgressWindow.ShowProgressWindow(this);
                 break;
             case 2:
-                // handle the error
+                new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.generic_error_text));
                 break;
             case 3:
                 result = resultData.getString("results");

@@ -1,6 +1,6 @@
 package DataContract;
 
-public class CreateNewUserRequestContainer {
+public class CreateNewUserRequestContainer extends BaseRequestContainer {
     public String phoneNumber;
     public String deviceType;
 }

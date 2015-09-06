@@ -1,6 +1,5 @@
 package com.example.karlbuha.serviceme;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
@@ -31,12 +30,14 @@ import DataContract.GetTagsForAutoCompleteReturnContainer;
 import DataContract.GetTagsRequestContainer;
 import DataContract.GetTagsReturnContainer;
 import Helpers.AppIdentity;
+import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class UserNewUpdateCase extends Activity implements MyResultReceiver.Receiver {
+public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.Receiver {
     private static final String TAG_CHECK_BOXES = "TagCheckBoxes";
     private static List<String> allTagsCache;
     private static GetRecommendedAgentsRequestContainer getRecommendedAgentsRequestContainer;
@@ -267,10 +268,10 @@ public class UserNewUpdateCase extends Activity implements MyResultReceiver.Rece
         String result;
         switch (resultCode) {
             case 1:
-                //show progress
+                MyProgressWindow.ShowProgressWindow(this);
                 break;
             case 2:
-                // handle the error
+                new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.generic_error_text));
                 break;
             case 3:
                 result = resultData.getString("results");

@@ -1,5 +1,5 @@
 package DataContract;
 
-public class GetTagsForAutoCompleteRequestContainer {
+public class GetTagsForAutoCompleteRequestContainer extends BaseRequestContainer {
     public String text;
 }

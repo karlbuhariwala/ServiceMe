@@ -1,6 +1,5 @@
 package com.example.karlbuha.serviceme;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -36,13 +35,15 @@ import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
 import DataContract.SaveNewCaseRequestContainer;
 import DataContract.SaveNewCaseReturnContainer;
+import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class SelectAgentForCase extends Activity implements MyResultReceiver.Receiver{
+public class SelectAgentForCase extends BaseActivity implements MyResultReceiver.Receiver{
     private static GetRecommendedAgentsReturnContainer selectedAgentsCache;
     private static String autoCompleteSuggestString = "";
     private static List<UserProfile> allAgentsCache;
@@ -57,10 +58,6 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
         if(intent.getStringExtra(Constants.agentInfoString) != null) {
             String jsonString = intent.getStringExtra(Constants.agentInfoString);
             SelectAgentForCase.selectedAgentsCache = new Gson().fromJson(jsonString, GetRecommendedAgentsReturnContainer.class);
-            LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
-            for(UserProfile agent : SelectAgentForCase.selectedAgentsCache.recommendedAgents){
-                this.AddAgentToView(agent, recAgentInfoLinearLayout);
-            }
 
             SelectAgentForCase.autoCompleteSuggestString = "";
             final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
@@ -245,10 +242,10 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
         String result;
         switch (resultCode) {
             case 1:
-                //show progress
+                MyProgressWindow.ShowProgressWindow(this);
                 break;
             case 2:
-                // handle the error
+                new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.generic_error_text));
                 break;
             case 3:
                 result = resultData.getString("results");
@@ -276,6 +273,15 @@ public class SelectAgentForCase extends Activity implements MyResultReceiver.Rec
                 }
 
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
+        for(UserProfile agent : SelectAgentForCase.selectedAgentsCache.recommendedAgents){
+            this.AddAgentToView(agent, recAgentInfoLinearLayout);
         }
     }
 

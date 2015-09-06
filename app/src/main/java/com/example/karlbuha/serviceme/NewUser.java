@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.telephony.PhoneNumberUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,12 +21,14 @@ import DataContract.CreateNewUserReturnContainer;
 import DataContract.DeviceValidationRequestContainer;
 import DataContract.DeviceValidationReturnContainer;
 import Helpers.AppIdentity;
+import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class NewUser extends Activity implements MyResultReceiver.Receiver {
+public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
 
     public MyResultReceiver myResultReceiver;
 
@@ -100,10 +101,10 @@ public class NewUser extends Activity implements MyResultReceiver.Receiver {
         String result;
         switch (resultCode) {
             case 1:
-                //show progress
+                MyProgressWindow.ShowProgressWindow(this);
                 break;
             case 2:
-                // handle the error
+                new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.generic_error_text));
                 break;
             case 3:
                 result = resultData.getString("results");
