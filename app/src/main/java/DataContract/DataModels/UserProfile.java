@@ -14,7 +14,7 @@ public class UserProfile {
     public String PaymentDetails;
     public boolean IsAgent;
     public boolean IsManager;
-    public String LandingPage;
+    public int LandingPage;
     public double Rating;
     public int NumberOfRatings;
     public List<String> Tags;

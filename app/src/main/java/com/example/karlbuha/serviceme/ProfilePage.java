@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
 
@@ -51,7 +53,15 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
     }
 
     public void BeAAgentButtonOnClick(View view){
-        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+        LinearLayout agentSelectionLinearLayout = (LinearLayout) findViewById(R.id.agentSelectionLinearLayout);
+        agentSelectionLinearLayout.setVisibility(View.VISIBLE);
+        view.setVisibility(View.GONE);
+
+        RadioButton agentRadioButton = (RadioButton) findViewById(R.id.agentRadioButton);
+        agentRadioButton.setChecked(true);
+
+        RadioButton agentPageRadioButton = (RadioButton) findViewById(R.id.agentPageRadioButton);
+        agentPageRadioButton.setChecked(true);
     }
 
     public void DoneButtonOnClick(View view) {
@@ -100,6 +110,28 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
 
         AppIdentity.UpdateResource(this, AppIdentity.contactPref, userProfile.ContactPreference);
 
+        RadioGroup beAnAgentRadioGroup = (RadioGroup) findViewById(R.id.beAnAgentRadioGroup);
+        int checkedId = beAnAgentRadioGroup.getCheckedRadioButtonId();
+        int childId = beAnAgentRadioGroup.indexOfChild(findViewById(checkedId));
+        switch (childId){
+            case 0:
+                userProfile.LandingPage = this.GetLandingPage();
+                break;
+            case 1:
+                userProfile.IsAgent = true;
+                userProfile.LandingPage = this.GetLandingPage();
+                break;
+            case 2:
+                userProfile.IsAgent = true;
+                userProfile.IsManager = true;
+                userProfile.LandingPage = this.GetLandingPage();
+                break;
+            default:
+                break;
+        }
+
+        AppIdentity.UpdateResource(this, AppIdentity.landingPage, userProfile.LandingPage);
+
         CreateUpdateProfileRequestContainer createUpdateProfileRequestContainer = new CreateUpdateProfileRequestContainer();
         createUpdateProfileRequestContainer.userProfile = userProfile;
         String jsonString = new Gson().toJson(createUpdateProfileRequestContainer);
@@ -115,6 +147,17 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
         startService(intent);
     }
 
+    private int GetLandingPage() {
+        RadioGroup landingPagePrefRadioGroup = (RadioGroup) findViewById(R.id.landingPagePrefRadioGroup);
+        int checkedId = landingPagePrefRadioGroup.getCheckedRadioButtonId();
+        return landingPagePrefRadioGroup.indexOfChild(findViewById(checkedId));
+    }
+
+    public void NoneRadioButtonClick(View view) {
+        RadioButton clientPageRadioButton = (RadioButton) findViewById(R.id.clientPageRadioButton);
+        clientPageRadioButton.setChecked(true);
+    }
+
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String result;
         switch (resultCode) {
@@ -126,11 +169,17 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
                 break;
             case 3:
                 result = resultData.getString("results");
-                CreateUpdateProfileReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateUpdateProfileReturnContainer.class);
+                CreateUpdateProfileReturnContainer createUpdateProfileReturnContainer = new Gson().fromJson(result, CreateUpdateProfileReturnContainer.class);
 
-                if(createNewUserReturnContainer.returnCode.equals("101")){
-                    Intent intent = new Intent(this, UserCaseOverview.class);
-                    startActivity(intent);
+                if(createUpdateProfileReturnContainer.returnCode.equals("101")){
+                    if(createUpdateProfileReturnContainer.isAgent) {
+                        Intent intent = new Intent(this, AgentTagSetup.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(this, UserCaseOverview.class);
+                        startActivity(intent);
+                    }
                 }
 
                 break;

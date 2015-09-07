@@ -24,6 +24,7 @@ public final class AppIdentity {
     public static String verified = "verified";
     public static String contactPref = "contactPref";
     public static String emailAddress = "emailAddress";
+    public static String landingPage = "landingPage";
 
     public static void UpdateResource(Context context, String resourceToUpdate, Object value){
         AppIdentity.LoadIdentityFromFile(context);
@@ -84,6 +85,7 @@ public final class AppIdentity {
         public Boolean verified;
         public List<String> contactPref;
         public String emailAddress;
+        public int landingPage;
     }
 }
 

@@ -12,10 +12,21 @@
         <item name="android:titleTextStyle">@style/UserActionBarTextStyle</item>
     </style>
 
+    <!-- Agent application theme. -->
+    <style name="AgentTheme" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarStyle">@style/AgentActionBar</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!-- ActionBar styles -->
+    <style name="AgentActionBar"
+        parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@color/orange</item>
+        <item name="android:titleTextStyle">@style/UserActionBarTextStyle</item>
+    </style>
+
     <style name="UserActionBarTextStyle"
         parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/activity_actionbar_title</item>
     </style>
-
 </resources>

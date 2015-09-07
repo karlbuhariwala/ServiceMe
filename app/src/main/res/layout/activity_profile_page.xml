@@ -90,6 +90,87 @@
                     android:hint="@string/profile_email_hint"
                     android:textSize="@dimen/activity_input_text"/>
             </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:id="@+id/agentSelectionLinearLayout"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/agent_setup_text"
+                    android:id="@+id/agentSetupTextView" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/beAnAgentRadioGroup"
+                    android:weightSum="3">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/none_radio_button_text"
+                        android:id="@+id/noneRadioButton"
+                        android:onClick="NoneRadioButtonClick"
+                        android:checked="true"
+                        android:layout_weight="1"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/agent_yes_radio_button_text"
+                        android:id="@+id/agentRadioButton"
+                        android:layout_weight="1"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/agent_manager_radio_button_text"
+                        android:id="@+id/agentManagerRadioButton"
+                        android:layout_weight="1" />
+                </RadioGroup>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/agentLandingPageLinearLayout"
+                    android:visibility="visible">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/agent_landing_page"
+                        android:id="@+id/agentLandingPageTextView" />
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/landingPagePrefRadioGroup"
+                        android:weightSum="3">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/client_radio_button_text"
+                            android:id="@+id/clientPageRadioButton"
+                            android:checked="true"
+                            android:layout_weight="1" />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/agent_radio_button_text"
+                            android:id="@+id/agentPageRadioButton"
+                            android:layout_weight="1"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/manager_radio_button_text"
+                            android:id="@+id/managerPageRadioButton"
+                            android:layout_weight="1" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

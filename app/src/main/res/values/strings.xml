@@ -1,8 +1,8 @@
 <resources>
     //App properties
     <string name="app_name">ServiceMe</string>
-    <!--<string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>-->
-    <string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>
+    <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
+    <!--<string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>-->
     <string name="coming_soon_text">Coming soon!</string>
     <string name="generic_error_text">Sorry we hit an error.</string>
     <string name="refresh_camel_case">refresh</string>
@@ -25,7 +25,7 @@
     <string name="phone_check_box">Phone</string>
     <string name="add_address">+ Address (optional)</string>
     <string name="add_payment_details">+ Payment Details (optional)</string>
-    <string name="be_an_agent">+ Be an agent too (optional)</string>
+    <string name="be_an_agent">+ Be a service provider too (optional)</string>
     <string name="profile_chat_check_box">Chat</string>
     <string name="profile_email_check_box">Email</string>
     <string name="add_email_address">+ Add email (optional)</string>
@@ -33,6 +33,14 @@
     <string name="profile_email_hint">someone@something.com</string>
     <string name="name_is_mandatory_text">Please enter a name.</string>
     <string name="invalid_email_address">Invalid email address.</string>
+    <string name="agent_setup_text">Want to be a service provider?</string>
+    <string name="agent_landing_page">Landing page</string>
+    <string name="none_radio_button_text">No</string>
+    <string name="agent_yes_radio_button_text">Yes</string>
+    <string name="agent_radio_button_text">Agent</string>
+    <string name="agent_manager_radio_button_text">Yes and a manager</string>
+    <string name="client_radio_button_text">Client</string>
+    <string name="manager_radio_button_text">Manager</string>
 
     //UserCaseOverview page
     <string name="title_activity_user_case_overview">My Overview</string>
@@ -85,6 +93,10 @@
     <string name="notes_text">Personal notes</string>
     <string name="scratch_pad_hint">Scratch pad&#8230;</string>
     <string name="quote_timeline_format">{0}. {1}</string>
+
+    // Agent tag setup page
+    <string name="title_activity_agent_tag_setup">Tags</string>
+    <string name="enterprise_tag_text">The below tags need verification codes. Ask your manager for one.</string>
 
     //Buttons
     <string name="done_text_button">Done</string>

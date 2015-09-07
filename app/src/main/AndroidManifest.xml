@@ -9,9 +9,9 @@
 
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:debuggable="true">
+        android:label="@string/app_name" >
         <service android:name="webApi.ApiCallService" />
 
         <activity
@@ -81,6 +81,12 @@
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name=".AgentTagSetup"
+            android:label="@string/title_activity_agent_tag_setup"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/AgentTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
     </application>
-
 </manifest>
