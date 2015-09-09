@@ -160,7 +160,7 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
         getAgentsForAutoCompleteRequestContainer.text = text;
         String jsonString = new Gson().toJson(getAgentsForAutoCompleteRequestContainer);
 
-        ApiCallService.CallService(this, "GetAgentsForAutoComplete", jsonString, "3");
+        ApiCallService.CallService(this, true, "GetAgentsForAutoComplete", jsonString, "3");
     }
 
     private void AddAgentToView(UserProfile agent, LinearLayout layout){

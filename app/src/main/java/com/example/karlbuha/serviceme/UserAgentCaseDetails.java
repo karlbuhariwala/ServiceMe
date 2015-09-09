@@ -37,7 +37,7 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
         UserAgentCaseDetails.caseId = getAgentContextCaseDetailsRequestContainer.caseId;
         String jsonString = new Gson().toJson(getAgentContextCaseDetailsRequestContainer);
 
-        ApiCallService.CallService(this, "GetAgentContextCaseDetails", jsonString, "3");
+        ApiCallService.CallService(this, true, "GetAgentContextCaseDetails", jsonString, "3");
     }
 
     public void BackButtonOnClick(View view) {

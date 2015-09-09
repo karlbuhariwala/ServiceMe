@@ -88,5 +88,20 @@
             android:theme="@style/AgentTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name=".AgentCaseOverview"
+            android:label="@string/title_activity_agent_case_overview"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/AgentTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".AgentCaseDetails"
+            android:label="@string/title_activity_agent_case_details"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/AgentTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
     </application>
+
 </manifest>

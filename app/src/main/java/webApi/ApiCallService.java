@@ -26,6 +26,11 @@ public class ApiCallService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         final ResultReceiver receiver = intent.getParcelableExtra("receiver");
         String command = intent.getStringExtra("command");
+        Boolean showProgress = true;
+        if(intent.getStringExtra("showProgress") != null) {
+            showProgress = Boolean.parseBoolean(intent.getStringExtra("showProgress"));
+        }
+
         int successCode = Integer.parseInt(intent.getStringExtra("successCode"));
         int failureCode = 2;
         if(intent.getStringExtra("failureCode") != null) {
@@ -37,7 +42,9 @@ public class ApiCallService extends IntentService {
         Bundle bundle = new Bundle();
 
         if (command.equals("query")) {
-            receiver.send(1, Bundle.EMPTY);
+            if(showProgress) {
+                receiver.send(1, Bundle.EMPTY);
+            }
             try {
                 URL url = new URL(getResources().getString(R.string.api_endpoint) + apiCall);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -75,17 +82,23 @@ public class ApiCallService extends IntentService {
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
                 receiver.send(failureCode, bundle);
             } finally {
-                MyProgressWindow.DismissProgressWindow();
+                if(showProgress) {
+                    MyProgressWindow.DismissProgressWindow();
+                }
             }
         }
     }
 
-    public static void CallService (Object activity, String apiName, String jsonString, String successCode){
+    public static void CallService (Object activity, Boolean showProgress, String apiName, String jsonString, String successCode){
         MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
         myResultReceiver.setReceiver((MyResultReceiver.Receiver)activity);
         Intent intent = new Intent(Intent.ACTION_SYNC, null, (Activity)activity, ApiCallService.class);
         intent.putExtra("receiver", myResultReceiver);
         intent.putExtra("command", "query");
+        if(!showProgress) {
+            intent.putExtra("showProgress", "false");
+        }
+
         intent.putExtra("successCode", successCode);
         intent.putExtra("apiCall", apiName);
         intent.putExtra("data", jsonString);

@@ -33,7 +33,7 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
         UserCaseDetails.caseId = getUserCaseDetailRequestContainer.caseId;
         String jsonString = new Gson().toJson(getUserCaseDetailRequestContainer);
 
-        ApiCallService.CallService(this, "GetUserCaseDetail", jsonString, "3");
+        ApiCallService.CallService(this, true, "GetUserCaseDetail", jsonString, "3");
     }
 
     public void ListOfAgentsButtonOnClick(View view) {

@@ -54,7 +54,7 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
         ViewAgentsForCase.caseId = getAgentsForCaseRequestContainer.caseId;
         String jsonString = new Gson().toJson(getAgentsForCaseRequestContainer);
 
-        ApiCallService.CallService(this, "GetAgentsForCase", jsonString, "3");
+        ApiCallService.CallService(this, true, "GetAgentsForCase", jsonString, "3");
 
         ViewAgentsForCase.autoCompleteSuggestString = "";
         final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
@@ -88,7 +88,7 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
         getAgentsForAutoCompleteRequestContainer.text = text;
         String jsonString = new Gson().toJson(getAgentsForAutoCompleteRequestContainer);
 
-        ApiCallService.CallService(this, "GetAgentsForAutoComplete", jsonString, "4");
+        ApiCallService.CallService(this, false, "GetAgentsForAutoComplete", jsonString, "4");
     }
 
     public void AddFavoriteAgentsButtonOnClick(View view){

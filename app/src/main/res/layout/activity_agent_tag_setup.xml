@@ -46,7 +46,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/enterprise_tag_text"
                 android:id="@+id/enterpriseTagTextView"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout

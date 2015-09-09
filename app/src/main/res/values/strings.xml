@@ -94,9 +94,21 @@
     <string name="scratch_pad_hint">Scratch pad&#8230;</string>
     <string name="quote_timeline_format">{0}. {1}</string>
 
-    // Agent tag setup page
+    //Agent tag setup page
     <string name="title_activity_agent_tag_setup">Tags</string>
     <string name="enterprise_tag_text">The below tags need verification codes. Ask your manager for one.</string>
+    <string name="code_incorrect_text">The code for the following tag is incorrect. Tag:&#160;</string>
+    <string name="code_length_incorrect_text">Verification code is a 4 digit number. Tag:&#160;</string>
+
+    //Agent overview page
+    <string name="title_activity_agent_case_overview">My Overview</string>
+    <string name="unassigned_text">Unassigned</string>
+    <string name="assigned_text">Assigned</string>
+    <string name="name_status_format">Customer name: {0}\n\rStatus: {1}</string>
+    <string name="name_status_enterprise_format">Customer name: {0}\n\rAssigned: {1}</string>
+
+    //Agent case details
+    <string name="title_activity_agent_case_details">Request details</string>
 
     //Buttons
     <string name="done_text_button">Done</string>
@@ -107,6 +119,7 @@
     <string name="list_of_agents_text_button">List of agents</string>
     <string name="close_request_text_button">Close request</string>
     <string name="assign_case_text_button">Assign case</string>
+    <string name="my_queue_text">My queue</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

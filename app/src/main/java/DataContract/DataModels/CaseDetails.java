@@ -1,11 +1,11 @@
 package DataContract.DataModels;
 
-import java.util.Date;
 import java.util.List;
 
 public class CaseDetails {
     public String CaseId;
     public String UserId;
+    public String UserName;
     public String Title;
     public List<String> ContactPreference;
     public List<String> Tags;
@@ -17,4 +17,5 @@ public class CaseDetails {
     public Boolean NewMessage;
     public Boolean NewEmail;
     public Boolean NewPhoneCall;
+    public Boolean IsEnterpriseTag;
 }
