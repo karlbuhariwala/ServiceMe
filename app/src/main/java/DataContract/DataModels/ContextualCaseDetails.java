@@ -3,6 +3,8 @@ package DataContract.DataModels;
 import java.util.List;
 
 public class ContextualCaseDetails {
+    public String ContextId;
+    public String CaseId;
     public String UserId;
     public String AgentId;
     public String AgentName;

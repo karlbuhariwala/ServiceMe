@@ -35,6 +35,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/detailsLabelTextView"
+                android:text="@string/request_details_text"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/requestDetailsEditText"
+                android:hint="@string/request_details_hint"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/contact_pref_label"
@@ -66,22 +80,6 @@
                 android:layout_marginLeft="@dimen/checkbox_left_margin"
                 android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/request_details_text"
-                android:id="@+id/requestDetailsTextView" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/requestDetailsEditText"
-                android:hint="@string/request_details_hint"/>
 
             <LinearLayout
                 android:orientation="vertical"

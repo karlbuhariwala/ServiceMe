@@ -68,11 +68,11 @@
     //Select agent for case
     <string name="title_activity_select_agent_for_case">Select an agent</string>
     <string name="rating_text">ratings</string>
-    <string name="add_favorite_agents">+ Add favorite agents</string>
+    <string name="add_favorite_agents">+ Add my favorite service providers</string>
     <string name="add_agent_autocomplete_hint">Add an agent&#8230;</string>
 
     //Agent details page for new case
-    <string name="title_activity_new_case_agent_info">Agent info</string>
+    <string name="title_activity_new_case_agent_info">Service provider info</string>
     <string name="add_as_favorite_button">+ Add as favorite</string>
     <string name="remove_as_favorite_button">- Remove as favorite</string>
     <string name="tags_label_text">Tags</string>
@@ -80,17 +80,17 @@
     <string name="rating_details_text">Rating details</string>
 
     //Case details page for user
-    <string name="title_activity_user_case_details">Case details</string>
+    <string name="title_activity_user_case_details">Request details</string>
 
     //View agents for case
-    <string name="title_activity_view_agents_for_case">Agents</string>
+    <string name="title_activity_view_agents_for_case">Service providers</string>
 
     //User agent case details
-    <string name="title_activity_user_agent_case_details">Agent details</string>
+    <string name="title_activity_user_agent_case_details">Service provider details</string>
     <string name="contact_text">Contact</string>
     <string name="quote_timeline_text">Quote and timeline</string>
     <string name="payment_status_text">Payment status</string>
-    <string name="notes_text">Personal notes</string>
+    <string name="notes_text">My notes</string>
     <string name="scratch_pad_hint">Scratch pad&#8230;</string>
     <string name="quote_timeline_format">{0}. {1}</string>
 
@@ -109,6 +109,8 @@
 
     //Agent case details
     <string name="title_activity_agent_case_details">Request details</string>
+    <string name="user_budget_text">User budget</string>
+    <string name="set_quotation_timeline_text">+ Set quotation and timeline</string>
 
     //Buttons
     <string name="done_text_button">Done</string>
@@ -120,6 +122,10 @@
     <string name="close_request_text_button">Close request</string>
     <string name="assign_case_text_button">Assign case</string>
     <string name="my_queue_text">My queue</string>
+    <string name="set_metadata_text_button">Set metadata</string>
+    <string name="resolve_text_button">Close</string>
+    <string name="save_camel_case">save?</string>
+    <string name="saved_camel_case">saved</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

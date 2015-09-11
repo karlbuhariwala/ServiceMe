@@ -75,12 +75,29 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/paymentStatusValueTextView"
                 android:layout_marginBottom="@dimen/space_between_fields_for_viewing"/>
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/notesLabelTextView"
-                android:text="@string/notes_text"/>
+                android:orientation="horizontal"
+                android:weightSum="3">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/notesLabelTextView"
+                    android:text="@string/notes_text"
+                    android:layout_weight="2"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/saved_camel_case"
+                    android:id="@+id/saveButton"
+                    android:background="@color/transparent"
+                    android:onClick="SaveButtonOnClick"
+                    android:textColor="@color/link_blue"
+                    android:layout_weight="1"
+                    android:enabled="false"/>
+            </LinearLayout>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +105,7 @@
                 android:ems="10"
                 android:id="@+id/scratchPadEditText"
                 android:hint="@string/scratch_pad_hint"
-                android:layout_marginBottom="@dimen/space_between_fields_for_viewing"/>
+                android:layout_marginBottom="@dimen/space_between_fields_for_viewing" />
         </LinearLayout>
     </ScrollView>
     <LinearLayout

@@ -21,6 +21,7 @@ import DataContract.GetAgentCasesRequestContainer;
 import DataContract.GetAgentCasesReturnContainer;
 import Helpers.AppIdentity;
 import Helpers.BaseActivity;
+import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
@@ -134,7 +135,7 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
 
     private void GoToCaseDetails(String caseId) {
         Intent intent = new Intent(this, AgentCaseDetails.class);
-        intent.putExtra("caseId", caseId);
+        intent.putExtra(Constants.agentIdString, caseId);
         startActivity(intent);
     }
 

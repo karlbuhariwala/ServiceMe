@@ -2,9 +2,12 @@ package com.example.karlbuha.serviceme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,6 +27,7 @@ import webApi.MyResultReceiver;
 
 public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiver.Receiver {
     private static String caseId;
+    private static String userNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,10 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
     }
 
     public void AssignCaseButtonOnClick(View view) {
+        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
+    public void SaveButtonOnClick (View view) {
         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
     }
 
@@ -75,12 +83,36 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
                     TextView paymentStatusValueTextView = (TextView) findViewById(R.id.paymentStatusValueTextView);
                     paymentStatusValueTextView.setText(getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.PaymentStatus);
 
-                    EditText scratchPadEditText = (EditText) findViewById(R.id.scratchPadEditText);
+                    final EditText scratchPadEditText = (EditText) findViewById(R.id.scratchPadEditText);
                     scratchPadEditText.setText(getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.UserNotes);
+                    UserAgentCaseDetails.userNotes = getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.UserNotes;
+                    scratchPadEditText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            if (!UserAgentCaseDetails.userNotes.equals(s.toString())) {
+                                EnableNotesSave();
+                                scratchPadEditText.removeTextChangedListener(this);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                        }
+                    });
                 }
 
                 break;
         }
+    }
+
+    private void EnableNotesSave() {
+        Button saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton.setText(getResources().getString(R.string.save_camel_case));
+        saveButton.setEnabled(true);
     }
 
     @Override
