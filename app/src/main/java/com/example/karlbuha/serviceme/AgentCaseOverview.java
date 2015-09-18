@@ -154,8 +154,13 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_settings:
+                return true;
+            case R.id.action_user_overview:
+                Intent intent = new Intent(this, UserCaseOverview.class);
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

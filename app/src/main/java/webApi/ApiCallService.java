@@ -74,6 +74,8 @@ public class ApiCallService extends IntentService {
                 } else {
                     // Todo: Make some error handling in the APICallService
                     System.out.println(urlConnection.getResponseMessage());
+                    receiver.send(failureCode, bundle);
+                    return;
                 }
 
                 bundle.putString("results", sb.toString());

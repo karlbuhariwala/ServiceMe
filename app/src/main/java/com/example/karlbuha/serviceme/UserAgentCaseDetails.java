@@ -85,7 +85,7 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
 
                     final EditText scratchPadEditText = (EditText) findViewById(R.id.scratchPadEditText);
                     scratchPadEditText.setText(getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.UserNotes);
-                    UserAgentCaseDetails.userNotes = getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.UserNotes;
+                    UserAgentCaseDetails.userNotes = getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.UserNotes == null ? "" : getAgentContextCaseDetailsReturnContainer.contextualCaseDetails.UserNotes;
                     scratchPadEditText.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

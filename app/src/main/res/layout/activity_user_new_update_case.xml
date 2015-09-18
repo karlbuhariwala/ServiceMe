@@ -59,8 +59,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/phone_check_box"
                 android:id="@+id/phoneCheckBox"
-                android:layout_marginLeft="@dimen/checkbox_left_margin"
-                android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
 
             <CheckBox
@@ -68,8 +66,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/profile_chat_check_box"
                 android:id="@+id/chatCheckBox"
-                android:layout_marginLeft="@dimen/checkbox_left_margin"
-                android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
 
             <CheckBox
@@ -77,8 +73,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/profile_email_check_box"
                 android:id="@+id/emailCheckBox"
-                android:layout_marginLeft="@dimen/checkbox_left_margin"
-                android:layout_marginStart="@dimen/checkbox_left_margin"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
 
             <LinearLayout
@@ -114,7 +108,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="@string/add_my_address"
                 android:id="@+id/addMyAddressButton"
                 android:background="@color/transparent"
@@ -122,7 +115,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="@string/add_another_address"
                 android:id="@+id/addAnotherAddressButton"
                 android:background="@color/transparent"

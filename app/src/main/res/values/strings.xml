@@ -8,6 +8,10 @@
     <string name="refresh_camel_case">refresh</string>
     <string name="please_wait_string">Please wait&#8230;</string>
 
+    //Action settings
+    <string name="action_settings">Settings</string>
+    <string name="action_user_overview">My overview (User)</string>
+
     //Create User
     <string name="enter_phone_number">Enter a phone number</string>
     <string name="phone_number_hint">+919820055588</string>
@@ -15,8 +19,6 @@
     <string name="enter_code_text_message">Enter code from text message</string>
     <string name="verify">Verify</string>
     <string name="invalid_phone_number_text">Invalid phone number.</string>
-
-    <string name="action_settings">Settings</string>
 
     //Profile page
     <string name="title_activity_profile_page">Profile</string>
@@ -99,6 +101,7 @@
     <string name="enterprise_tag_text">The below tags need verification codes. Ask your manager for one.</string>
     <string name="code_incorrect_text">The code for the following tag is incorrect. Tag:&#160;</string>
     <string name="code_length_incorrect_text">Verification code is a 4 digit number. Tag:&#160;</string>
+    <string name="create_new_tag">Create new tag&#8230;</string>
 
     //Agent overview page
     <string name="title_activity_agent_case_overview">My Overview</string>

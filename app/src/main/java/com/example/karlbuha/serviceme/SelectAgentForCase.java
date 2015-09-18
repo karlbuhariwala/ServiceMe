@@ -160,7 +160,7 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
         getAgentsForAutoCompleteRequestContainer.text = text;
         String jsonString = new Gson().toJson(getAgentsForAutoCompleteRequestContainer);
 
-        ApiCallService.CallService(this, true, "GetAgentsForAutoComplete", jsonString, "3");
+        ApiCallService.CallService(this, false, "GetAgentsForAutoComplete", jsonString, "3");
     }
 
     private void AddAgentToView(UserProfile agent, LinearLayout layout){
@@ -189,15 +189,21 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
         TableRow.LayoutParams tableRowLayoutParamsCol1 = new TableRow.LayoutParams(1);
         tableRow.addView(checkBox, tableRowLayoutParamsCol1);
 
-        RatingBar ratingBar = new RatingBar(this);
-        ratingBar.setIsIndicator(true);
-        ratingBar.setRating((float) rating);
-        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.purple), PorterDuff.Mode.SRC_ATOP);
-        TableRow.LayoutParams tableRowLayoutParamsCol2 = new TableRow.LayoutParams(2);
+        LinearLayout ratingBarLinearLayout = new LinearLayout(this);
+        TableRow.LayoutParams tableRowLayoutParamsCol2 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        tableRowLayoutParamsCol2.column = 2;
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         tableRowLayoutParamsCol2.setMargins(px, 0, 0, 0);
-        tableRow.addView(ratingBar, tableRowLayoutParamsCol2);
+        tableRow.addView(ratingBarLinearLayout, tableRowLayoutParamsCol2);
+
+        RatingBar ratingBar = new RatingBar(this, null, android.R.attr.ratingBarStyleSmall);
+        ratingBar.setNumStars(5);
+        ratingBar.setIsIndicator(true);
+        ratingBar.setRating((float) rating);
+        ratingBar.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.purple), PorterDuff.Mode.SRC_ATOP);
+        ratingBarLinearLayout.addView(ratingBar);
 
         TextView textView = new TextView(this);
         textView.setTextAppearance(this, android.R.style.TextAppearance_Small);

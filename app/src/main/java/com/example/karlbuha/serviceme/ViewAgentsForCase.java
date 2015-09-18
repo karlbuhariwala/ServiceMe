@@ -166,22 +166,29 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
     private TableRow getTableRow2(double rating, int numberOfRatings) {
         TableRow tableRow = new TableRow(this);
 
-        RatingBar ratingBar = new RatingBar(this);
-        ratingBar.setIsIndicator(true);
-        ratingBar.setRating((float) rating);
-        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.purple), PorterDuff.Mode.SRC_ATOP);
-        TableRow.LayoutParams tableRowLayoutParamsCol2 = new TableRow.LayoutParams(2);
+        LinearLayout ratingBarLinearLayout = new LinearLayout(this);
+        TableRow.LayoutParams tableRowLayoutParamsCol2 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        tableRowLayoutParamsCol2.column = 2;
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         tableRowLayoutParamsCol2.setMargins(px, 0, 0, 0);
-        tableRow.addView(ratingBar, tableRowLayoutParamsCol2);
+        tableRow.addView(ratingBarLinearLayout, tableRowLayoutParamsCol2);
+
+        RatingBar ratingBar = new RatingBar(this, null, android.R.attr.ratingBarStyleSmall);
+        ratingBar.setNumStars(5);
+        ratingBar.setIsIndicator(true);
+        ratingBar.setRating((float) rating);
+        ratingBar.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.purple), PorterDuff.Mode.SRC_ATOP);
+        ratingBarLinearLayout.addView(ratingBar);
 
         TextView textView = new TextView(this);
         textView.setTextAppearance(this, android.R.style.TextAppearance_Small);
         textView.setTypeface(null, Typeface.ITALIC);
         String formatString = "{0}  ({1} {2})";
         textView.setText(MessageFormat.format(formatString, Double.toString(rating), Integer.toString(numberOfRatings), getResources().getString(R.string.rating_text)));
-        TableRow.LayoutParams tableRowLayoutParamsCol3 = new TableRow.LayoutParams(3);
+        TableRow.LayoutParams tableRowLayoutParamsCol3 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        tableRowLayoutParamsCol3.column = 3;
         tableRow.addView(textView, tableRowLayoutParamsCol3);
 
         return tableRow;
@@ -207,7 +214,7 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
         linearLayoutParams.setMargins(0, 0, 0, px);
         agentInfoLinearLayout.addView(table, linearLayoutParams);
 
-        TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
         TableRow tableRow1 = this.getTableRow1(agent.Name);
         table.addView(tableRow1, tableLayoutParams);

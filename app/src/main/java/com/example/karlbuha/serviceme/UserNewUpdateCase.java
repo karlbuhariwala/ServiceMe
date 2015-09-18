@@ -332,15 +332,7 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
         getTagsForAutoCompleteRequestContainer.text = text;
         String jsonString = new Gson().toJson(getTagsForAutoCompleteRequestContainer);
 
-        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
-        myResultReceiver.setReceiver(this);
-        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
-        intent.putExtra("receiver", myResultReceiver);
-        intent.putExtra("command", "query");
-        intent.putExtra("successCode", "5");
-        intent.putExtra("apiCall", "GetTagsForAutoComplete");
-        intent.putExtra("data", jsonString);
-        startService(intent);
+        ApiCallService.CallService(this, false, "GetTagsForAutoComplete", jsonString, "5");
     }
 
     @Override

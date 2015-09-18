@@ -125,6 +125,9 @@ public class AgentCaseDetails extends BaseActivity implements MyResultReceiver.R
 
             AgentCaseDetails.agentNotes = contextualCaseDetails.AgentNotes;
         }
+        else {
+            AgentCaseDetails.agentNotes = "";
+        }
 
         final EditText scratchPadEditText = (EditText) findViewById(R.id.scratchPadEditText);
         scratchPadEditText.addTextChangedListener(new TextWatcher() {

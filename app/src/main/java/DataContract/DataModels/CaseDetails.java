@@ -18,4 +18,5 @@ public class CaseDetails {
     public Boolean NewEmail;
     public Boolean NewPhoneCall;
     public Boolean IsEnterpriseTag;
+    public Boolean IsMetadataComplete;
 }

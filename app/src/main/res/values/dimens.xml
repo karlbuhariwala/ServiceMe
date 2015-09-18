@@ -26,6 +26,6 @@
     <dimen name="checkbox_top_margin">5dp</dimen>
 
     //ScrollBar
-    <dimen name="edit_text_height">72sp</dimen>
+    <dimen name="edit_text_plus_button_height">110sp</dimen>
 
 </resources>

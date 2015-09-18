@@ -92,6 +92,10 @@ public class AgentTagSetup extends BaseActivity implements MyResultReceiver.Rece
         startService(intent);
     }
 
+    public void CannotFindTagButtonOnClick(View view) {
+        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
     public void AddTagsButtonOnClick(View view) {
         AutoCompleteTextView tagAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.tagAutoCompleteTextView);
         String tagToAdd = tagAutoCompleteTextView.getText().toString();

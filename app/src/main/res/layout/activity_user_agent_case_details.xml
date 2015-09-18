@@ -120,20 +120,20 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_bar_height"
-            android:text="@string/back_text_button"
-            android:id="@+id/backTagsButton"
-            android:textSize="@dimen/activity_full_screen_button"
-            android:layout_weight="1"
-            android:onClick="BackButtonOnClick"
-            style="?android:attr/buttonBarButtonStyle"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_bar_height"
             android:text="@string/assign_case_text_button"
             android:id="@+id/assignCaseButton"
             android:textSize="@dimen/activity_full_screen_button"
             android:layout_weight="1"
             android:onClick="AssignCaseButtonOnClick"
+            style="?android:attr/buttonBarButtonStyle"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_bar_height"
+            android:text="@string/back_text_button"
+            android:id="@+id/backTagsButton"
+            android:textSize="@dimen/activity_full_screen_button"
+            android:layout_weight="1"
+            android:onClick="BackButtonOnClick"
             style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 </RelativeLayout>
