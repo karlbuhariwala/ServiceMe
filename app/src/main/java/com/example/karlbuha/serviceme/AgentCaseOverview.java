@@ -29,11 +29,14 @@ import webApi.MyResultReceiver;
 
 
 public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.Receiver {
+    private static List<CaseDetails> casesCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_case_overview);
+
+        AgentCaseOverview.casesCache = null;
 
         GetAgentCasesRequestContainer getAgentCasesRequestContainer = new GetAgentCasesRequestContainer();
         getAgentCasesRequestContainer.agentId = (String) AppIdentity.GetResource(this, AppIdentity.userId);
@@ -62,31 +65,32 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
                 if(getAgentCasesReturnContainer.returnCode.equals("101")){
                     TextView noRequestsText = (TextView) findViewById(R.id.noRequestsText);
                     noRequestsText.setVisibility(View.GONE);
-                    this.CreateListOfCases(getAgentCasesReturnContainer.cases);
+                    AgentCaseOverview.casesCache = getAgentCasesReturnContainer.cases;
+                    LinearLayout casesLinearLayout = (LinearLayout) findViewById(R.id.casesLinearLayout);
+                    this.CreateListOfCases(getAgentCasesReturnContainer.cases, casesLinearLayout);
                 }
 
                 break;
         }
     }
 
-    private void CreateListOfCases(List<CaseDetails> cases) {
-        LinearLayout casesLinearLayout = (LinearLayout) findViewById(R.id.casesLinearLayout);
+    private void CreateListOfCases(List<CaseDetails> cases, LinearLayout casesLinearLayout) {
         for(CaseDetails singleCase : cases){
             LinearLayout caseLinearLayout = this.GetLinearLayout(singleCase.CaseId);
             LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
             linearLayoutParams.setMargins(0, 0, 0, px);
-            casesLinearLayout.addView(caseLinearLayout, linearLayoutParams);
+
+            LinearLayout secondLevelLinearLayout = new LinearLayout(this);
+            secondLevelLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            casesLinearLayout.addView(secondLevelLinearLayout, linearLayoutParams);
+            secondLevelLinearLayout.addView(caseLinearLayout, linearLayoutParams);
 
             TextView titleTextView = new TextView(this);
             titleTextView.setText(singleCase.Title);
             titleTextView.setTextAppearance(this, android.R.style.TextAppearance_Large);
             LinearLayout.LayoutParams linearLayoutParams1 = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             caseLinearLayout.addView(titleTextView, linearLayoutParams1);
-
-            LinearLayout horizontalLinearLayout = new LinearLayout(this);
-            horizontalLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            caseLinearLayout.addView(horizontalLinearLayout, linearLayoutParams1);
 
             TextView assignedToTextView = new TextView(this);
             assignedToTextView.setMaxLines(2);
@@ -103,18 +107,33 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
             }
 
             assignedToTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
-            horizontalLinearLayout.addView(assignedToTextView, linearLayoutParams1);
+            caseLinearLayout.addView(assignedToTextView, linearLayoutParams1);
 
-            if(singleCase.NewPhoneCall) {
+            if(singleCase.NewPhoneCall && false) {
                 ImageView phoneImageView = new ImageView(this);
                 phoneImageView.setImageResource(R.drawable.ic_action_phone_icon);
                 LinearLayout.LayoutParams linearLayoutParams2 = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 int px1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
                 linearLayoutParams2.setMargins(px, 0, 0, px1);
 
-                horizontalLinearLayout.addView(phoneImageView, linearLayoutParams2);
+                caseLinearLayout.addView(phoneImageView, linearLayoutParams2);
             }
             // Add chat, email, phone icon
+
+            LinearLayout.LayoutParams linearLayoutParams3 = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            int px20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+            int px25 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, getResources().getDisplayMetrics());
+            ImageView arrowImageView = new ImageView(this);
+            arrowImageView.setImageResource(R.drawable.ic_right_arrow);
+            arrowImageView.setContentDescription(singleCase.CaseId);
+            arrowImageView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    GoToCaseDetails(v.getContentDescription().toString());
+                }
+            });
+            linearLayoutParams3.setMargins(px25, px20, 0, 0);
+            secondLevelLinearLayout.addView(arrowImageView, linearLayoutParams3);
         }
     }
 
@@ -137,6 +156,16 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
         Intent intent = new Intent(this, AgentCaseDetails.class);
         intent.putExtra(Constants.agentIdString, caseId);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LinearLayout casesLinearLayout = (LinearLayout) findViewById(R.id.casesLinearLayout);
+        if(AgentCaseOverview.casesCache != null && casesLinearLayout.getChildCount() > 0) {
+            casesLinearLayout.removeAllViews();
+            this.CreateListOfCases(AgentCaseOverview.casesCache, casesLinearLayout);
+        }
     }
 
     @Override

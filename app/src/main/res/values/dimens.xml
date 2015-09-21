@@ -9,14 +9,14 @@
     <dimen name="activity_input_label">24sp</dimen>
 
     //EditText
-    <dimen name="activity_input_phone_number">36sp</dimen>
-    <dimen name="activity_input_text">30sp</dimen>
+    <dimen name="activity_input_phone_number">24sp</dimen>
+    <dimen name="activity_input_text">24sp</dimen>
 
     //Buttons
     <dimen name="activity_text_size_button">24sp</dimen>
     <dimen name="activity_full_screen_button">24sp</dimen>
     <dimen name="plus_add_button">42sp</dimen>
-    <dimen name="button_bar_height">72sp</dimen>
+    <dimen name="button_bar_height">40sp</dimen>
 
     //Titles
     <dimen name="activity_actionbar_title">24dp</dimen>

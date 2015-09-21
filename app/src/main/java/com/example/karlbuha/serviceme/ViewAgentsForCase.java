@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -43,10 +44,14 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
     private static String caseId;
     private static List<UserProfile> allAgentsCache;
     private static String autoCompleteSuggestString = "";
+    private static List<UserProfile> agentsCache;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_agents_for_case);
+
+        ViewAgentsForCase.agentsCache = null;
 
         GetAgentsForCaseRequestContainer getAgentsForCaseRequestContainer = new GetAgentsForCaseRequestContainer();
         Intent intent = getIntent();
@@ -95,6 +100,10 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
     }
 
+    public void AddMoreAgentsButtonOnClick(View view){
+        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
     public void AddAgentsButtonOnClick(View view){
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
         String name = autoCompleteTextView.getText().toString();
@@ -131,6 +140,7 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
 
                 if(getUserCasesReturnContainer.returnCode.equals("101")){
                     LinearLayout agentInfoLinearLayout = (LinearLayout) findViewById(R.id.agentInfoLinearLayout);
+                    ViewAgentsForCase.agentsCache = getUserCasesReturnContainer.agents;
                     for(UserProfile agent : getUserCasesReturnContainer.agents){
                         this.AddAgentToView(agent, agentInfoLinearLayout);
                     }
@@ -201,9 +211,16 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
         TableRow.LayoutParams tableRowLayoutParams = new TableRow.LayoutParams(2);
         textView.setTextAppearance(this, android.R.style.TextAppearance_Large);
         textView.setText(name);
-        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-        tableRowLayoutParams.setMargins(px, 0 ,0 ,0);
+        int px15 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+        tableRowLayoutParams.setMargins(px15, 0, 0, 0);
         tableRow.addView(textView, tableRowLayoutParams);
+
+        ImageView infoImageView = new ImageView(this);
+        infoImageView.setImageResource(R.drawable.ic_info_image);
+        TableRow.LayoutParams tableRowLayoutParams1 = new TableRow.LayoutParams(4);
+        int px10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        tableRowLayoutParams1.setMargins(px15, px10, 0, 0);
+        tableRow.addView(infoImageView, tableRowLayoutParams1);
         return tableRow;
     }
 
@@ -236,6 +253,18 @@ public class ViewAgentsForCase extends BaseActivity implements MyResultReceiver.
         });
 
         return tableLayout;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LinearLayout agentInfoLinearLayout = (LinearLayout) findViewById(R.id.agentInfoLinearLayout);
+        if(ViewAgentsForCase.agentsCache != null && agentInfoLinearLayout.getChildCount() > 0) {
+            agentInfoLinearLayout.removeAllViews();
+            for (UserProfile agent : ViewAgentsForCase.agentsCache) {
+                this.AddAgentToView(agent, agentInfoLinearLayout);
+            }
+        }
     }
 
     @Override

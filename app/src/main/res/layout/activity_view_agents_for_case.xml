@@ -31,6 +31,13 @@
                 android:id="@+id/addFavoriteAgentsButton"
                 android:background="@color/transparent"
                 android:onClick="AddFavoriteAgentsButtonOnClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_favorite_agents"
+                android:id="@+id/addMoreAgentsButton"
+                android:background="@color/transparent"
+                android:onClick="AddMoreAgentsButtonOnClick"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

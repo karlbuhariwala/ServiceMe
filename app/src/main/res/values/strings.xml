@@ -19,6 +19,7 @@
     <string name="enter_code_text_message">Enter code from text message</string>
     <string name="verify">Verify</string>
     <string name="invalid_phone_number_text">Invalid phone number.</string>
+    <string name="verify_text_hint">0000</string>
 
     //Profile page
     <string name="title_activity_profile_page">Profile</string>
@@ -53,7 +54,7 @@
     <string name="title_text_string">Title</string>
     <string name="title_hint_string">A few words to describe your case.</string>
     <string name="request_details_text">Request details</string>
-    <string name="request_details_hint">Enter a short description of your request. Use # for keywords; Ex. #flowers. Over time we will get smarter to identify what you want&#8230; we promise. :)</string>
+    <string name="request_details_hint">Enter a short description of your request. Use # for keywords.</string>
     <string name="add_budget_text">+ Add budget (optional)</string>
     <string name="case_page_budget_text">Budget in ₹</string>
     <string name="add_my_address">+ Add my address (optional)</string>
@@ -66,6 +67,8 @@
     <string name="cannot_find_my_tag">Cannot find my tag&#8230;</string>
     <string name="unknown_tag_text">Unknown tag. Please suggest it and we will make it available and let you know.</string>
     <string name="need_atleast_one_tag">Need at least one tag to continue.</string>
+    <string name="add_popular_questions_text">My requests</string>
+    <string name="pick_a_popular_request">My requests</string>
 
     //Select agent for case
     <string name="title_activity_select_agent_for_case">Select an agent</string>

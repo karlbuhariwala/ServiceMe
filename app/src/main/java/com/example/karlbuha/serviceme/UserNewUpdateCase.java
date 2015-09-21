@@ -1,5 +1,7 @@
 package com.example.karlbuha.serviceme;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DataContract.DataModels.CaseDetails;
+import DataContract.GetPopularRequestsRequestContainer;
+import DataContract.GetPopularRequestsReturnContainer;
 import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
 import DataContract.GetTagsForAutoCompleteRequestContainer;
@@ -264,6 +268,19 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
     }
 
+    public void AddPopularRequestsButtonOnClick(View view) {
+        GetPopularRequestsRequestContainer getPopularRequestsRequestContainer = new GetPopularRequestsRequestContainer();
+        Object userId = AppIdentity.GetResource(this, AppIdentity.userId);
+        if(userId != null) {
+            getPopularRequestsRequestContainer.userId = userId.toString();
+
+        }
+
+        String jsonString = new Gson().toJson(getPopularRequestsRequestContainer);
+
+        ApiCallService.CallService(this, true, "GetPopularRequest", jsonString, "6");
+    }
+
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String result;
         switch (resultCode) {
@@ -311,6 +328,24 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
                     UserNewUpdateCase.allTagsCache = getTagsForAutoCompleteReturnContainer.suggestedTags;
                     tagsAutoCompleteTextView.setAdapter(adapter);
                 }
+
+                break;
+            case 6:
+                result = resultData.getString("results");
+                GetPopularRequestsReturnContainer getPopularRequestsReturnContainer = new Gson().fromJson(result, GetPopularRequestsReturnContainer.class);
+                final CharSequence[] popularRequests = getPopularRequestsReturnContainer.requests.toArray(new CharSequence[getPopularRequestsReturnContainer.requests.size()]);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getResources().getString(R.string.pick_a_popular_request));
+                builder.setItems(popularRequests, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText requestDetailsEditText = (EditText) findViewById(R.id.requestDetailsEditText);
+                        requestDetailsEditText.setText(popularRequests[which]);
+                    }
+                });
+                builder.show();
+                break;
         }
     }
 

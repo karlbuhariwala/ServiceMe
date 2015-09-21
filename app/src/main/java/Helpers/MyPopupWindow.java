@@ -15,7 +15,7 @@ import com.example.karlbuha.serviceme.R;
 public class MyPopupWindow {
     private PopupWindow popupWindow;
 
-    public void InitiatePopupWindow(Activity context, String text) {
+    public void InitiatePopupWindow(BaseActivity context, String text) {
         try {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.pop_up_window, (ViewGroup) context.findViewById(R.id.popUpWindowLinearLayout));
@@ -27,6 +27,7 @@ public class MyPopupWindow {
 
             TextView textView = (TextView) layout.findViewById(R.id.popUpTextView);
             textView.setText(text);
+            context.MainRelativeLayoutClick(null);
         } catch (Exception e) {
             e.printStackTrace();
         }

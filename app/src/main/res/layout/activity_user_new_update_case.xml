@@ -31,21 +31,36 @@
                 android:id="@+id/casePageTitleEditText"
                 android:textSize="@dimen/activity_input_text"
                 android:hint="@string/title_hint_string"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/detailsLabelTextView"
-                android:text="@string/request_details_text"/>
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/detailsLabelTextView"
+                    android:text="@string/request_details_text"
+                    android:layout_weight="1"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_popular_questions_text"
+                    android:id="@+id/addPopularRequestsButton"
+                    android:background="@color/transparent"
+                    android:onClick="AddPopularRequestsButtonOnClick"
+                    android:textColor="@color/link_blue"
+                    android:layout_weight="1"/>
+            </LinearLayout>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
                 android:id="@+id/requestDetailsEditText"
+                android:gravity="top"
                 android:hint="@string/request_details_hint"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

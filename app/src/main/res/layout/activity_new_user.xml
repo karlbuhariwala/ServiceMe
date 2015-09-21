@@ -59,6 +59,7 @@
                     android:inputType="number"
                     android:maxLength="4"
                     android:id="@+id/verificationCodeEditText"
+                    android:hint="@string/verify_text_hint"
                     android:textSize="@dimen/activity_input_phone_number"/>
 
                 <Button
