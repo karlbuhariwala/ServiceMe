@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import DataContract.CreateUpdateProfileRequestContainer;
 import DataContract.CreateUpdateProfileReturnContainer;
 import DataContract.DataModels.UserProfile;
-import helpers.AppIdentity;
-import helpers.BaseActivity;
-import helpers.MyPopupWindow;
-import helpers.MyProgressWindow;
+import Helpers.AppIdentity;
+import Helpers.BaseActivity;
+import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

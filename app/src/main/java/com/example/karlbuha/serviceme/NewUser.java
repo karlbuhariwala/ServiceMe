@@ -22,12 +22,11 @@ import DataContract.CreateNewUserRequestContainer;
 import DataContract.CreateNewUserReturnContainer;
 import DataContract.DeviceValidationRequestContainer;
 import DataContract.DeviceValidationReturnContainer;
-import helpers.AppIdentity;
-import helpers.BaseActivity;
-import helpers.Constants;
-import helpers.gcm.RegistrationIntentService;
-import helpers.MyPopupWindow;
-import helpers.MyProgressWindow;
+import Helpers.AppIdentity;
+import Helpers.BaseActivity;
+import services.gcm.RegistrationIntentService;
+import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

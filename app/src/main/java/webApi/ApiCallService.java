@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import helpers.MyProgressWindow;
+import Helpers.MyProgressWindow;
 
 public class ApiCallService extends IntentService {
 

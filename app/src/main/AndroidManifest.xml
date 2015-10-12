@@ -25,18 +25,18 @@
 
         <service android:name="webApi.ApiCallService" />
         <service
-            android:name="helpers.gcm.MyGcmListenerService"
+            android:name="services.gcm.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name="helpers.gcm.RegistrationIntentService"
+            android:name="services.gcm.RegistrationIntentService"
             android:exported="false" >
         </service>
         <service
-            android:name="helpers.gcm.MyInstanceIDListenerService"
+            android:name="services.gcm.MyInstanceIDListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />

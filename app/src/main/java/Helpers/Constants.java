@@ -5,4 +5,7 @@ public class Constants {
     public static String agentIdString = "agentId";
     public static String caseInfoString = "caseInfo";
     public static String agentInfoString = "agentInfo";
+    public static String activityString = "activity";
+    public static String typeOfUser = "typeOfUser";
+    public static String chatTitle = "chatTitle";
 }

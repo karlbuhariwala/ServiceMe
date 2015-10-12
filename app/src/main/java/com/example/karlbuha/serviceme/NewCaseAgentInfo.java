@@ -20,10 +20,10 @@ import DataContract.GetAgentDetailsRequestContainer;
 import DataContract.GetAgentDetailsReturnContainer;
 import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
-import helpers.AppIdentity;
-import helpers.BaseActivity;
-import helpers.MyPopupWindow;
-import helpers.MyProgressWindow;
+import Helpers.AppIdentity;
+import Helpers.BaseActivity;
+import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

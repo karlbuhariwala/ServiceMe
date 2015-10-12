@@ -20,11 +20,11 @@ import java.util.List;
 import DataContract.DataModels.ChatMessage;
 import DataContract.GetChatRoomDetailsRequestContainer;
 import DataContract.GetChatRoomDetailsReturnContainer;
-import helpers.BaseActivity;
-import helpers.Constants;
-import helpers.MyPopupWindow;
-import helpers.MyProgressWindow;
-import helpers.dbHelper.ChatsDb;
+import Helpers.BaseActivity;
+import Helpers.Constants;
+import Helpers.MyPopupWindow;
+import Helpers.MyProgressWindow;
+import Helpers.dbHelper.ChatsDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
