@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.karlbuha.serviceme.UserChatRoom"
+    android:id="@+id/mainRelativeLayout">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_marginBottom="@dimen/button_bar_height"
+        android:layout_alignParentTop="true">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/chatMessagesLinearLayout">
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/userCasePageButtonLinearLayout"
+        android:weightSum="8"
+        android:background="@color/black">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newMessageEditText"
+            android:layout_weight="7"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_bar_height"
+            android:text=">"
+            android:id="@+id/sendMessageButton"
+            android:textSize="@dimen/activity_full_screen_button"
+            android:layout_weight="1"
+            android:onClick="SendMessageButton"/>
+    </LinearLayout>
+</RelativeLayout>

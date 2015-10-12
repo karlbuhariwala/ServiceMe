@@ -17,10 +17,10 @@ import java.text.MessageFormat;
 
 import DataContract.GetAgentContextCaseDetailsRequestContainer;
 import DataContract.GetAgentContextCaseDetailsReturnContainer;
-import Helpers.BaseActivity;
-import Helpers.Constants;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import helpers.BaseActivity;
+import helpers.Constants;
+import helpers.MyPopupWindow;
+import helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

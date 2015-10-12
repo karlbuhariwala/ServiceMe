@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 
 import java.lang.String;
@@ -20,10 +22,12 @@ import DataContract.CreateNewUserRequestContainer;
 import DataContract.CreateNewUserReturnContainer;
 import DataContract.DeviceValidationRequestContainer;
 import DataContract.DeviceValidationReturnContainer;
-import Helpers.AppIdentity;
-import Helpers.BaseActivity;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import helpers.AppIdentity;
+import helpers.BaseActivity;
+import helpers.Constants;
+import helpers.gcm.RegistrationIntentService;
+import helpers.MyPopupWindow;
+import helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -44,6 +48,21 @@ public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
                 SendVerificationCodeButtonOnClick();
             }
         });
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                //apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                  //      .show();
+            } else {
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     private void SendVerificationCodeButtonOnClick() {
@@ -120,6 +139,12 @@ public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
                 phoneNumberEditText.setEnabled(false);
                 Button sendVerificationCodeButton = (Button) findViewById(R.id.sendVerificationCodeButton);
                 sendVerificationCodeButton.setEnabled(false);
+
+                if (checkPlayServices() || true) {
+                    // Start IntentService to register this application with GCM.
+                    Intent intent = new Intent(this, RegistrationIntentService.class);
+                    startService(intent);
+                }
                 break;
             case 4:
                 result = resultData.getString("results");
@@ -142,7 +167,15 @@ public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
 
     public void onPause() {
         myResultReceiver.setReceiver(null); // clear receiver so no leaks.
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+//                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
     }
 
     @Override

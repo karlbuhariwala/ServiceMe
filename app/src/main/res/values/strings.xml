@@ -134,4 +134,5 @@
     <string name="saved_camel_case">saved</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_user_chat_room">UserChatRoom</string>
 </resources>

@@ -20,10 +20,10 @@ import DataContract.DataModels.CaseDetails;
 import DataContract.DataModels.ContextualCaseDetails;
 import DataContract.GetAgentCaseDetailsRequestContainer;
 import DataContract.GetAgentCaseDetailsReturnContainer;
-import Helpers.BaseActivity;
-import Helpers.Constants;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import helpers.BaseActivity;
+import helpers.Constants;
+import helpers.MyPopupWindow;
+import helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

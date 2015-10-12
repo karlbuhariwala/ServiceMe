@@ -18,10 +18,10 @@ import java.text.MessageFormat;
 
 import DataContract.GetUserCaseDetailRequestContainer;
 import DataContract.GetUserCaseDetailReturnContainer;
-import Helpers.BaseActivity;
-import Helpers.Constants;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import helpers.BaseActivity;
+import helpers.Constants;
+import helpers.MyPopupWindow;
+import helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -29,6 +29,7 @@ import webApi.MyResultReceiver;
 public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Receiver {
     private static String caseId;
     private static String userNotes;
+    private static GetUserCaseDetailReturnContainer getUserCaseDetailReturnContainerCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,14 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
         startActivity(intent);
     }
 
+    public void StartChatImageViewClick(View view) {
+        Intent intent = new Intent(this, UserChatRoom.class);
+        intent.putExtra(Constants.caseIdString, UserCaseDetails.caseId);
+        intent.putExtra(Constants.typeOfUser, "user");
+        intent.putExtra(Constants.chatTitle, UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentName);
+        startActivity(intent);
+    }
+
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String result;
         switch (resultCode) {
@@ -67,6 +76,7 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
             case 3:
                 result = resultData.getString("results");
                 GetUserCaseDetailReturnContainer getUserCasesReturnContainer = new Gson().fromJson(result, GetUserCaseDetailReturnContainer.class);
+                UserCaseDetails.getUserCaseDetailReturnContainerCache = getUserCasesReturnContainer;
 
                 if(getUserCasesReturnContainer.returnCode.equals("101")) {
                     TextView titleTextView = (TextView) findViewById(R.id.titleTextView);

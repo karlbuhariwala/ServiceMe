@@ -33,10 +33,10 @@ import DataContract.GetTagsForAutoCompleteRequestContainer;
 import DataContract.GetTagsForAutoCompleteReturnContainer;
 import DataContract.GetTagsRequestContainer;
 import DataContract.GetTagsReturnContainer;
-import Helpers.AppIdentity;
-import Helpers.BaseActivity;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import helpers.AppIdentity;
+import helpers.BaseActivity;
+import helpers.MyPopupWindow;
+import helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

@@ -4,22 +4,62 @@
     android:versionCode="1"
     android:versionName="InitialAlpha" >
 
+    <permission
+        android:name="com.appsrox.instachat.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.appsrox.instachat.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <service android:name="webApi.ApiCallService" />
+        <service
+            android:name="helpers.gcm.MyGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="helpers.gcm.RegistrationIntentService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="helpers.gcm.MyInstanceIDListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="gcm.play.android.samples.com.gcmquickstart" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".NewUser"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,90 +68,98 @@
         </activity>
         <activity
             android:name=".ProfilePage"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_profile_page"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".UserCaseOverview"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_case_overview"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".UserNewUpdateCase"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_new_update_case"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".SelectAgentForCase"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_select_agent_for_case"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".NewCaseAgentInfo"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_new_case_agent_info"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".UserCaseDetails"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_case_details"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".ViewAgentsForCase"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_view_agents_for_case"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".UserAgentCaseDetails"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_agent_case_details"
             android:logo="@drawable/ic_logo"
             android:theme="@style/UserTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".AgentTagSetup"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_agent_tag_setup"
             android:logo="@drawable/ic_logo"
             android:theme="@style/AgentTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".AgentCaseOverview"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_agent_case_overview"
             android:logo="@drawable/ic_logo"
             android:theme="@style/AgentTheme"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".AgentCaseDetails"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_agent_case_details"
             android:logo="@drawable/ic_logo"
             android:theme="@style/AgentTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".UserChatRoom"
+            android:label="@string/title_activity_user_chat_room"
             android:configChanges="orientation|screenSize"
+            android:logo="@drawable/ic_logo"
+            android:theme="@style/AgentTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
     </application>

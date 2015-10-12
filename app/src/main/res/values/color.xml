@@ -9,5 +9,7 @@
     <color name="steel_blue">#5DBCD2</color>
     <color name="link_blue">#0066FF</color>
     <color name="dark_blue">#0000FF</color>
+    <color name="other_person_message">#0033FF</color>
+    <color name="my_message">#0000CC</color>
     <color name="transparent">#00000000</color>
 </resources>
