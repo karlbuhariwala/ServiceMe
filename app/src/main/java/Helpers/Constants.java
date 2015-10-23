@@ -8,4 +8,8 @@ public class Constants {
     public static String activityString = "activity";
     public static String typeOfUser = "typeOfUser";
     public static String chatTitle = "chatTitle";
+    public static String messageString = "message";
+    public static String senderIdString = "senderId";
+    public static String senderNameString = "senderName";
+    public static String typeOfMessageString = "typeOfMessage";
 }

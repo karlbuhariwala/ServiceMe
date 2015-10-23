@@ -21,6 +21,7 @@ public final class AppIdentity {
 
     // Update HERE 1/2
     public static String userId = "userId";
+    public static String userName = "userName";
     public static String verified = "verified";
     public static String contactPref = "contactPref";
     public static String emailAddress = "emailAddress";
@@ -82,6 +83,7 @@ public final class AppIdentity {
     private class AppIdentityStorageContainer{
         // Update HERE 2/2
         public String userId;
+        public String userName;
         public Boolean verified;
         public List<String> contactPref;
         public String emailAddress;

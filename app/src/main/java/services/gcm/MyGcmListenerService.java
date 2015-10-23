@@ -8,65 +8,66 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.karlbuha.serviceme.R;
 import com.example.karlbuha.serviceme.UserCaseOverview;
+import com.example.karlbuha.serviceme.UserChatRoom;
 import com.google.android.gms.gcm.GcmListenerService;
 
+import Helpers.Constants;
+import Helpers.dbHelper.ChatsDb;
+
 public class MyGcmListenerService extends GcmListenerService {
+    static final public String MESSAGE_RESULT = "com.example.karlbuha.serviceme.services.gcm";
+    private static LocalBroadcastManager broadcaster;
 
-    private static final String TAG = "MyGcmListenerService";
+    @Override
+    public void onCreate(){
+        super.onCreate();
 
-    /**
-     * Called when message is received.
-     *
-     * @param from SenderID of the sender.
-     * @param data Data bundle containing message data as key/value pairs.
-     *             For Set of keys use data.keySet().
-     */
-    // [START receive_message]
+        broadcaster = LocalBroadcastManager.getInstance(this);
+    }
+
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
+        String senderId = data.getString("senderId");
+        String senderName = data.getString("senderName");
+        String caseId = data.getString("caseId");
+        caseId = "testCaseId";
+        String messageId = data.getString("messageId");
+        int typeOfMessage = data.getInt("typeOfMessage");
+        new ChatsDb(this).insertChatMessage(caseId, senderId, typeOfMessage, message);
 
-        if (from.startsWith("/topics/")) {
-            // message received from some topic.
-        } else {
-            // normal downstream message.
+        if(UserChatRoom.broadcastReceiverIsSet && UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId.equals(caseId)) {
+            Intent intent = new Intent(MyGcmListenerService.MESSAGE_RESULT);
+            if(message != null) {
+                intent.putExtra(Constants.messageString, message);
+                intent.putExtra(Constants.senderNameString, senderName);
+                intent.putExtra(Constants.senderIdString, senderId);
+                intent.putExtra(Constants.typeOfMessageString, typeOfMessage);
+                intent.putExtra(Constants.caseIdString, caseId);
+            }
+
+            broadcaster.sendBroadcast(intent);
         }
-
-        // [START_EXCLUDE]
-        /**
-         * Production applications would usually process the message here.
-         * Eg: - Syncing with server.
-         *     - Store message in local database.
-         *     - Update UI.
-         */
-
-        /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
-        sendNotification(message);
-        // [END_EXCLUDE]
+        else {
+            sendNotification(message, senderName, caseId);
+        }
     }
-    // [END receive_message]
 
-    /**
-     * Create and show a simple notification containing the received GCM message.
-     *
-     * @param message GCM message received.
-     */
-    private void sendNotification(String message) {
-        Intent intent = new Intent(this, UserCaseOverview.class);
+    private void sendNotification(String message, String senderName, String caseId) {
+        Intent intent = new Intent(this, UserChatRoom.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.caseIdString, caseId);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_logo)
-                .setContentTitle("GCM Message")
+                .setContentTitle(senderName)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
@@ -75,6 +76,6 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(1234 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(1234, notificationBuilder.build());
     }
 }

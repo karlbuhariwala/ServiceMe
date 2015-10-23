@@ -42,7 +42,7 @@ public class ChatsDb extends SQLiteOpenHelper {
                         "caseId text," +
                         "chatId text," +
                         "senderId text," +
-                        "type text," +
+                        "type int," +
                         "data text," +
                         "timestamp long," +
                         "sentToServer text," +
@@ -54,11 +54,11 @@ public class ChatsDb extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS" + CHATS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CHATS_TABLE_NAME);
         onCreate(db);
     }
 
-    public void insertChatMessage(String caseId, String senderId, String typeOfMessage, String data){
+    public void insertChatMessage(String caseId, String senderId, int typeOfMessage, String data){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ChatsDb.CHATS_COLUMN_CASE_ID, caseId);
@@ -102,6 +102,11 @@ public class ChatsDb extends SQLiteOpenHelper {
         catch   (Exception ex){
 
         }
+
+        if(cursor == null){
+            return new ArrayList<>();
+        }
+
         cursor.moveToFirst();
 
         // This is a work around as C#->Json->Java does not work for Dictionary to HashMap
@@ -121,7 +126,7 @@ public class ChatsDb extends SQLiteOpenHelper {
                 message.senderName = message.senderId;
             }
 
-            message.type = cursor.getString(cursor.getColumnIndex(ChatsDb.CHATS_COLUMN_TYPE));
+            message.type = cursor.getInt(cursor.getColumnIndex(ChatsDb.CHATS_COLUMN_TYPE));
             message.messageData = cursor.getString(cursor.getColumnIndex(ChatsDb.CHATS_COLUMN_DATA));
             Long timestamp = cursor.getLong(cursor.getColumnIndex(ChatsDb.CHATS_COLUMN_TIMESTAMP));
             message.timestamp = new Date(timestamp);

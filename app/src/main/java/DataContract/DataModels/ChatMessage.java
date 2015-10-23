@@ -7,6 +7,6 @@ public class ChatMessage {
     public String senderName;
     public String senderId;
     public Date timestamp;
-    public String type;
+    public int type;
     public String messageData;
 }

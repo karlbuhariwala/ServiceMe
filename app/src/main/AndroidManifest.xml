@@ -159,7 +159,7 @@
             android:label="@string/title_activity_user_chat_room"
             android:configChanges="orientation|screenSize"
             android:logo="@drawable/ic_logo"
-            android:theme="@style/AgentTheme"
+            android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
     </application>

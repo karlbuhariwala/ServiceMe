@@ -35,9 +35,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_bar_height"
-            android:text=">"
+            android:text="@string/send_button_text"
             android:id="@+id/sendMessageButton"
-            android:textSize="@dimen/activity_full_screen_button"
+            android:textSize="@dimen/send_button_bar_height"
             android:layout_weight="1"
             android:onClick="SendMessageButton"/>
     </LinearLayout>

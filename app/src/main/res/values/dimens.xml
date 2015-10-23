@@ -17,6 +17,7 @@
     <dimen name="activity_full_screen_button">24sp</dimen>
     <dimen name="plus_add_button">42sp</dimen>
     <dimen name="button_bar_height">40sp</dimen>
+    <dimen name="send_button_bar_height">18sp</dimen>
 
     //Titles
     <dimen name="activity_actionbar_title">24dp</dimen>

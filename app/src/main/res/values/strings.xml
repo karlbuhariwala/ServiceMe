@@ -1,8 +1,8 @@
 <resources>
     //App properties
     <string name="app_name">ServiceMe</string>
-    <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
-    <!--<string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>-->
+    <!--<string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>-->
+    <string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>
     <string name="coming_soon_text">Coming soon!</string>
     <string name="generic_error_text">Sorry we hit an error.</string>
     <string name="refresh_camel_case">refresh</string>
@@ -118,6 +118,10 @@
     <string name="user_budget_text">User budget</string>
     <string name="set_quotation_timeline_text">+ Set quotation and timeline</string>
 
+    //User chat room
+    <string name="title_activity_user_chat_room">Chat room</string>
+    <string name="send_button_text">Send</string>
+
     //Buttons
     <string name="done_text_button">Done</string>
     <string name="create_new_request">Create New Request</string>
@@ -134,5 +138,4 @@
     <string name="saved_camel_case">saved</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_user_chat_room">UserChatRoom</string>
 </resources>

@@ -80,6 +80,9 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
             new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.name_is_mandatory_text));
             return;
         }
+        else {
+            AppIdentity.UpdateResource(this, AppIdentity.userName, name);
+        }
 
         userProfile.Name = name;
         userProfile.ContactPreference = new ArrayList<>();

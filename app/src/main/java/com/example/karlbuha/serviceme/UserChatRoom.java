@@ -1,55 +1,102 @@
 package com.example.karlbuha.serviceme;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import DataContract.DataModels.ChatMessage;
 import DataContract.GetChatRoomDetailsRequestContainer;
 import DataContract.GetChatRoomDetailsReturnContainer;
+import DataContract.SendChatMessageRequestContainer;
+import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
 import Helpers.dbHelper.ChatsDb;
+import services.gcm.MyGcmListenerService;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 public class UserChatRoom extends BaseActivity implements MyResultReceiver.Receiver {
-    private static GetChatRoomDetailsReturnContainer getChatRoomDetailsReturnContainerCache;
+    public static GetChatRoomDetailsReturnContainer getChatRoomDetailsReturnContainerCache;
+    private static BroadcastReceiver receiver;
+    private static String senderId;
+    private static String senderName;
+    public static boolean broadcastReceiverIsSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_chat_room);
 
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                processNewMessage(context, intent);
+            }
+        };
+
+        UserChatRoom.senderId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
+        UserChatRoom.senderName = AppIdentity.GetResource(this, AppIdentity.userName).toString();
+
         GetChatRoomDetailsRequestContainer getChatRoomDetailsRequestContainer = new GetChatRoomDetailsRequestContainer();
         Intent intent = getIntent();
         getChatRoomDetailsRequestContainer.caseId = intent.getStringExtra(Constants.caseIdString);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setTitle(intent.getStringExtra(Constants.chatTitle));
-
-        if(intent.getStringExtra(Constants.typeOfUser).equals("user")) {
-            // Todo: Try to set the theme here rather than the color
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.purple)));
-        }
+        getChatRoomDetailsRequestContainer.userId = UserChatRoom.senderId;
 
         String jsonString = new Gson().toJson(getChatRoomDetailsRequestContainer);
         ApiCallService.CallService(this, true, "GetChatRoomDetails", jsonString, "3");
+    }
+
+    private void processNewMessage(Context context, Intent intent) {
+        String message = intent.getStringExtra(Constants.messageString);
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.senderId = intent.getStringExtra(Constants.senderIdString);
+        chatMessage.senderName = intent.getStringExtra(Constants.senderNameString);
+        chatMessage.timestamp = new Date(System.currentTimeMillis());
+        chatMessage.type = 0;
+        chatMessage.messageData = message;
+
+        List<ChatMessage> messages = new ArrayList<>();
+        messages.add(chatMessage);
+        this.InsertMessages(messages, true);
+    }
+
+    public void SendMessageButton(View view) {
+        String message = ((EditText) findViewById(R.id.newMessageEditText)).getText().toString();
+        SendChatMessageRequestContainer sendChatMessageRequestContainer = new SendChatMessageRequestContainer();
+        sendChatMessageRequestContainer.message = message;
+        sendChatMessageRequestContainer.typeOfMessage = 0;
+        sendChatMessageRequestContainer.caseId = getChatRoomDetailsReturnContainerCache.caseId;
+        sendChatMessageRequestContainer.participantsInfo = getChatRoomDetailsReturnContainerCache.participantsInfo;
+        sendChatMessageRequestContainer.senderId = UserChatRoom.senderId;
+        sendChatMessageRequestContainer.senderName = UserChatRoom.senderName;
+
+        String jsonString = new Gson().toJson(sendChatMessageRequestContainer);
+        ApiCallService.CallService(this, false, "SendChatMessage", jsonString, "3");
     }
 
     public void onReceiveResult(int resultCode, Bundle resultData) {
@@ -65,10 +112,30 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
                 result = resultData.getString("results");
                 UserChatRoom.getChatRoomDetailsReturnContainerCache = new Gson().fromJson(result, GetChatRoomDetailsReturnContainer.class);
 
-                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "1234", "Text", "This is a test message");
-                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "12345", "Text", "This is a test message that is very very long and will continue forever");
-                List<ChatMessage> messages = new ChatsDb(this).getCharMessages(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, 0, 10, UserChatRoom.getChatRoomDetailsReturnContainerCache.userIdNamePairs);
+                ActionBar actionBar = getActionBar();
+                if(actionBar != null) {
+                    actionBar.setTitle(getChatRoomDetailsReturnContainerCache.chatRoomTitle);
+                }
+
+                if(getChatRoomDetailsReturnContainerCache.userType == 1) {
+                    // Todo: Try to set the theme here rather than the color
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
+                }
+
+                UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId = "testCaseId";
+                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "1234", 0, "This is a test message");
+                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "12345", 0, "This is a test message that is very very long and will continue forever");
+                List<ChatMessage> messages = new ChatsDb(this).getCharMessages(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, 0, 100, UserChatRoom.getChatRoomDetailsReturnContainerCache.userIdNamePairs);
                 this.InsertMessages(messages, false);
+
+                ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((ScrollView) findViewById(R.id.scrollView)).fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
+
                 break;
         }
     }
@@ -110,7 +177,7 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
             LinearLayout.LayoutParams timestampTextViewLinearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
             nameTimestampLinearLayout.addView(timestampTextView, timestampTextViewLinearLayoutParams);
 
-            if(message.type.equals("Text")){
+            if(message.type == 0){
                 TextView messageTextView = new TextView(this);
                 messageTextView.setSingleLine(false);
                 messageTextView.setText(message.messageData);
@@ -144,5 +211,21 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+                new IntentFilter(MyGcmListenerService.MESSAGE_RESULT)
+        );
+        UserChatRoom.broadcastReceiverIsSet = true;
+    }
+
+    @Override
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onStop();
+        UserChatRoom.broadcastReceiverIsSet = false;
     }
 }
