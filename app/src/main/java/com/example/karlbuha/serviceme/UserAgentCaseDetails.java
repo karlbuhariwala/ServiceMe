@@ -15,8 +15,11 @@ import com.google.gson.Gson;
 
 import java.text.MessageFormat;
 
+import DataContract.AssignCaseRequestContainer;
+import DataContract.AssignCaseReturnContainer;
 import DataContract.GetAgentContextCaseDetailsRequestContainer;
 import DataContract.GetAgentContextCaseDetailsReturnContainer;
+import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
@@ -27,6 +30,7 @@ import webApi.MyResultReceiver;
 
 public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiver.Receiver {
     private static String caseId;
+    private static String agentId;
     private static String userNotes;
 
     @Override
@@ -38,7 +42,9 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
         Intent intent = getIntent();
         getAgentContextCaseDetailsRequestContainer.agentId = intent.getStringExtra(Constants.agentIdString);
         getAgentContextCaseDetailsRequestContainer.caseId = intent.getStringExtra(Constants.caseIdString);
+        getAgentContextCaseDetailsRequestContainer.userId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
         UserAgentCaseDetails.caseId = getAgentContextCaseDetailsRequestContainer.caseId;
+        UserAgentCaseDetails.agentId = getAgentContextCaseDetailsRequestContainer.agentId;
         String jsonString = new Gson().toJson(getAgentContextCaseDetailsRequestContainer);
 
         ApiCallService.CallService(this, true, "GetAgentContextCaseDetails", jsonString, "3");
@@ -51,7 +57,12 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
     }
 
     public void AssignCaseButtonOnClick(View view) {
-        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+        AssignCaseRequestContainer assignCaseRequestContainer = new AssignCaseRequestContainer();
+        assignCaseRequestContainer.agentId = UserAgentCaseDetails.agentId;
+        assignCaseRequestContainer.caseId = UserAgentCaseDetails.caseId;
+        String jsonString = new Gson().toJson(assignCaseRequestContainer);
+
+        ApiCallService.CallService(this, true, "AssignAgentToCase", jsonString, "4");
     }
 
     public void SaveButtonOnClick (View view) {
@@ -103,6 +114,18 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
                         public void afterTextChanged(Editable s) {
                         }
                     });
+                }
+
+                break;
+            case 4:
+                result = resultData.getString("results");
+                AssignCaseReturnContainer assignCaseReturnContainer = new Gson().fromJson(result, AssignCaseReturnContainer.class);
+
+                if(assignCaseReturnContainer.returnCode.equals("101")) {
+                    new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.assigned_confirmation_text));
+                }
+                else {
+                    new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.not_assigned_text));
                 }
 
                 break;

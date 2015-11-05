@@ -36,6 +36,7 @@ import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
 import DataContract.SaveNewCaseRequestContainer;
 import DataContract.SaveNewCaseReturnContainer;
+import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
@@ -126,6 +127,8 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
     public void DoneButtonOnClick(View view) {
         SaveNewCaseRequestContainer saveNewCaseRequestContainer = new SaveNewCaseRequestContainer();
         saveNewCaseRequestContainer.caseInfo = SelectAgentForCase.caseInfoCache.caseDetails;
+        saveNewCaseRequestContainer.caseInfo.UserId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
+        saveNewCaseRequestContainer.caseInfo.UserName = AppIdentity.GetResource(this, AppIdentity.userName).toString();
 
         LinearLayout recAgentInfoLinearLayout = (LinearLayout) findViewById(R.id.recAgentInfoLinearLayout);
         saveNewCaseRequestContainer.agentIds = new ArrayList<>();

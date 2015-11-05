@@ -12,4 +12,5 @@ public class Constants {
     public static String senderIdString = "senderId";
     public static String senderNameString = "senderName";
     public static String typeOfMessageString = "typeOfMessage";
+    public static String separator = "|$|";
 }

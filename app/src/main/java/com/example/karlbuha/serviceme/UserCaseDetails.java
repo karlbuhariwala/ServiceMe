@@ -61,6 +61,7 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
         intent.putExtra(Constants.caseIdString, UserCaseDetails.caseId);
         intent.putExtra(Constants.typeOfUser, "user");
         intent.putExtra(Constants.chatTitle, UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentName);
+        intent.putExtra(Constants.agentIdString, UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentId);
         startActivity(intent);
     }
 
@@ -92,7 +93,7 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
                         budgetValueTextView.setText(Integer.toString(getUserCasesReturnContainer.caseDetails.Budget));
                     }
 
-                    if (getUserCasesReturnContainer.caseDetails.AssignedAgentId != null) {
+                    if (getUserCasesReturnContainer.caseDetails.AssignedAgentId != null && !getUserCasesReturnContainer.caseDetails.AssignedAgentId.equals("")) {
                         LinearLayout assignedAgentLinearLayout = (LinearLayout) findViewById(R.id.assignedAgentLinearLayout);
                         assignedAgentLinearLayout.setVisibility(View.VISIBLE);
 

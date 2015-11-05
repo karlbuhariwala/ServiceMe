@@ -29,6 +29,7 @@ import DataContract.AddAgentTagsRequestContainer;
 import DataContract.AddAgentTagsReturnContainer;
 import DataContract.GetTagsForAutoCompleteRequestContainer;
 import DataContract.GetTagsForAutoCompleteReturnContainer;
+import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
@@ -134,6 +135,8 @@ public class AgentTagSetup extends BaseActivity implements MyResultReceiver.Rece
                 addAgentTagsRequestContainer.tagCodeList.add(new Pair<>(tag, code));
             }
         }
+
+        addAgentTagsRequestContainer.agentId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
 
         String jsonString = new Gson().toJson(addAgentTagsRequestContainer);
         ApiCallService.CallService(this, true, "SetAgentTags", jsonString, "4" );

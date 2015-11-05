@@ -42,7 +42,7 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
         getAgentCasesRequestContainer.agentId = (String) AppIdentity.GetResource(this, AppIdentity.userId);
         String jsonString = new Gson().toJson(getAgentCasesRequestContainer);
 
-        ApiCallService.CallService(this, true, "GetAgentCases", jsonString, "3" );
+        ApiCallService.CallService(this, true, "GetAgentCases", jsonString, "3");
     }
 
     public void MyQueueButtonOnClick(View view) {
@@ -63,8 +63,11 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
                 GetAgentCasesReturnContainer getAgentCasesReturnContainer = new Gson().fromJson(result, GetAgentCasesReturnContainer.class);
 
                 if(getAgentCasesReturnContainer.returnCode.equals("101")){
-                    TextView noRequestsText = (TextView) findViewById(R.id.noRequestsText);
-                    noRequestsText.setVisibility(View.GONE);
+                    if(getAgentCasesReturnContainer.cases.size() > 0) {
+                        TextView noRequestsText = (TextView) findViewById(R.id.noRequestsText);
+                        noRequestsText.setVisibility(View.GONE);
+                    }
+
                     AgentCaseOverview.casesCache = getAgentCasesReturnContainer.cases;
                     LinearLayout casesLinearLayout = (LinearLayout) findViewById(R.id.casesLinearLayout);
                     this.CreateListOfCases(getAgentCasesReturnContainer.cases, casesLinearLayout);

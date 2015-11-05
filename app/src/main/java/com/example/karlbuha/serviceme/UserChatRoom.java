@@ -66,6 +66,7 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
         Intent intent = getIntent();
         getChatRoomDetailsRequestContainer.caseId = intent.getStringExtra(Constants.caseIdString);
         getChatRoomDetailsRequestContainer.userId = UserChatRoom.senderId;
+        getChatRoomDetailsRequestContainer.agentId = intent.getStringExtra(Constants.agentIdString);
 
         String jsonString = new Gson().toJson(getChatRoomDetailsRequestContainer);
         ApiCallService.CallService(this, true, "GetChatRoomDetails", jsonString, "3");
@@ -86,7 +87,9 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
     }
 
     public void SendMessageButton(View view) {
-        String message = ((EditText) findViewById(R.id.newMessageEditText)).getText().toString();
+        EditText newMessageEditText = (EditText) findViewById(R.id.newMessageEditText);
+        String message = newMessageEditText.getText().toString();
+        newMessageEditText.setText("");
         SendChatMessageRequestContainer sendChatMessageRequestContainer = new SendChatMessageRequestContainer();
         sendChatMessageRequestContainer.message = message;
         sendChatMessageRequestContainer.typeOfMessage = 0;
@@ -96,7 +99,20 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
         sendChatMessageRequestContainer.senderName = UserChatRoom.senderName;
 
         String jsonString = new Gson().toJson(sendChatMessageRequestContainer);
-        ApiCallService.CallService(this, false, "SendChatMessage", jsonString, "3");
+        ApiCallService.CallService(this, false, "SendChatMessage", jsonString, "4");
+
+        new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, UserChatRoom.senderId, 0, message);
+
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.senderId = UserChatRoom.senderId;
+        chatMessage.senderName = UserChatRoom.senderName;
+        chatMessage.timestamp = new Date(System.currentTimeMillis());
+        chatMessage.type = 0;
+        chatMessage.messageData = message;
+
+        List<ChatMessage> messages = new ArrayList<>();
+        messages.add(chatMessage);
+        this.InsertMessages(messages, true);
     }
 
     public void onReceiveResult(int resultCode, Bundle resultData) {
@@ -122,9 +138,9 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
                     actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
                 }
 
-                UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId = "testCaseId";
-                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "1234", 0, "This is a test message");
-                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "12345", 0, "This is a test message that is very very long and will continue forever");
+//                UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId = "testCaseId";
+//                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "1234", 0, "This is a test message");
+//                new ChatsDb(this).insertChatMessage(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, "12345", 0, "This is a test message that is very very long and will continue forever");
                 List<ChatMessage> messages = new ChatsDb(this).getCharMessages(UserChatRoom.getChatRoomDetailsReturnContainerCache.caseId, 0, 100, UserChatRoom.getChatRoomDetailsReturnContainerCache.userIdNamePairs);
                 this.InsertMessages(messages, false);
 
@@ -136,6 +152,8 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
                     }
                 });
 
+                break;
+            case 4:
                 break;
         }
     }
@@ -184,7 +202,7 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
                 secondLevelLinearLayout.addView(messageTextView, linearLayoutParams);
             }
 
-            if(message.senderId.equals("1234") ){
+            if(message.senderId.equals(UserChatRoom.senderId) ){
                 secondLevelLinearLayoutParams.gravity = Gravity.RIGHT;
                 secondLevelLinearLayout.setBackgroundColor(getResources().getColor(R.color.dark_blue));
             }

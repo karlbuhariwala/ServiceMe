@@ -39,17 +39,24 @@ public class UserCaseOverview extends BaseActivity implements MyResultReceiver.R
 
         GetUserCasesRequestContainer getUserCasesRequestContainer = new GetUserCasesRequestContainer();
         getUserCasesRequestContainer.userId = (String) AppIdentity.GetResource(this, AppIdentity.userId);
-        String jsonString = new Gson().toJson(getUserCasesRequestContainer);
 
-        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
-        myResultReceiver.setReceiver(this);
-        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
-        intent.putExtra("receiver", myResultReceiver);
-        intent.putExtra("command", "query");
-        intent.putExtra("successCode", "3");
-        intent.putExtra("apiCall", "GetUserCases");
-        intent.putExtra("data", jsonString);
-        startService(intent);
+        if(getUserCasesRequestContainer.userId == null || getUserCasesRequestContainer.userId.equals("")){
+            Intent intent = new Intent(this, NewUser.class);
+            startActivity(intent);
+        }
+        else {
+            String jsonString = new Gson().toJson(getUserCasesRequestContainer);
+
+            MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
+            myResultReceiver.setReceiver(this);
+            Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ApiCallService.class);
+            intent.putExtra("receiver", myResultReceiver);
+            intent.putExtra("command", "query");
+            intent.putExtra("successCode", "3");
+            intent.putExtra("apiCall", "GetUserCases");
+            intent.putExtra("data", jsonString);
+            startService(intent);
+        }
     }
 
     public void CreateNewRequestButtonOnClick(View view){
@@ -71,8 +78,11 @@ public class UserCaseOverview extends BaseActivity implements MyResultReceiver.R
                 GetUserCasesReturnContainer getUserCasesReturnContainer = new Gson().fromJson(result, GetUserCasesReturnContainer.class);
 
                 if(getUserCasesReturnContainer.returnCode.equals("101")){
-                    TextView noRequestsText = (TextView) findViewById(R.id.noRequestsText);
-                    noRequestsText.setVisibility(View.GONE);
+                    if(getUserCasesReturnContainer.cases.size() > 0) {
+                        TextView noRequestsText = (TextView) findViewById(R.id.noRequestsText);
+                        noRequestsText.setVisibility(View.GONE);
+                    }
+
                     UserCaseOverview.casesCache = getUserCasesReturnContainer.cases;
                     LinearLayout casesLinearLayout = (LinearLayout) findViewById(R.id.casesLinearLayout);
                     this.CreateListOfCases(getUserCasesReturnContainer.cases, casesLinearLayout);
@@ -182,8 +192,8 @@ public class UserCaseOverview extends BaseActivity implements MyResultReceiver.R
         switch (id){
             case R.id.action_settings:
                 return true;
-            case R.id.action_user_overview:
-                Intent intent = new Intent(this, UserCaseOverview.class);
+            case R.id.action_agent_overview:
+                Intent intent = new Intent(this, AgentCaseOverview.class);
                 startActivity(intent);
                 return true;
         }

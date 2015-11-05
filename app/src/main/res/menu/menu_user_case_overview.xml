@@ -4,4 +4,6 @@
     tools:context="com.example.karlbuha.serviceme.UserCaseOverview">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_agent_overview" android:title="@string/action_agent_overview"
+        android:orderInCategory="99" app:showAsAction="never" android:visible="false"/>
 </menu>

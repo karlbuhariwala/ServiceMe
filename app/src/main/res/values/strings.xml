@@ -1,8 +1,8 @@
 <resources>
     //App properties
     <string name="app_name">ServiceMe</string>
-    <!--<string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>-->
-    <string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>
+    <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
+    <!--<string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>-->
     <string name="coming_soon_text">Coming soon!</string>
     <string name="generic_error_text">Sorry we hit an error.</string>
     <string name="refresh_camel_case">refresh</string>
@@ -11,6 +11,7 @@
     //Action settings
     <string name="action_settings">Settings</string>
     <string name="action_user_overview">My overview (User)</string>
+    <string name="action_agent_overview">My overview (Agent)</string>
 
     //Create User
     <string name="enter_phone_number">Enter a phone number</string>
@@ -98,6 +99,8 @@
     <string name="notes_text">My notes</string>
     <string name="scratch_pad_hint">Scratch pad&#8230;</string>
     <string name="quote_timeline_format">{0}. {1}</string>
+    <string name="assigned_confirmation_text">Case got assigned!</string>
+    <string name="not_assigned_text">There was an error assigning the case. Please try again in sometime.</string>
 
     //Agent tag setup page
     <string name="title_activity_agent_tag_setup">Tags</string>
