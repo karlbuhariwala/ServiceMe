@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import DataContract.AddNotificationInfoToUserRequestContainer;
 import DataContract.GetAgentsForAutoCompleteReturnContainer;
-import Helpers.AppIdentity;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -75,7 +75,7 @@ public class RegistrationIntentService extends IntentService implements MyResult
      */
     private void sendRegistrationToServer(String token) {
         AddNotificationInfoToUserRequestContainer addNotificationInfoToUserRequestContainer = new AddNotificationInfoToUserRequestContainer();
-        addNotificationInfoToUserRequestContainer.userId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
+        addNotificationInfoToUserRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
         addNotificationInfoToUserRequestContainer.notificationToken = token;
 
         String jsonString = new Gson().toJson(addNotificationInfoToUserRequestContainer);

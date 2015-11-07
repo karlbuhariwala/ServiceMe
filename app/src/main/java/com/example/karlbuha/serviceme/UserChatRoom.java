@@ -30,11 +30,11 @@ import DataContract.DataModels.ChatMessage;
 import DataContract.GetChatRoomDetailsRequestContainer;
 import DataContract.GetChatRoomDetailsReturnContainer;
 import DataContract.SendChatMessageRequestContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import Helpers.dbHelper.ChatsDb;
 import services.gcm.MyGcmListenerService;
 import webApi.ApiCallService;
@@ -59,8 +59,8 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
             }
         };
 
-        UserChatRoom.senderId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
-        UserChatRoom.senderName = AppIdentity.GetResource(this, AppIdentity.userName).toString();
+        UserChatRoom.senderId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
+        UserChatRoom.senderName = new AppIdentityDb(this).GetResource(AppIdentityDb.userName);
 
         GetChatRoomDetailsRequestContainer getChatRoomDetailsRequestContainer = new GetChatRoomDetailsRequestContainer();
         Intent intent = getIntent();

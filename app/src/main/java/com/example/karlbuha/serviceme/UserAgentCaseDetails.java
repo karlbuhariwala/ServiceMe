@@ -19,11 +19,11 @@ import DataContract.AssignCaseRequestContainer;
 import DataContract.AssignCaseReturnContainer;
 import DataContract.GetAgentContextCaseDetailsRequestContainer;
 import DataContract.GetAgentContextCaseDetailsReturnContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -42,7 +42,7 @@ public class UserAgentCaseDetails extends BaseActivity implements MyResultReceiv
         Intent intent = getIntent();
         getAgentContextCaseDetailsRequestContainer.agentId = intent.getStringExtra(Constants.agentIdString);
         getAgentContextCaseDetailsRequestContainer.caseId = intent.getStringExtra(Constants.caseIdString);
-        getAgentContextCaseDetailsRequestContainer.userId = AppIdentity.GetResource(this, AppIdentity.userId).toString();
+        getAgentContextCaseDetailsRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
         UserAgentCaseDetails.caseId = getAgentContextCaseDetailsRequestContainer.caseId;
         UserAgentCaseDetails.agentId = getAgentContextCaseDetailsRequestContainer.agentId;
         String jsonString = new Gson().toJson(getAgentContextCaseDetailsRequestContainer);

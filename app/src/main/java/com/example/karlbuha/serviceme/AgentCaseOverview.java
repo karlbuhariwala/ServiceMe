@@ -19,11 +19,11 @@ import java.util.List;
 import DataContract.DataModels.CaseDetails;
 import DataContract.GetAgentCasesRequestContainer;
 import DataContract.GetAgentCasesReturnContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -39,7 +39,7 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
         AgentCaseOverview.casesCache = null;
 
         GetAgentCasesRequestContainer getAgentCasesRequestContainer = new GetAgentCasesRequestContainer();
-        getAgentCasesRequestContainer.agentId = (String) AppIdentity.GetResource(this, AppIdentity.userId);
+        getAgentCasesRequestContainer.agentId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
         String jsonString = new Gson().toJson(getAgentCasesRequestContainer);
 
         ApiCallService.CallService(this, true, "GetAgentCases", jsonString, "3");

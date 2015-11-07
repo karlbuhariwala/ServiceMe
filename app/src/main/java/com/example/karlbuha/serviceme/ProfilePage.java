@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import DataContract.CreateUpdateProfileRequestContainer;
 import DataContract.CreateUpdateProfileReturnContainer;
 import DataContract.DataModels.UserProfile;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -66,9 +66,9 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
 
     public void DoneButtonOnClick(View view) {
         UserProfile userProfile = new UserProfile();
-        userProfile.UserId  = (String)AppIdentity.GetResource(this, AppIdentity.userId);
+        userProfile.UserId  = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
         try {
-            userProfile.IsVerified = (Boolean) AppIdentity.GetResource(this, AppIdentity.verified);
+            userProfile.IsVerified = Boolean.parseBoolean(new AppIdentityDb(this).GetResource(AppIdentityDb.verified));
         }
         catch(Exception e){
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
             return;
         }
         else {
-            AppIdentity.UpdateResource(this, AppIdentity.userName, name);
+            new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.userName, name);
         }
 
         userProfile.Name = name;
@@ -108,10 +108,10 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
 
             userProfile.ContactPreference.add("Email");
             userProfile.EmailAddress = emailAddress;
-            AppIdentity.UpdateResource(this, AppIdentity.emailAddress, emailAddress);
+            new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.emailAddress, emailAddress);
         }
 
-        AppIdentity.UpdateResource(this, AppIdentity.contactPref, userProfile.ContactPreference);
+        new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.contactPref, new Gson().toJson(userProfile.ContactPreference));
 
         RadioGroup beAnAgentRadioGroup = (RadioGroup) findViewById(R.id.beAnAgentRadioGroup);
         int checkedId = beAnAgentRadioGroup.getCheckedRadioButtonId();
@@ -133,7 +133,7 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
                 break;
         }
 
-        AppIdentity.UpdateResource(this, AppIdentity.landingPage, userProfile.LandingPage);
+        new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.landingPage, Integer.toString(userProfile.LandingPage));
 
         CreateUpdateProfileRequestContainer createUpdateProfileRequestContainer = new CreateUpdateProfileRequestContainer();
         createUpdateProfileRequestContainer.userProfile = userProfile;

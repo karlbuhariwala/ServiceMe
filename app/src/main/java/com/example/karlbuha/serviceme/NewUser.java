@@ -22,14 +22,13 @@ import DataContract.CreateNewUserRequestContainer;
 import DataContract.CreateNewUserReturnContainer;
 import DataContract.DeviceValidationRequestContainer;
 import DataContract.DeviceValidationReturnContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
+import Helpers.dbHelper.AppIdentityDb;
 import services.gcm.RegistrationIntentService;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
-
 
 public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
 
@@ -100,7 +99,7 @@ public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
         }
 
         DeviceValidationRequestContainer deviceValidationRequestContainer = new DeviceValidationRequestContainer();
-        deviceValidationRequestContainer.userId = (String)AppIdentity.GetResource(this, AppIdentity.userId);
+        deviceValidationRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
         deviceValidationRequestContainer.validationCode = verificationCode;
         String jsonString = new Gson().toJson(deviceValidationRequestContainer);
 
@@ -127,7 +126,7 @@ public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
             case 3:
                 result = resultData.getString("results");
                 CreateNewUserReturnContainer createNewUserReturnContainer = new Gson().fromJson(result, CreateNewUserReturnContainer.class);
-                AppIdentity.UpdateResource(this, AppIdentity.userId, createNewUserReturnContainer.userId);
+                new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.userId, createNewUserReturnContainer.userId);
 
                 //Show view
                 LinearLayout verifyCodeLinearLayout = (LinearLayout)findViewById(R.id.verifyCodeLinearLayout);
@@ -149,7 +148,7 @@ public class NewUser extends BaseActivity implements MyResultReceiver.Receiver {
                 result = resultData.getString("results");
                 DeviceValidationReturnContainer deviceValidationReturnContainer = new Gson().fromJson(result, DeviceValidationReturnContainer.class);
                 if(deviceValidationReturnContainer.returnCode.equals("101")) {
-                    AppIdentity.UpdateResource(this, AppIdentity.verified, true);
+                    new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.verified, new Boolean(true).toString());
                     Intent intent = new Intent(this, ProfilePage.class);
                     startActivity(intent);
                 }

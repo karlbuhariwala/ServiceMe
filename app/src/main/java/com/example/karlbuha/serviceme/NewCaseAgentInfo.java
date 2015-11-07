@@ -20,10 +20,10 @@ import DataContract.GetAgentDetailsRequestContainer;
 import DataContract.GetAgentDetailsReturnContainer;
 import DataContract.GetRecommendedAgentsRequestContainer;
 import DataContract.GetRecommendedAgentsReturnContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -41,7 +41,7 @@ public class NewCaseAgentInfo extends BaseActivity implements MyResultReceiver.R
         if(receivedIntent.getStringExtra("agentId") != null) {
             GetAgentDetailsRequestContainer getAgentDetailsRequestContainer = new GetAgentDetailsRequestContainer();
             getAgentDetailsRequestContainer.agentId = receivedIntent.getStringExtra("agentId");
-            getAgentDetailsRequestContainer.userId = (String) AppIdentity.GetResource(this, AppIdentity.userId);
+            getAgentDetailsRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
             String jsonString = new Gson().toJson(getAgentDetailsRequestContainer);
 
             MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());

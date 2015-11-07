@@ -20,7 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +35,10 @@ import DataContract.GetTagsForAutoCompleteRequestContainer;
 import DataContract.GetTagsForAutoCompleteReturnContainer;
 import DataContract.GetTagsRequestContainer;
 import DataContract.GetTagsReturnContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -100,7 +102,8 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
             this.CreateTags(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags);
         } else {
             // Todo: Check before cast
-            contactPref = (List<String>) AppIdentity.GetResource(this, AppIdentity.contactPref);
+            Type type = new TypeToken<List<String>>() {}.getType();
+            contactPref = new Gson().fromJson(new AppIdentityDb(this).GetResource(AppIdentityDb.contactPref), type);
         }
 
         try {
@@ -204,7 +207,7 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
 
             CheckBox emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
             if (emailCheckBox.isChecked()) {
-                String emailAddress = (String) AppIdentity.GetResource(this, AppIdentity.emailAddress);
+                String emailAddress = new AppIdentityDb(this).GetResource(AppIdentityDb.emailAddress);
                 if (emailAddress == null || emailAddress.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
                     new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.missing_email_address_text));
                     return;
@@ -270,7 +273,7 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
 
     public void AddPopularRequestsButtonOnClick(View view) {
         GetPopularRequestsRequestContainer getPopularRequestsRequestContainer = new GetPopularRequestsRequestContainer();
-        Object userId = AppIdentity.GetResource(this, AppIdentity.userId);
+        Object userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
         if(userId != null) {
             getPopularRequestsRequestContainer.userId = userId.toString();
 

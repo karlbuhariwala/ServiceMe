@@ -19,10 +19,10 @@ import java.util.List;
 import DataContract.DataModels.CaseDetails;
 import DataContract.GetUserCasesRequestContainer;
 import DataContract.GetUserCasesReturnContainer;
-import Helpers.AppIdentity;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -38,7 +38,7 @@ public class UserCaseOverview extends BaseActivity implements MyResultReceiver.R
         UserCaseOverview.casesCache = null;
 
         GetUserCasesRequestContainer getUserCasesRequestContainer = new GetUserCasesRequestContainer();
-        getUserCasesRequestContainer.userId = (String) AppIdentity.GetResource(this, AppIdentity.userId);
+        getUserCasesRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
 
         if(getUserCasesRequestContainer.userId == null || getUserCasesRequestContainer.userId.equals("")){
             Intent intent = new Intent(this, NewUser.class);

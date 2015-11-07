@@ -16,18 +16,18 @@ import java.util.List;
 import DataContract.DataModels.ChatMessage;
 
 public class ChatsDb extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "MyChats.db";
-    public static final String CHATS_TABLE_NAME = "chats";
-    public static final String CHATS_COLUMN_ID = "id";
-    public static final String CHATS_COLUMN_CASE_ID = "caseId";
-    public static final String CHATS_COLUMN_CHAT_ID = "chatId";
-    public static final String CHATS_COLUMN_SENDER_ID = "senderId";
-    public static final String CHATS_COLUMN_TYPE = "type";
-    public static final String CHATS_COLUMN_DATA = "data";
-    public static final String CHATS_COLUMN_TIMESTAMP = "timestamp";
-    public static final String CHATS_COLUMN_SENT_TO_SERVER = "sentToServer";
-    public static final String CHATS_COLUMN_DELIVERED = "delivered";
-    public static final String CHATS_COLUMN_READ = "read";
+    private static final String DATABASE_NAME = "ServiceMe.db";
+    private static final String CHATS_TABLE_NAME = "chats";
+    private static final String CHATS_COLUMN_ID = "id";
+    private static final String CHATS_COLUMN_CASE_ID = "caseId";
+    private static final String CHATS_COLUMN_CHAT_ID = "chatId";
+    private static final String CHATS_COLUMN_SENDER_ID = "senderId";
+    private static final String CHATS_COLUMN_TYPE = "type";
+    private static final String CHATS_COLUMN_DATA = "data";
+    private static final String CHATS_COLUMN_TIMESTAMP = "timestamp";
+    private static final String CHATS_COLUMN_SENT_TO_SERVER = "sentToServer";
+    private static final String CHATS_COLUMN_DELIVERED = "delivered";
+    private static final String CHATS_COLUMN_READ = "read";
 
     public ChatsDb(Context context)
     {
