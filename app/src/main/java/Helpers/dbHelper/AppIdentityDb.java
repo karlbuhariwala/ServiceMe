@@ -23,10 +23,12 @@ public class AppIdentityDb extends SQLiteOpenHelper {
     public static String contactPref = "contactPref";
     public static String emailAddress = "emailAddress";
     public static String landingPage = "landingPage";
+    public static String isAgent = "isAgent";
+    public static String isManager = "isManager";
 
     public AppIdentityDb (Context context)
     {
-        super(context, DATABASE_NAME , null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override

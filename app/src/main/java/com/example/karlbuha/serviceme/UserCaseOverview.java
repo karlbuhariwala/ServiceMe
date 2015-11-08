@@ -178,6 +178,12 @@ public class UserCaseOverview extends BaseActivity implements MyResultReceiver.R
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_case_overview, menu);
+
+        if(Boolean.parseBoolean(new AppIdentityDb(this).GetResource(AppIdentityDb.isAgent))) {
+            MenuItem item = menu.findItem(R.id.action_agent_overview);
+            item.setVisible(true);
+        }
+
         return true;
     }
 

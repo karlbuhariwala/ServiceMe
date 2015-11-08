@@ -134,6 +134,8 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
         }
 
         new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.landingPage, Integer.toString(userProfile.LandingPage));
+        new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.isAgent, Boolean.toString(userProfile.IsAgent));
+        new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.isManager, Boolean.toString(userProfile.IsManager));
 
         CreateUpdateProfileRequestContainer createUpdateProfileRequestContainer = new CreateUpdateProfileRequestContainer();
         createUpdateProfileRequestContainer.userProfile = userProfile;
