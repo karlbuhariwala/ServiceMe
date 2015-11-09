@@ -17,7 +17,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_service_me_launcher_v1"
         android:label="@string/app_name" >
         <meta-data
             android:name="com.google.android.gms.version"
@@ -58,7 +58,7 @@
             android:name=".NewUser"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -66,15 +66,15 @@
             android:name=".ProfilePage"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_profile_page"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".UserCaseOverview"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_user_case_overview"
-            android:logo="@drawable/ic_logo"
+            android:label="@string/app_name"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
@@ -86,7 +86,7 @@
             android:name=".UserNewUpdateCase"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_new_update_case"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -94,7 +94,7 @@
             android:name=".SelectAgentForCase"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_select_agent_for_case"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -102,7 +102,7 @@
             android:name=".NewCaseAgentInfo"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_new_case_agent_info"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -110,7 +110,7 @@
             android:name=".UserCaseDetails"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_case_details"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -118,7 +118,7 @@
             android:name=".ViewAgentsForCase"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_view_agents_for_case"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -126,7 +126,7 @@
             android:name=".UserAgentCaseDetails"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_user_agent_case_details"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -134,7 +134,7 @@
             android:name=".AgentTagSetup"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_agent_tag_setup"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/AgentTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -142,7 +142,7 @@
             android:name=".AgentCaseOverview"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_agent_case_overview"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/AgentTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -150,7 +150,7 @@
             android:name=".AgentCaseDetails"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_agent_case_details"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/AgentTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -158,7 +158,7 @@
             android:name=".UserChatRoom"
             android:label="@string/title_activity_user_chat_room"
             android:configChanges="orientation|screenSize"
-            android:logo="@drawable/ic_logo"
+            android:logo="@mipmap/ic_service_me_launcher_v1"
             android:theme="@style/UserTheme"
             android:windowSoftInputMode="adjustPan" >
         </activity>

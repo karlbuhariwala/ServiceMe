@@ -16,6 +16,7 @@ import com.example.karlbuha.serviceme.UserChatRoom;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import Helpers.Constants;
+import Helpers.dbHelper.AppIdentityDb;
 import Helpers.dbHelper.ChatsDb;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -53,6 +54,7 @@ public class MyGcmListenerService extends GcmListenerService {
             broadcaster.sendBroadcast(intent);
         }
         else {
+            new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.newChatMessage + caseId, "1");
             sendNotification(message, senderName, caseId);
         }
     }

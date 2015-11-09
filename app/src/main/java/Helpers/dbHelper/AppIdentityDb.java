@@ -25,6 +25,7 @@ public class AppIdentityDb extends SQLiteOpenHelper {
     public static String landingPage = "landingPage";
     public static String isAgent = "isAgent";
     public static String isManager = "isManager";
+    public static String newChatMessage = "newChatMessage";
 
     public AppIdentityDb (Context context)
     {

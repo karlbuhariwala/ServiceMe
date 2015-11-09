@@ -70,6 +70,11 @@ public class UserChatRoom extends BaseActivity implements MyResultReceiver.Recei
 
         String jsonString = new Gson().toJson(getChatRoomDetailsRequestContainer);
         ApiCallService.CallService(this, true, "GetChatRoomDetails", jsonString, "3");
+
+        String newMessage = new AppIdentityDb(this).GetResource(AppIdentityDb.newChatMessage + getChatRoomDetailsRequestContainer.caseId);
+        if (newMessage.equals("") || Integer.parseInt(newMessage) == 1) {
+            new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.newChatMessage + getChatRoomDetailsRequestContainer.caseId, "0");
+        }
     }
 
     private void processNewMessage(Context context, Intent intent) {

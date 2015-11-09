@@ -112,16 +112,15 @@ public class AgentCaseOverview extends BaseActivity implements MyResultReceiver.
             assignedToTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
             caseLinearLayout.addView(assignedToTextView, linearLayoutParams1);
 
-            if(singleCase.NewPhoneCall && false) {
-                ImageView phoneImageView = new ImageView(this);
-                phoneImageView.setImageResource(R.drawable.ic_action_phone_icon);
+            String newMessage = new AppIdentityDb(this).GetResource(AppIdentityDb.newChatMessage + singleCase.CaseId);
+            if (newMessage.equals("") || Integer.parseInt(newMessage) == 1) {
+                ImageView chatImageView = new ImageView(this);
+                chatImageView.setImageResource(R.drawable.ic_action_chat_icon);
                 LinearLayout.LayoutParams linearLayoutParams2 = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                int px1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-                linearLayoutParams2.setMargins(px, 0, 0, px1);
-
-                caseLinearLayout.addView(phoneImageView, linearLayoutParams2);
+                int px10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+                linearLayoutParams2.setMargins(px10, 0, 0, px10);
+                caseLinearLayout.addView(chatImageView, linearLayoutParams2);
             }
-            // Add chat, email, phone icon
 
             LinearLayout.LayoutParams linearLayoutParams3 = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             int px20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
