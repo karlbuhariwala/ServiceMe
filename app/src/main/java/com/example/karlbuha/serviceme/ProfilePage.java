@@ -3,6 +3,7 @@ package com.example.karlbuha.serviceme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import DataContract.CreateUpdateProfileRequestContainer;
 import DataContract.CreateUpdateProfileReturnContainer;
 import DataContract.DataModels.UserProfile;
+import DataContract.GetProfileRequestContainer;
+import DataContract.GetProfileReturnContainer;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
@@ -35,6 +38,12 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
+        GetProfileRequestContainer getProfileRequestContainer = new GetProfileRequestContainer();
+        getProfileRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
+        String jsonString = new Gson().toJson(getProfileRequestContainer);
+
+        ApiCallService.CallService(this, true, "GetProfile", jsonString, "4");
     }
 
     public void AddEmailButtonOnClick(View view){
@@ -188,6 +197,60 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
                 }
 
                 break;
+            case 4:
+                result = resultData.getString("results");
+                GetProfileReturnContainer getProfileReturnContrainer = new Gson().fromJson(result, GetProfileReturnContainer.class);
+
+                if(getProfileReturnContrainer.returnCode.equals("101")) {
+                    EditText profileNameEditText = (EditText) findViewById(R.id.profileNameEditText);
+                    profileNameEditText.setText(getProfileReturnContrainer.userInfo.Name);
+
+                    if(getProfileReturnContrainer.userInfo.ContactPreference.contains("Phone")) {
+                        CheckBox phoneCheckBox = (CheckBox) findViewById(R.id.phoneCheckBox);
+                        phoneCheckBox.setChecked(true);
+                    }
+
+                    if(getProfileReturnContrainer.userInfo.ContactPreference.contains("Chat")) {
+                        CheckBox chatCheckBox = (CheckBox) findViewById(R.id.chatCheckBox);
+                        chatCheckBox.setChecked(true);
+                    }
+
+                    if(getProfileReturnContrainer.userInfo.ContactPreference.contains("Email")) {
+                        CheckBox emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
+                        emailCheckBox.setChecked(true);
+                    }
+
+                    if(!getProfileReturnContrainer.userInfo.EmailAddress.equals("")) {
+                        LinearLayout emailLinearLayout = (LinearLayout) findViewById(R.id.emailLinearLayout);
+                        emailLinearLayout.setVisibility(View.VISIBLE);
+
+                        EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
+                        emailEditText.setText(getProfileReturnContrainer.userInfo.EmailAddress);
+
+                        Button addEmailAddressButton = (Button) findViewById(R.id.addEmailAddressButton);
+                        addEmailAddressButton.setVisibility(View.GONE);
+                    }
+
+                    if(getProfileReturnContrainer.userInfo.IsAgent || getProfileReturnContrainer.userInfo.IsManager) {
+                        LinearLayout agentSelectionLinearLayout = (LinearLayout) findViewById(R.id.agentSelectionLinearLayout);
+                        agentSelectionLinearLayout.setVisibility(View.VISIBLE);
+
+                        Button beAnAgentButton = (Button) findViewById(R.id.beAnAgentButton);
+                        beAnAgentButton.setVisibility(View.GONE);
+
+                        if (getProfileReturnContrainer.userInfo.IsAgent) {
+                            RadioButton agentRadioButton = (RadioButton) findViewById(R.id.agentRadioButton);
+                            agentRadioButton.setChecked(true);
+                        }
+                        else {
+                            RadioButton agentManagerRadioButton = (RadioButton) findViewById(R.id.agentManagerRadioButton);
+                            agentManagerRadioButton.setChecked(true);
+                        }
+
+                        RadioGroup landingPagePrefRadioGroup = (RadioGroup) findViewById(R.id.landingPagePrefRadioGroup);
+                        ((RadioButton) landingPagePrefRadioGroup.getChildAt(getProfileReturnContrainer.userInfo.LandingPage)).setChecked(true);
+                    }
+                }
         }
     }
 

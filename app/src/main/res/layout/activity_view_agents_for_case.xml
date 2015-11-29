@@ -27,17 +27,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/add_favorite_agents"
-                android:id="@+id/addFavoriteAgentsButton"
+                android:text="@string/add_more_favorite_agents"
+                android:id="@+id/addMoreAgentsButton"
                 android:background="@color/transparent"
-                android:onClick="AddFavoriteAgentsButtonOnClick"/>
+                android:onClick="AddMoreAgentsButtonOnClick"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_favorite_agents"
-                android:id="@+id/addMoreAgentsButton"
+                android:id="@+id/addFavoriteAgentsButton"
                 android:background="@color/transparent"
-                android:onClick="AddMoreAgentsButtonOnClick"/>
+                android:onClick="AddFavoriteAgentsButtonOnClick"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

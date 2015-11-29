@@ -93,6 +93,10 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
         }
     }
 
+    public void AddMoreAgentsButtonOnClick(View view) {
+        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
     public void AddFavoriteAgentsButtonOnClick(View view) {
         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
     }
@@ -267,17 +271,20 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
                 result = resultData.getString("results");
                 GetAgentsForAutoCompleteReturnContainer getAgentsForAutoCompleteReturnContainer = new Gson().fromJson(result, GetAgentsForAutoCompleteReturnContainer.class);
 
-                // Todo: Think about same names.
-                AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
-                SelectAgentForCase.allAgentsCache = getAgentsForAutoCompleteReturnContainer.agents;
-                List<String> names = new ArrayList<>();
-                for (UserProfile agent : getAgentsForAutoCompleteReturnContainer.agents) {
-                    int end = agent.PhoneNumber.length() - 1;
-                    names.add(agent.Name + " (" + agent.PhoneNumber.substring(end - 4, end) + ")");
+                if(getAgentsForAutoCompleteReturnContainer.returnCode.equals("101")) {
+                    // Todo: Think about same names.
+                    AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.agentAutoCompleteTextView);
+                    SelectAgentForCase.allAgentsCache = getAgentsForAutoCompleteReturnContainer.agents;
+                    List<String> names = new ArrayList<>();
+                    for (UserProfile agent : getAgentsForAutoCompleteReturnContainer.agents) {
+                        int end = agent.PhoneNumber.length() - 1;
+                        names.add(agent.Name + " (" + agent.PhoneNumber.substring(end - 4, end) + ")");
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+                    autoCompleteTextView.setAdapter(adapter);
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
-                autoCompleteTextView.setAdapter(adapter);
                 break;
             case 4:
                 result = resultData.getString("results");

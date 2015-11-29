@@ -29,6 +29,8 @@ import DataContract.AddAgentTagsRequestContainer;
 import DataContract.AddAgentTagsReturnContainer;
 import DataContract.GetTagsForAutoCompleteRequestContainer;
 import DataContract.GetTagsForAutoCompleteReturnContainer;
+import DataContract.GetUserTagsRequestContainer;
+import DataContract.GetUserTagsReturnContainer;
 import Helpers.BaseActivity;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
@@ -74,6 +76,12 @@ public class AgentTagSetup extends BaseActivity implements MyResultReceiver.Rece
                 //Do nothing
             }
         });
+
+        GetUserTagsRequestContainer getUserTagsRequestContainer = new GetUserTagsRequestContainer();
+        getUserTagsRequestContainer.userId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
+        String jsonString = new Gson().toJson(getUserTagsRequestContainer);
+
+        ApiCallService.CallService(this, true, "GetUserTags", jsonString, "5");
     }
 
     private void CallAutoComplete(String text){
@@ -242,6 +250,15 @@ public class AgentTagSetup extends BaseActivity implements MyResultReceiver.Rece
                     case "103":
                         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.code_incorrect_text) + addAgentTagsReturnContainer.tagWithIncorrectCode);
                         break;
+                }
+
+                break;
+            case 5:
+                result = resultData.getString("results");
+                GetUserTagsReturnContainer getUserTagsReturnContainer = new Gson().fromJson(result, GetUserTagsReturnContainer.class);
+
+                if (getUserTagsReturnContainer.returnCode.equals("101")) {
+                    CreateTags(getUserTagsReturnContainer.tags);
                 }
 
                 break;

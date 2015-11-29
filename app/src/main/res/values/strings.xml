@@ -12,6 +12,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_user_overview">My overview (User)</string>
     <string name="action_agent_overview">My overview (Agent)</string>
+    <string name="action_edit_profile">Edit profile</string>
 
     //Create User
     <string name="enter_phone_number">Enter a phone number</string>
@@ -75,6 +76,7 @@
     <string name="title_activity_select_agent_for_case">Select an agent</string>
     <string name="rating_text">ratings</string>
     <string name="add_favorite_agents">+ Add my favorite service providers</string>
+    <string name="add_more_favorite_agents">+ Add more service providers</string>
     <string name="add_agent_autocomplete_hint">Add an agent&#8230;</string>
 
     //Agent details page for new case

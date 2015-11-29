@@ -183,7 +183,7 @@ public class UserCaseOverview extends BaseActivity implements MyResultReceiver.R
             item.setVisible(true);
         }
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

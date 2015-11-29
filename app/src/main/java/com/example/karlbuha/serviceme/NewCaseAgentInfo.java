@@ -112,8 +112,12 @@ public class NewCaseAgentInfo extends BaseActivity implements MyResultReceiver.R
                         tagsString += tag + ", ";
                     }
 
+                    if (!tagsString.equals("")) {
+                        tagsString = tagsString.substring(0, tagsString.length() - 3);
+                    }
+
                     TextView tagValueTextView = (TextView) findViewById(R.id.tagValueTextView);
-                    tagValueTextView.setText(tagsString.substring(0, tagsString.length() - 3));
+                    tagValueTextView.setText(tagsString);
 
                     TextView areaOfServiceValueTextView = (TextView) findViewById(R.id.areaOfServiceValueTextView);
                     areaOfServiceValueTextView.setText(getAgentDetailsReturnContainer.agentProfile.AreaOfService);
