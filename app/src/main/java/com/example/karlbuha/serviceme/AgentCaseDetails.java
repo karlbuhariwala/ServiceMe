@@ -24,6 +24,7 @@ import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -38,6 +39,7 @@ public class AgentCaseDetails extends BaseActivity implements MyResultReceiver.R
         Intent intent = getIntent();
         GetAgentCaseDetailsRequestContainer getAgentCaseDetailsRequestContainer = new GetAgentCaseDetailsRequestContainer();
         getAgentCaseDetailsRequestContainer.caseId = intent.getStringExtra(Constants.agentIdString);
+        getAgentCaseDetailsRequestContainer.agentId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
 
         String jsonString = new Gson().toJson(getAgentCaseDetailsRequestContainer);
         ApiCallService.CallService(this, true, "GetAgentCaseDetails", jsonString, "3");
@@ -92,15 +94,15 @@ public class AgentCaseDetails extends BaseActivity implements MyResultReceiver.R
         TextView detailsValueTextView = (TextView) findViewById(R.id.detailsValueTextView);
         detailsValueTextView.setText(caseInfo.RequestDetails);
 
-        if (caseInfo.Budget == 0) {
-            LinearLayout budgetLinearLayout = (LinearLayout) findViewById(R.id.budgetLinearLayout);
+        if (caseInfo.Budget != 0) {
+            LinearLayout budgetLinearLayout = (LinearLayout) findViewById(R.id.userBudgetLinearLayout);
             budgetLinearLayout.setVisibility(View.VISIBLE);
 
-            TextView budgetTextView = (TextView) findViewById(R.id.budgetTextView);
+            TextView budgetTextView = (TextView) findViewById(R.id.userBudgetValueTextView);
             budgetTextView.setText(caseInfo.Budget);
         }
 
-        if (contextualCaseDetails.Quote != null || contextualCaseDetails.PaymentStatus != null) {
+        if (contextualCaseDetails.Quote != null && !contextualCaseDetails.Quote.equals("") && contextualCaseDetails.PaymentStatus != null && !contextualCaseDetails.PaymentStatus.equals("")) {
             LinearLayout quoteTimelineLinearLayout = (LinearLayout) findViewById(R.id.quoteTimelineLinearLayout);
             quoteTimelineLinearLayout.setVisibility(View.VISIBLE);
 
@@ -119,7 +121,7 @@ public class AgentCaseDetails extends BaseActivity implements MyResultReceiver.R
             }
         }
 
-        if (contextualCaseDetails.AgentNotes != null) {
+        if (contextualCaseDetails.AgentNotes != null && !contextualCaseDetails.AgentNotes.equals("")) {
             EditText notesLabelTextView = (EditText) findViewById(R.id.scratchPadEditText);
             notesLabelTextView.setText(contextualCaseDetails.AgentNotes);
 
@@ -147,6 +149,14 @@ public class AgentCaseDetails extends BaseActivity implements MyResultReceiver.R
             public void afterTextChanged(Editable s) {
             }
         });
+
+        if (!caseInfo.IsEnterpriseTag) {
+            Button setMetadataButton = (Button) findViewById(R.id.setMetadataButton);
+            setMetadataButton.setVisibility(View.GONE);
+
+            Button resolveButton = (Button) findViewById(R.id.resolveButton);
+            resolveButton.setVisibility(View.VISIBLE);
+        }
     }
 
     private void EnableNotesSave() {
