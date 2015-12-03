@@ -86,6 +86,7 @@
     <string name="tags_label_text">Tags</string>
     <string name="area_of_service">Area of Service</string>
     <string name="rating_details_text">Rating details</string>
+    <string name="rate_text">Rate&#160;</string>
 
     //Case details page for user
     <string name="title_activity_user_case_details">Request details</string>
@@ -139,8 +140,10 @@
     <string name="my_queue_text">My queue</string>
     <string name="set_metadata_text_button">Set metadata</string>
     <string name="resolve_text_button">Close</string>
+    <string name="close_text_button">Close</string>
     <string name="save_camel_case">save?</string>
     <string name="saved_camel_case">saved</string>
+    <string name="save_button_text">Save</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

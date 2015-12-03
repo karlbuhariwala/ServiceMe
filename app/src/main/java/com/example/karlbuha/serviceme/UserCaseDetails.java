@@ -22,6 +22,7 @@ import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
 import Helpers.MyProgressWindow;
+import Helpers.MyRatingPopupWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
@@ -100,6 +101,9 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
                         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
                         nameTextView.setText(getUserCasesReturnContainer.contextualCaseDetails.AgentName);
 
+                        Button rateButton = (Button) findViewById(R.id.rateButton);
+                        rateButton.setText(getResources().getString(R.string.rate_text) + getUserCasesReturnContainer.contextualCaseDetails.AgentName);
+
                         TextView quoteTimelineValueTextView = (TextView) findViewById(R.id.quoteTimelineValueTextView);
 
                         String value = MessageFormat.format(getResources().getString(R.string.quote_timeline_format), getUserCasesReturnContainer.contextualCaseDetails.Quote, getUserCasesReturnContainer.contextualCaseDetails.Timeline);
@@ -143,6 +147,10 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
 
     public void SaveButtonOnClick (View view) {
         new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+    }
+
+    public void RateButtonOnClick (View view) {
+        new MyRatingPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.rate_text) + UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentName);
     }
 
     @Override

@@ -74,8 +74,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_marginBottom="@dimen/space_between_fields_for_viewing"
                     android:id="@+id/nameTextView"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rateButton"
+                    android:background="@color/transparent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginBottom="@dimen/space_between_fields_for_viewing"
+                    android:onClick="RateButtonOnClick"
+                    android:textColor="@color/link_blue"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

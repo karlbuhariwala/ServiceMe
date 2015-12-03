@@ -35,7 +35,7 @@
             android:layout_margin="10dp"
             android:padding="10dp"
             android:textSize="@dimen/activity_text_size_button"
-            android:text="Close"
+            android:text="@string/close_text_button"
             android:background="@color/black"/>
     </LinearLayout>
 </LinearLayout>
