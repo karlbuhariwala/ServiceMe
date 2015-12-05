@@ -18,6 +18,7 @@ import java.text.MessageFormat;
 
 import DataContract.GetUserCaseDetailRequestContainer;
 import DataContract.GetUserCaseDetailReturnContainer;
+import DataContract.RateUserReturnContainer;
 import Helpers.BaseActivity;
 import Helpers.Constants;
 import Helpers.MyPopupWindow;
@@ -136,6 +137,17 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
                 }
 
                 break;
+            case 4:
+                result = resultData.getString("results");
+                RateUserReturnContainer rateUserReturnContainer = new Gson().fromJson(result, RateUserReturnContainer.class);
+
+                if (rateUserReturnContainer.returnCode.equals("101")) {
+                }
+                else if (rateUserReturnContainer.returnCode.equals("102")) {
+                    new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.rated_user_twice_already));
+                }
+
+                break;
         }
     }
 
@@ -150,7 +162,7 @@ public class UserCaseDetails extends BaseActivity implements MyResultReceiver.Re
     }
 
     public void RateButtonOnClick (View view) {
-        new MyRatingPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.rate_text) + UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentName);
+        new MyRatingPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.rate_text) + UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentName, UserCaseDetails.getUserCaseDetailReturnContainerCache.contextualCaseDetails.AgentId, UserCaseDetails.getUserCaseDetailReturnContainerCache.caseDetails.CaseId, true, "4");
     }
 
     @Override

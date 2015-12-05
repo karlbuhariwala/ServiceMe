@@ -99,13 +99,13 @@ public class NewCaseAgentInfo extends BaseActivity implements MyResultReceiver.R
                     agentNameTextView.setText(getAgentDetailsReturnContainer.agentProfile.Name);
 
                     RatingBar agentRatingBar = (RatingBar) findViewById(R.id.agentRatingBar);
-                    agentRatingBar.setRating((float) getAgentDetailsReturnContainer.agentProfile.Rating);
+                    agentRatingBar.setRating((float) getAgentDetailsReturnContainer.agentProfile.AgentRating);
                     LayerDrawable stars = (LayerDrawable) agentRatingBar.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.purple), PorterDuff.Mode.SRC_ATOP);
 
                     TextView ratingTextView = (TextView) findViewById(R.id.ratingTextView);
                     String formatString = "{0}  ({1} {2})";
-                    ratingTextView.setText(MessageFormat.format(formatString, Double.toString(getAgentDetailsReturnContainer.agentProfile.Rating), Integer.toString(getAgentDetailsReturnContainer.agentProfile.NumberOfRatings), getResources().getString(R.string.rating_text)));
+                    ratingTextView.setText(MessageFormat.format(formatString, Double.toString(getAgentDetailsReturnContainer.agentProfile.AgentRating), Integer.toString(getAgentDetailsReturnContainer.agentProfile.AgentRatingCount), getResources().getString(R.string.rating_text)));
 
                     String tagsString = "";
                     for (String tag : getAgentDetailsReturnContainer.agentProfile.Tags) {

@@ -15,8 +15,10 @@ public class UserProfile {
     public boolean IsAgent;
     public boolean IsManager;
     public int LandingPage;
-    public double Rating;
-    public int NumberOfRatings;
+    public double AgentRating;
+    public int AgentRatingCount;
+    public double UserRating;
+    public int UserRatingCount;
     public List<String> Tags;
     public String AreaOfService;
 }

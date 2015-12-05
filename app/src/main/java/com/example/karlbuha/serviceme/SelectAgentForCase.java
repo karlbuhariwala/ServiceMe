@@ -183,7 +183,7 @@ public class SelectAgentForCase extends BaseActivity implements MyResultReceiver
         TableRow tableRow1 = this.getTableRow1(agent.Name);
         table.addView(tableRow1, tableLayoutParams);
 
-        TableRow tableRow2 = this.getTableRow2(agent.Rating, agent.NumberOfRatings);
+        TableRow tableRow2 = this.getTableRow2(agent.AgentRating, agent.AgentRatingCount);
         table.addView(tableRow2, tableLayoutParams);
     }
 

@@ -90,6 +90,7 @@
 
     //Case details page for user
     <string name="title_activity_user_case_details">Request details</string>
+    <string name="rated_user_twice_already">You have rated this person twice already.</string>
 
     //View agents for case
     <string name="title_activity_view_agents_for_case">Service providers</string>
