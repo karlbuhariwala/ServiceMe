@@ -10,7 +10,7 @@ public class UserProfile {
     public List<String> ContactPreference;
     public String PushNotificationUrl;
     public String EmailAddress;
-    public String Address;
+    public AddressContainer Address;
     public String PaymentDetails;
     public boolean IsAgent;
     public boolean IsManager;

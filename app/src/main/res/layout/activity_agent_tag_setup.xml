@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:id="@+id/addTagLinearLayout">
-    <AutoCompleteTextView
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/tags_autocomplete_hint"

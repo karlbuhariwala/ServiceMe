@@ -34,8 +34,8 @@ import DataContract.GetAgentsForCaseRequestContainer;
 import DataContract.GetAgentsForCaseReturnContainer;
 import Helpers.BaseActivity;
 import Helpers.Constants;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import Helpers.PopupHelpers.MyPopupWindow;
+import Helpers.PopupHelpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

@@ -1,4 +1,4 @@
-package Helpers;
+package Helpers.PopupHelpers;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -10,6 +10,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.karlbuha.serviceme.R;
+
+import Helpers.BaseActivity;
 
 public class MyPopupWindow {
     private PopupWindow popupWindow;

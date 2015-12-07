@@ -90,6 +90,29 @@
                 android:layout_height="match_parent"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
+                android:id="@+id/addressLinearLayout"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/profile_address"
+                    android:id="@+id/addressTextView" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editAddressButton"
+                    android:gravity="left"
+                    android:background="@color/transparent"
+                    android:onClick="AddAddressButtonOnClick"
+                    android:textColor="@color/link_blue"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:id="@+id/agentSelectionLinearLayout"
                 android:visibility="gone">
                 <TextView
@@ -168,18 +191,18 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/add_address"
+                android:id="@+id/addAddressButton"
+                android:background="@color/transparent"
+                android:onClick="AddAddressButtonOnClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/add_email_address"
                 android:id="@+id/addEmailAddressButton"
                 android:background="@color/transparent"
                 android:onClick="AddEmailButtonOnClick"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_address"
-                android:id="@+id/addAddressButton"
-                android:background="@color/transparent"
-                android:onClick="AddAddressButtonOnClick"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

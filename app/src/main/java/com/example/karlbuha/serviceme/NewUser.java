@@ -25,8 +25,8 @@ import DataContract.DeviceValidationReturnContainer;
 import Helpers.BaseActivity;
 import Helpers.dbHelper.AppIdentityDb;
 import services.gcm.RegistrationIntentService;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import Helpers.PopupHelpers.MyPopupWindow;
+import Helpers.PopupHelpers.MyProgressWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

@@ -1,9 +1,8 @@
-package Helpers;
+package Helpers.PopupHelpers;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,8 @@ import com.example.karlbuha.serviceme.R;
 import com.google.gson.Gson;
 
 import DataContract.RateUserRequestContainer;
-import DataContract.RateUserReturnContainer;
+import Helpers.BaseActivity;
 import webApi.ApiCallService;
-import webApi.MyResultReceiver;
 
 public class MyRatingPopupWindow {
     private PopupWindow popupWindow;

@@ -21,9 +21,9 @@ import DataContract.GetUserCaseDetailReturnContainer;
 import DataContract.RateUserReturnContainer;
 import Helpers.BaseActivity;
 import Helpers.Constants;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
-import Helpers.MyRatingPopupWindow;
+import Helpers.PopupHelpers.MyPopupWindow;
+import Helpers.PopupHelpers.MyProgressWindow;
+import Helpers.PopupHelpers.MyRatingPopupWindow;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 

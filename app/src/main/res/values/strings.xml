@@ -28,7 +28,7 @@
     <string name="profile_name">Name</string>
     <string name="contact_pref_label">Contact Preference</string>
     <string name="phone_check_box">Phone</string>
-    <string name="add_address">+ Address (optional)</string>
+    <string name="add_address">+ Address (mandatory)</string>
     <string name="add_payment_details">+ Payment Details (optional)</string>
     <string name="be_an_agent">+ Be a service provider too (optional)</string>
     <string name="profile_chat_check_box">Chat</string>
@@ -36,8 +36,10 @@
     <string name="add_email_address">+ Add email (optional)</string>
     <string name="profile_email">Email</string>
     <string name="profile_email_hint">someone@something.com</string>
+    <string name="profile_address">Address</string>
     <string name="name_is_mandatory_text">Please enter a name.</string>
     <string name="invalid_email_address">Invalid email address.</string>
+    <string name="incomplete_address">Please provide at least a city and country in the address.</string>
     <string name="agent_setup_text">Want to be a service provider?</string>
     <string name="agent_landing_page">Landing page</string>
     <string name="none_radio_button_text">No</string>
@@ -46,6 +48,11 @@
     <string name="agent_manager_radio_button_text">Yes and a manager</string>
     <string name="client_radio_button_text">Client</string>
     <string name="manager_radio_button_text">Manager</string>
+    <string name="first_line_address">Address line 1</string>
+    <string name="second_line_address">Address line 2</string>
+    <string name="city_text">City (mandatory)</string>
+    <string name="postal_code">Postal code</string>
+    <string name="country_text">Country (mandatory)</string>
 
     //UserCaseOverview page
     <string name="title_activity_user_case_overview">My Overview</string>

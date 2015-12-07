@@ -3,7 +3,6 @@ package com.example.karlbuha.serviceme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,23 +15,28 @@ import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import DataContract.CreateUpdateProfileRequestContainer;
 import DataContract.CreateUpdateProfileReturnContainer;
+import DataContract.DataModels.AddressContainer;
 import DataContract.DataModels.UserProfile;
 import DataContract.GetProfileRequestContainer;
 import DataContract.GetProfileReturnContainer;
 import Helpers.BaseActivity;
-import Helpers.MyPopupWindow;
-import Helpers.MyProgressWindow;
+import Helpers.Interfaces.AddressPopupCallback;
+import Helpers.PopupHelpers.AddressPopupWindow;
+import Helpers.PopupHelpers.MyPopupWindow;
+import Helpers.PopupHelpers.MyProgressWindow;
 import Helpers.dbHelper.AppIdentityDb;
 import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiver {
+public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiver, AddressPopupCallback {
     public MyResultReceiver myResultReceiver;
+    private AddressContainer addressContainerCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,27 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
     }
 
     public void AddAddressButtonOnClick(View view){
-        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+        new AddressPopupWindow().InitiatePopupWindow(this, new AppIdentityDb(this).GetResource(AppIdentityDb.userId), this.addressContainerCache);
+    }
+
+    public void ShowAddress(AddressContainer addressContainer) {
+        this.addressContainerCache = addressContainer;
+        Button addAddressButton = (Button) findViewById(R.id.addAddressButton);
+        addAddressButton.setVisibility(View.GONE);
+
+        Button editAddressButton = (Button) findViewById(R.id.editAddressButton);
+        String address = "";
+        if(addressContainer.AddressLine1 != null && !addressContainer.AddressLine1.equals("")) {
+            address += addressContainer.AddressLine1 + "\n";
+        }
+
+        if(addressContainer.AddressLine2 != null && !addressContainer.AddressLine2.equals("")) {
+            address += addressContainer.AddressLine2 + "\n";
+        }
+
+        editAddressButton.setText(MessageFormat.format("{0}{1}, {2}\n{3}", address, addressContainer.City, addressContainer.PostalCode, addressContainer.Country));
+        LinearLayout addressLinearLayout = (LinearLayout) findViewById(R.id.addressLinearLayout);
+        addressLinearLayout.setVisibility(View.VISIBLE);
     }
 
     public void AddPaymentDetailsButtonOnClick(View view){
@@ -105,6 +129,13 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
         if (chatCheckBox.isChecked()) {
             userProfile.ContactPreference.add("Chat");
         }
+
+        if (this.addressContainerCache == null) {
+            new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.incomplete_address));
+            return;
+        }
+
+        userProfile.Address = addressContainerCache;
 
         CheckBox emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
         if(emailCheckBox.isChecked()) {
@@ -218,6 +249,10 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
                     if(getProfileReturnContrainer.userInfo.ContactPreference.contains("Email")) {
                         CheckBox emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
                         emailCheckBox.setChecked(true);
+                    }
+
+                    if(getProfileReturnContrainer.userInfo.Address != null){
+                        this.ShowAddress(getProfileReturnContrainer.userInfo.Address);
                     }
 
                     if(!getProfileReturnContrainer.userInfo.EmailAddress.equals("")) {
