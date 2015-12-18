@@ -27,6 +27,9 @@
     <string name="title_activity_profile_page">Profile</string>
     <string name="profile_name">Name</string>
     <string name="contact_pref_label">Contact Preference</string>
+    <string name="service_address">Service Address</string>
+    <string name="mine_text">Mine</string>
+    <string name="another_address_text">Another address</string>
     <string name="phone_check_box">Phone</string>
     <string name="add_address">+ Address (mandatory)</string>
     <string name="add_payment_details">+ Payment Details (optional)</string>

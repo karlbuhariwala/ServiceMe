@@ -22,17 +22,15 @@ import Helpers.Interfaces.AddressPopupCallback;
 public class AddressPopupWindow {
     private PopupWindow popupWindow;
     private View layout;
-    private String userId;
     private BaseActivity context;
 
-    public void InitiatePopupWindow(BaseActivity context, String userId, AddressContainer addressContainer) {
+    public void InitiatePopupWindow(BaseActivity context, AddressContainer addressContainer) {
         try {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.layout = inflater.inflate(R.layout.address_pop_up_window, (ViewGroup) context.findViewById(R.id.popUpWindowLinearLayout));
             popupWindow = new PopupWindow(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-            this.userId = userId;
             this.context = context;
 
             if(addressContainer != null) {

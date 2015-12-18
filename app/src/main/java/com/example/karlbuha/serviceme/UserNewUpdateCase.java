@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -23,9 +24,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import DataContract.DataModels.AddressContainer;
 import DataContract.DataModels.CaseDetails;
 import DataContract.GetPopularRequestsRequestContainer;
 import DataContract.GetPopularRequestsReturnContainer;
@@ -36,6 +39,8 @@ import DataContract.GetTagsForAutoCompleteReturnContainer;
 import DataContract.GetTagsRequestContainer;
 import DataContract.GetTagsReturnContainer;
 import Helpers.BaseActivity;
+import Helpers.Interfaces.AddressPopupCallback;
+import Helpers.PopupHelpers.AddressPopupWindow;
 import Helpers.PopupHelpers.MyPopupWindow;
 import Helpers.PopupHelpers.MyProgressWindow;
 import Helpers.dbHelper.AppIdentityDb;
@@ -43,11 +48,12 @@ import webApi.ApiCallService;
 import webApi.MyResultReceiver;
 
 
-public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.Receiver {
+public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.Receiver, AddressPopupCallback {
     private static final String TAG_CHECK_BOXES = "TagCheckBoxes";
     private static List<String> allTagsCache;
     private static GetRecommendedAgentsRequestContainer getRecommendedAgentsRequestContainer;
     private static String autoCompleteSuggestString;
+    private AddressContainer addressContainerCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,12 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
             }
 
             this.CreateTags(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags);
+
+            if(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.AnotherAddress != null) {
+                RadioButton anotherAddressRadioButton = (RadioButton) findViewById(R.id.anotherAddressRadioButton);
+                anotherAddressRadioButton.setChecked(true);
+                this.ShowAddress(UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.AnotherAddress);
+            }
         } else {
             // Todo: Check before cast
             Type type = new TypeToken<List<String>>() {}.getType();
@@ -135,12 +147,40 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
         findViewById(R.id.budgetEditText).requestFocus();
     }
 
+    public void ShowAddress(AddressContainer addressContainer) {
+        this.addressContainerCache = addressContainer;
+
+        Button editAddressButton = (Button) findViewById(R.id.editAddressButton);
+        String address = "";
+        if(addressContainer.AddressLine1 != null && !addressContainer.AddressLine1.equals("")) {
+            address += addressContainer.AddressLine1 + "\n";
+        }
+
+        if(addressContainer.AddressLine2 != null && !addressContainer.AddressLine2.equals("")) {
+            address += addressContainer.AddressLine2 + "\n";
+        }
+
+        editAddressButton.setText(MessageFormat.format("{0}{1}, {2}\n{3}", address, addressContainer.City, addressContainer.PostalCode, addressContainer.Country));
+        LinearLayout addressLinearLayout = (LinearLayout) findViewById(R.id.addressLinearLayout);
+        addressLinearLayout.setVisibility(View.VISIBLE);
+    }
+
     public void AddMyAddressButtonOnClick(View view) {
-        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+        LinearLayout addressLinearLayout = (LinearLayout) findViewById(R.id.addressLinearLayout);
+        addressLinearLayout.setVisibility(View.GONE);
+    }
+
+    public void EditAnotherAddressButtonOnClick(View view) {
+        new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache);
     }
 
     public void AddAnotherAddressButtonOnClick(View view) {
-        new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.coming_soon_text));
+        if(this.addressContainerCache == null) {
+            new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache);
+            return;
+        }
+
+        this.ShowAddress(this.addressContainerCache);
     }
 
     public void NextForTagsButtonOnClick(View view) {
@@ -187,6 +227,11 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
                 if (((CheckBox) i).isChecked()) {
                     UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags.add(((CheckBox) i).getText().toString());
                 }
+            }
+
+            RadioButton anotherAddressRadioButton = (RadioButton) findViewById(R.id.anotherAddressRadioButton);
+            if(anotherAddressRadioButton.isChecked()) {
+                UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.AnotherAddress = this.addressContainerCache;
             }
 
             if (UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Tags.isEmpty()) {

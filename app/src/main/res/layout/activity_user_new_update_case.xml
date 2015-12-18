@@ -90,6 +90,52 @@
                 android:id="@+id/emailCheckBox"
                 android:layout_marginTop="@dimen/checkbox_top_margin"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/service_address"
+                android:id="@+id/serviceAddress" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/landingPagePrefRadioGroup"
+                android:weightSum="2">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mine_text"
+                    android:id="@+id/mineRadioButton"
+                    android:checked="true"
+                    android:layout_weight="1"
+                    android:onClick="AddMyAddressButtonOnClick"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/another_address_text"
+                    android:id="@+id/anotherAddressRadioButton"
+                    android:layout_weight="1"
+                    android:onClick="AddAnotherAddressButtonOnClick"/>
+            </RadioGroup>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/addressLinearLayout"
+                android:visibility="gone">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editAddressButton"
+                    android:gravity="left"
+                    android:background="@color/transparent"
+                    android:onClick="EditAnotherAddressButtonOnClick"
+                    android:textColor="@color/link_blue"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -120,20 +166,6 @@
                 android:id="@+id/addBudgetButton"
                 android:background="@color/transparent"
                 android:onClick="AddBudgetButtonOnClick"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_my_address"
-                android:id="@+id/addMyAddressButton"
-                android:background="@color/transparent"
-                android:onClick="AddMyAddressButtonOnClick"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_another_address"
-                android:id="@+id/addAnotherAddressButton"
-                android:background="@color/transparent"
-                android:onClick="AddAnotherAddressButtonOnClick"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
