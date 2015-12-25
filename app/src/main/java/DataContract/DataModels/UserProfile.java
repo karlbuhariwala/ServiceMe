@@ -20,5 +20,7 @@ public class UserProfile {
     public double UserRating;
     public int UserRatingCount;
     public List<String> Tags;
-    public String AreaOfService;
+    public double AreaOfService;
+    public double UserLatitude;
+    public double UserLongitude;
 }

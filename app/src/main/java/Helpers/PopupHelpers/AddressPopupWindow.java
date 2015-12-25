@@ -97,7 +97,7 @@ public class AddressPopupWindow {
             EditText countryEditText = (EditText) layout.findViewById(R.id.countryEditText);
             addressContainer.Country = countryEditText.getText().toString();
 
-            if(addressContainer.City.equals("") || addressContainer.Country.equals("")) {
+            if(addressContainer.City.equals("") || addressContainer.Country.equals("") || addressContainer.PostalCode.equals("")) {
                 return;
             }
 

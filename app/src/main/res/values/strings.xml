@@ -1,8 +1,8 @@
 <resources>
     //App properties
     <string name="app_name">ServiceMe</string>
-    <string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>
-    <!--<string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>-->
+    <!--<string name="api_endpoint">http://10.0.2.2:55398/ServiceMe.svc/</string>-->
+    <string name="api_endpoint">http://serviceme247.cloudapp.net:8080/ServiceMe.svc/</string>
     <string name="coming_soon_text">Coming soon!</string>
     <string name="generic_error_text">Sorry we hit an error.</string>
     <string name="refresh_camel_case">refresh</string>
@@ -54,8 +54,9 @@
     <string name="first_line_address">Address line 1</string>
     <string name="second_line_address">Address line 2</string>
     <string name="city_text">City (mandatory)</string>
-    <string name="postal_code">Postal code</string>
+    <string name="postal_code">Postal code (mandatory)</string>
     <string name="country_text">Country (mandatory)</string>
+    <string name="address_error_text">Something wrong with the address.</string>
 
     //UserCaseOverview page
     <string name="title_activity_user_case_overview">My Overview</string>
@@ -122,6 +123,8 @@
     <string name="code_incorrect_text">The code for the following tag is incorrect. Tag:&#160;</string>
     <string name="code_length_incorrect_text">Verification code is a 4 digit number. Tag:&#160;</string>
     <string name="create_new_tag">Create new tag&#8230;</string>
+    <string name="area_of_service_text">Area of service (in Km)</string>
+    <string name="area_of_service_default_value">20</string>
 
     //Agent overview page
     <string name="title_activity_agent_case_overview">My Overview</string>

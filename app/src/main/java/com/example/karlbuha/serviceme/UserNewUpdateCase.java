@@ -30,6 +30,7 @@ import java.util.List;
 
 import DataContract.DataModels.AddressContainer;
 import DataContract.DataModels.CaseDetails;
+import DataContract.DataModels.UserProfile;
 import DataContract.GetPopularRequestsRequestContainer;
 import DataContract.GetPopularRequestsReturnContainer;
 import DataContract.GetRecommendedAgentsRequestContainer;
@@ -266,6 +267,10 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
             if (!budget.isEmpty()) {
                 UserNewUpdateCase.getRecommendedAgentsRequestContainer.caseDetails.Budget = Integer.parseInt(budget);
             }
+
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.userProfile = new UserProfile();
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.userProfile.UserLatitude = Double.parseDouble(new AppIdentityDb(this).GetResource(AppIdentityDb.userLatitude));
+            UserNewUpdateCase.getRecommendedAgentsRequestContainer.userProfile.UserLongitude = Double.parseDouble(new AppIdentityDb(this).GetResource(AppIdentityDb.userLongitude));
 
             String jsonString = new Gson().toJson(UserNewUpdateCase.getRecommendedAgentsRequestContainer);
             MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());

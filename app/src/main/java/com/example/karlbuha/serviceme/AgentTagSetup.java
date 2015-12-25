@@ -27,6 +27,7 @@ import java.util.List;
 
 import DataContract.AddAgentTagsRequestContainer;
 import DataContract.AddAgentTagsReturnContainer;
+import DataContract.DataModels.UserProfile;
 import DataContract.GetTagsForAutoCompleteRequestContainer;
 import DataContract.GetTagsForAutoCompleteReturnContainer;
 import DataContract.GetUserTagsRequestContainer;
@@ -144,7 +145,13 @@ public class AgentTagSetup extends BaseActivity implements MyResultReceiver.Rece
             }
         }
 
-        addAgentTagsRequestContainer.agentId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
+        addAgentTagsRequestContainer.agentProfile = new UserProfile();
+        addAgentTagsRequestContainer.agentProfile.UserId = new AppIdentityDb(this).GetResource(AppIdentityDb.userId);
+        addAgentTagsRequestContainer.agentProfile.UserLatitude = Double.parseDouble(new AppIdentityDb(this).GetResource(AppIdentityDb.userLatitude));
+        addAgentTagsRequestContainer.agentProfile.UserLongitude = Double.parseDouble(new AppIdentityDb(this).GetResource(AppIdentityDb.userLongitude));
+
+        EditText areaOfServiceEditText = (EditText) findViewById(R.id.areaOfServiceEditText);
+        addAgentTagsRequestContainer.agentProfile.AreaOfService = Double.parseDouble(areaOfServiceEditText.getText().toString());
 
         String jsonString = new Gson().toJson(addAgentTagsRequestContainer);
         ApiCallService.CallService(this, true, "SetAgentTags", jsonString, "4" );
@@ -259,6 +266,11 @@ public class AgentTagSetup extends BaseActivity implements MyResultReceiver.Rece
 
                 if (getUserTagsReturnContainer.returnCode.equals("101")) {
                     CreateTags(getUserTagsReturnContainer.tags);
+
+                    if(getUserTagsReturnContainer.areaOfService != 0.0) {
+                        EditText areaOfServiceEditText = (EditText) findViewById(R.id.areaOfServiceEditText);
+                        areaOfServiceEditText.setText(Double.toString(getUserTagsReturnContainer.areaOfService));
+                    }
                 }
 
                 break;

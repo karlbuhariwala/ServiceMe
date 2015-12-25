@@ -29,6 +29,28 @@
             android:onClick="AddTagsButtonOnClick"
             android:layout_weight="1"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:id="@+id/areaOfServiceLinearLayout"
+        android:layout_below="@+id/addTagLinearLayout">
+        <TextView android:text="@string/area_of_service_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/areaOfServiceTextView"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="5"
+            android:id="@+id/areaOfServiceEditText"
+            android:text="@string/area_of_service_default_value"
+            android:textSize="@dimen/activity_input_phone_number"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,12 +59,12 @@
         android:background="@color/transparent"
         android:onClick="CannotFindTagButtonOnClick"
         android:textColor="@color/link_blue"
-        android:layout_below="@+id/addTagLinearLayout"/>
+        android:layout_below="@+id/areaOfServiceLinearLayout"/>
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_marginTop="@dimen/edit_text_plus_button_height"
+        android:layout_marginTop="@dimen/tag_setup_page_height"
         android:layout_marginBottom="@dimen/button_bar_height"
         android:layout_alignParentTop="true">
         <LinearLayout

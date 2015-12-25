@@ -120,7 +120,7 @@ public class NewCaseAgentInfo extends BaseActivity implements MyResultReceiver.R
                     tagValueTextView.setText(tagsString);
 
                     TextView areaOfServiceValueTextView = (TextView) findViewById(R.id.areaOfServiceValueTextView);
-                    areaOfServiceValueTextView.setText(getAgentDetailsReturnContainer.agentProfile.AreaOfService);
+                    areaOfServiceValueTextView.setText(Double.toString(getAgentDetailsReturnContainer.agentProfile.AreaOfService));
 
                     if (getAgentDetailsReturnContainer.isFavorite) {
                         Button addAsFavoriteButton = (Button) findViewById(R.id.addAsFavoriteButton);

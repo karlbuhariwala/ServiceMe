@@ -217,6 +217,8 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
                 CreateUpdateProfileReturnContainer createUpdateProfileReturnContainer = new Gson().fromJson(result, CreateUpdateProfileReturnContainer.class);
 
                 if(createUpdateProfileReturnContainer.returnCode.equals("101")){
+                    new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.userLatitude, Double.toString(createUpdateProfileReturnContainer.latitude));
+                    new AppIdentityDb(this).InsertUpdateResource(AppIdentityDb.userLongitude, Double.toString(createUpdateProfileReturnContainer.longitude));
                     if(createUpdateProfileReturnContainer.isAgent) {
                         Intent intent = new Intent(this, AgentTagSetup.class);
                         startActivity(intent);
@@ -225,6 +227,9 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
                         Intent intent = new Intent(this, UserCaseOverview.class);
                         startActivity(intent);
                     }
+                }
+                else if(createUpdateProfileReturnContainer.returnCode.equals("001")){
+                    new MyPopupWindow().InitiatePopupWindow(this, getResources().getString(R.string.address_error_text));
                 }
 
                 break;

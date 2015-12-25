@@ -28,5 +28,6 @@
 
     //ScrollBar
     <dimen name="edit_text_plus_button_height">110sp</dimen>
+    <dimen name="tag_setup_page_height">150sp</dimen>
 
 </resources>
