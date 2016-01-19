@@ -58,7 +58,7 @@ public class ProfilePage extends BaseActivity implements MyResultReceiver.Receiv
     }
 
     public void AddAddressButtonOnClick(View view){
-        new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache);
+        new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache, null);
     }
 
     public void ShowAddress(AddressContainer addressContainer) {

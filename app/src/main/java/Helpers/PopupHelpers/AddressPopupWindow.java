@@ -3,6 +3,7 @@ package Helpers.PopupHelpers;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 
 import com.example.karlbuha.serviceme.R;
@@ -23,8 +25,9 @@ public class AddressPopupWindow {
     private PopupWindow popupWindow;
     private View layout;
     private BaseActivity context;
+    private RadioButton cancelActionRadioButton;
 
-    public void InitiatePopupWindow(BaseActivity context, AddressContainer addressContainer) {
+    public void InitiatePopupWindow(BaseActivity context, AddressContainer addressContainer, RadioButton cancelActionRadioButton) {
         try {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.layout = inflater.inflate(R.layout.address_pop_up_window, (ViewGroup) context.findViewById(R.id.popUpWindowLinearLayout));
@@ -32,6 +35,7 @@ public class AddressPopupWindow {
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
             this.context = context;
+            this.cancelActionRadioButton = cancelActionRadioButton;
 
             if(addressContainer != null) {
                 EditText firstLineAddressEditText = (EditText) layout.findViewById(R.id.firstLineAddressEditText);
@@ -75,6 +79,10 @@ public class AddressPopupWindow {
 
     private View.OnClickListener cancel_button_click_listener = new View.OnClickListener() {
         public void onClick(View v) {
+            if(cancelActionRadioButton != null) {
+                cancelActionRadioButton.setChecked(true);
+            }
+
             popupWindow.dismiss();
         }
     };

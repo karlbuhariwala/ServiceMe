@@ -172,12 +172,12 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
     }
 
     public void EditAnotherAddressButtonOnClick(View view) {
-        new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache);
+        new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache, null);
     }
 
     public void AddAnotherAddressButtonOnClick(View view) {
         if(this.addressContainerCache == null) {
-            new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache);
+            new AddressPopupWindow().InitiatePopupWindow(this, this.addressContainerCache, (RadioButton) findViewById(R.id.mineRadioButton));
             return;
         }
 
@@ -411,7 +411,7 @@ public class UserNewUpdateCase extends BaseActivity implements MyResultReceiver.
             tagCheckBox.setText(tag);
             tagCheckBox.setChecked(true);
             tagCheckBox.setContentDescription(TAG_CHECK_BOXES);
-            tagsLinearLayout.addView(tagCheckBox, 2, tagCheckboxLayoutParams);
+            tagsLinearLayout.addView(tagCheckBox, tagsLinearLayout.getChildCount() - 2, tagCheckboxLayoutParams);
         }
     }
 
